@@ -377,6 +377,30 @@ article {
   }
 }
 
+
+/* ========================================
+   Leva Overrides
+   ======================================== */
+
+.leva-c__panel {
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  box-shadow: none !important;
+}
+
+.leva-c__panel * {
+  color: #111111;
+}
+
+.leva-c__input,
+.leva-c__select,
+.leva-c__folder,
+.leva-c__label,
+.leva-c__value,
+.leva-c__title {
+  color: #111111;
+}
+
 /* ========================================
    Custom Scrollbar
    ======================================== */

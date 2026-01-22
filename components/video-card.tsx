@@ -43,7 +43,12 @@ export function VideoCard({
   return (
     <>
       <div
-        className={cn("flex flex-col", className)}
+        className={cn(
+          "relative flex flex-col transition-transform duration-300 ease-out transform-gpu origin-center",
+          isHovered && !expandedId && "scale-[1.04]",
+          isHovered && !expandedId && "z-40",
+          className
+        )}
         onMouseEnter={() => !expandedId && setHoveredId(id)}
         onMouseLeave={() => !expandedId && setHoveredId(null)}
       >
@@ -54,8 +59,7 @@ export function VideoCard({
           onClose={handleClose}
           triggerClassName={cn(
             "cursor-zoom-in mb-[var(--space-card-media)]",
-            orientation === "vertical" ? "aspect-[9/16]" : "aspect-video",
-            isHovered && !expandedId && "z-40"
+            orientation === "vertical" ? "aspect-[9/16]" : "aspect-video"
           )}
           expandedClassName={cn(
             orientation === "vertical"
@@ -65,9 +69,7 @@ export function VideoCard({
         >
           <div
             className={cn(
-              "h-full w-full border border-black/20 transition-transform duration-300 ease-out transform-gpu",
-              isHovered && !expandedId && "scale-[1.01]",
-              hoveredId && !isHovered && !expandedId && "scale-[0.98]"
+              "h-full w-full border border-black/20"
             )}
           >
             <video
@@ -80,11 +82,7 @@ export function VideoCard({
             />
           </div>
         </MorphingMedia>
-        <div className={cn(
-          "transition-all duration-300 ease-out",
-          isHovered && !expandedId && "relative z-40 scale-[1.01]",
-          hoveredId && !isHovered && !expandedId && "scale-[0.98] opacity-60"
-        )}>
+        <div>
           {showTitle && (
             <h3 className="font-semibold text-foreground">
               {title}

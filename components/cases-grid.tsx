@@ -34,7 +34,11 @@ function CaseCard({ caseItem }: { caseItem: CaseItem }) {
   return (
     <>
       <div
-        className="relative"
+        className={cn(
+          "relative transition-transform duration-300 ease-out transform-gpu origin-center",
+          isHovered && !expandedId && "scale-[1.04]",
+          isHovered && !expandedId && "z-40"
+        )}
         onMouseEnter={() => !expandedId && setHoveredId(id)}
         onMouseLeave={() => !expandedId && setHoveredId(null)}
       >
@@ -44,16 +48,13 @@ function CaseCard({ caseItem }: { caseItem: CaseItem }) {
           onOpen={handleOpen}
           onClose={handleClose}
           triggerClassName={cn(
-            "aspect-video cursor-zoom-in",
-            isHovered && !expandedId && "z-40"
+            "aspect-video cursor-zoom-in"
           )}
           expandedClassName="w-[80vw] max-w-6xl aspect-video"
         >
           <div
             className={cn(
-              "relative h-full w-full border border-black/20 transition-transform duration-300 ease-out transform-gpu",
-              isHovered && !expandedId && "scale-[1.01]",
-              hoveredId && !isHovered && !expandedId && "scale-[0.98]"
+              "relative h-full w-full border border-black/20"
             )}
           >
             <video
@@ -64,8 +65,8 @@ function CaseCard({ caseItem }: { caseItem: CaseItem }) {
               playsInline
               className="block h-full w-full object-cover"
             />
-            <div className="absolute inset-0 flex items-end p-6 z-10">
-              <h3 className="text-2xl font-medium tracking-tight text-white">
+            <div className="absolute inset-0 flex items-end p-[var(--space-card-media)] z-10">
+              <h3 className="font-semibold text-white">
                 {caseItem.title}
               </h3>
             </div>

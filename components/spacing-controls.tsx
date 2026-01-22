@@ -3,6 +3,34 @@
 import { useEffect, useRef } from "react"
 import { Leva, button, folder, useControls } from "leva"
 
+const monochromeTheme = {
+  colors: {
+    elevation1: "#ffffff",
+    elevation2: "#f2f2f2",
+    elevation3: "#ededed",
+    accent1: "#000000",
+    accent2: "#141414",
+    accent3: "#2a2a2a",
+    highlight1: "#f5f5f5",
+    highlight2: "#e0e0e0",
+    highlight3: "#cfcfcf",
+    vivid1: "#000000",
+  },
+  radii: {
+    xs: "0px",
+    sm: "0px",
+    lg: "0px",
+  },
+  fontSizes: {
+    root: "12px",
+  },
+  shadows: {
+    xs: "none",
+    sm: "none",
+    lg: "none",
+  },
+} as const
+
 const defaults = {
   pageX: 64,
   pageY: 64,
@@ -94,5 +122,11 @@ export function SpacingControls() {
     root.style.setProperty("--space-connect-gap", `${values.connectGap}px`)
   }, [values])
 
-  return <Leva collapsed={false} />
+  return (
+    <div
+      className="fixed right-2 top-2 z-[1000] opacity-0 transition-opacity duration-200 ease-out hover:opacity-100 [&_.leva-c__panel]:shadow-none [&_.leva-c__panel]:border [&_.leva-c__panel]:border-black/20"
+    >
+      <Leva collapsed={false} theme={monochromeTheme} />
+    </div>
+  )
 }

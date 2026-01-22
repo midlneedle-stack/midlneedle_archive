@@ -17,13 +17,6 @@ export function MediaProvider({ children }: { children: ReactNode }) {
 
   return (
     <MediaContext.Provider value={{ hoveredId, expandedId, setHoveredId, setExpandedId }}>
-      {/* Global overlay for hover state */}
-      {hoveredId && !expandedId && (
-        <div
-          className="fixed inset-0 z-30 bg-white/[0.05] pointer-events-none transition-all duration-300 ease-out"
-        />
-      )}
-
       {children}
     </MediaContext.Provider>
   );
