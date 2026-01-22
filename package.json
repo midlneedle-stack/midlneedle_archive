@@ -45,6 +45,7 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "input-otp": "1.4.1",
+    "leva": "^0.9.36",
     "lucide-react": "^0.454.0",
     "motion": "^12.23.12",
     "next": "16.0.10",

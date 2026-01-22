@@ -10,22 +10,22 @@ export default function Home() {
       <main className="min-h-screen bg-background">
         <div className="mx-auto max-w-2xl">
           {/* Hero Section */}
-          <section className="mb-24">
-            <h1 className="mb-7 font-semibold text-foreground">
+          <section className="mb-[var(--space-section)]">
+            <h1 className="font-semibold text-foreground">
               Vladislav Ivanov
             </h1>
-            <p className="mt-7 text-muted-foreground">
+            <p className="text-muted-foreground">
               I'm a product designer curious about technology and digital products.
               {'\n'}I prototype in code and enjoy solving complex problems that bring value to users and businesses.
             </p>
           </section>
 
           {/* Playground Section */}
-          <section className="mb-24">
+          <section className="mb-[var(--space-section)]">
             <SectionHeader title="Playground" />
 
             {/* Stack 1: 3 vertical videos */}
-            <div className="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+            <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid-x)] sm:grid-cols-2 md:grid-cols-3">
               <VideoCard
                 src="/videos/cummera.mp4"
                 title="Interactive List"
@@ -50,7 +50,7 @@ export default function Home() {
             </div>
 
             {/* Stack 2: 3 vertical videos */}
-            <div className="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+            <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid-x)] sm:grid-cols-2 md:grid-cols-3">
               <VideoCard
                 src="/videos/winxp.mp4"
                 title="Tab Bar Transition"
@@ -75,7 +75,7 @@ export default function Home() {
             </div>
 
             {/* Stack 3: 3 vertical videos */}
-            <div className="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+            <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid-x)] sm:grid-cols-2 md:grid-cols-3">
               <VideoCard
                 src="/videos/cummera.mp4"
                 title="Gesture Recognition"
@@ -112,7 +112,7 @@ export default function Home() {
           </section>
 
           {/* Cases Section */}
-          <section className="mb-24">
+          <section className="mb-[var(--space-section)]">
             <SectionHeader title="Cases" />
 
             <CasesGrid

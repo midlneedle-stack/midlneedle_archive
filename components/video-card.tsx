@@ -53,7 +53,7 @@ export function VideoCard({
           onOpen={handleOpen}
           onClose={handleClose}
           triggerClassName={cn(
-            "cursor-zoom-in mb-4",
+            "cursor-zoom-in mb-[var(--space-card-media)]",
             orientation === "vertical" ? "aspect-[9/16]" : "aspect-video",
             isHovered && !expandedId && "z-40"
           )}
@@ -91,7 +91,7 @@ export function VideoCard({
             </h3>
           )}
           {showDescription && description && (
-            <p className="mt-2 text-muted-foreground">
+            <p className="mt-[var(--space-card-text)] text-muted-foreground">
               {description}
             </p>
           )}

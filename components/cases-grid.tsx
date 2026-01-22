@@ -78,7 +78,7 @@ function CaseCard({ caseItem }: { caseItem: CaseItem }) {
 
 export function CasesGrid({ cases }: CasesGridProps) {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-[var(--space-cases-gap)]">
       {cases.map((caseItem, index) => (
         <CaseCard key={index} caseItem={caseItem} />
       ))}

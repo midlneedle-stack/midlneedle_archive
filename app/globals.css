@@ -60,6 +60,18 @@
   --input: #f5f5f5;
   --ring: #e0e0e0;
   --radius: 0;
+  --space-page-x: 64px;
+  --space-page-y: 64px;
+  --space-section: 64px;
+  --space-stack: 32px;
+  --space-grid-x: 12px;
+  --space-cases-gap: 16px;
+  --space-title-text: 16px;
+  --space-heading-top: 0px;
+  --space-heading-bottom: 24px;
+  --space-card-media: 8px;
+  --space-card-text: 0px;
+  --space-connect-gap: 8px;
 
   /* Typography settings */
   --sans-variation: 'opsz' 32;
@@ -86,6 +98,7 @@
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
+
 }
 
 /* ========================================
@@ -318,22 +331,26 @@ article {
 
   /* Typography */
   h1 {
-    @apply font-semibold mb-7;
+    @apply font-semibold;
+    margin-bottom: var(--space-title-text);
     text-wrap: balance;
   }
 
   h2, h3 {
-    @apply font-semibold mt-14 mb-7;
+    @apply font-semibold;
+    margin-top: var(--space-heading-top);
+    margin-bottom: var(--space-heading-bottom);
     text-wrap: balance;
   }
 
   p {
-    @apply mt-7;
+    margin-top: var(--space-title-text);
     text-wrap: pretty;
   }
 
   ul, ol {
-    @apply mt-7 list-outside pl-5;
+    margin-top: var(--space-title-text);
+    @apply list-outside pl-5;
   }
 
   ul {

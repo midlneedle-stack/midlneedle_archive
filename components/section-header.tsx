@@ -4,7 +4,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title }: SectionHeaderProps) {
   return (
-    <h2 className="font-semibold mt-14 mb-7 text-foreground">
+    <h2 className="font-semibold text-foreground">
       {title}
     </h2>
   )

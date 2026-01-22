@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import cn from 'clsx'
 import './globals.css'
+import { SpacingControls } from '@/components/spacing-controls'
 
 const sans = localFont({
   src: './_fonts/InterVariable.woff2',
@@ -64,12 +65,13 @@ export default function RootLayout({
         sans.variable,
         serif.variable,
         mono.variable,
-        'w-full p-6 sm:p-10 md:p-14',
+        'w-full px-[var(--space-page-x)] py-[var(--space-page-y)]',
         'text-sm leading-6 sm:text-[15px] sm:leading-7 md:text-base md:leading-7',
         'text-foreground',
         'antialiased'
       )}>
         {children}
+        <SpacingControls />
         <Analytics />
       </body>
     </html>

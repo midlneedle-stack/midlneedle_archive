@@ -42,7 +42,7 @@ export function ConnectSection() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-[var(--space-connect-gap)]">
       {socialLinks.map((link) => (
         <div key={link.label}>
           {link.copyable ? (
