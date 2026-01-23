@@ -69,7 +69,7 @@ export function VideoCard({
         >
           <div
             className={cn(
-              "h-full w-full border border-black/20"
+              "relative h-full w-full overflow-hidden border border-border bg-black"
             )}
           >
             <video
@@ -78,7 +78,7 @@ export function VideoCard({
               loop
               muted
               playsInline
-              className="block h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover transform-gpu scale-[1.01]"
             />
           </div>
         </MorphingMedia>

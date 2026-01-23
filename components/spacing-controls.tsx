@@ -36,14 +36,35 @@ const defaults = {
   pageY: 64,
   section: 64,
   stack: 32,
-  gridX: 12,
+  gridX: 16,
   casesGap: 16,
   titleText: 16,
   headingTop: 0,
   headingBottom: 24,
   cardMedia: 8,
   cardText: 0,
+  caseTitleX: 16,
+  caseTitleY: 16,
   connectGap: 8,
+  foreground: "#353b42",
+  mutedForeground: "#5d6268",
+  background: "#ffffff",
+  border: "#353b42",
+  card: "#ffffff",
+  cardForeground: "#353b42",
+  popover: "#ffffff",
+  popoverForeground: "#353b42",
+  primary: "#353b42",
+  primaryForeground: "#ffffff",
+  secondary: "#f5f5f5",
+  secondaryForeground: "#353b42",
+  muted: "#f5f5f5",
+  accent: "#f5f5f5",
+  accentForeground: "#353b42",
+  destructive: "oklch(0.577 0.245 27.325)",
+  destructiveForeground: "oklch(0.577 0.245 27.325)",
+  input: "#f5f5f5",
+  ring: "#e0e0e0",
 }
 
 function buildSpecs(values: typeof defaults) {
@@ -59,7 +80,28 @@ function buildSpecs(values: typeof defaults) {
     `--space-heading-bottom: ${values.headingBottom}px`,
     `--space-card-media: ${values.cardMedia}px`,
     `--space-card-text: ${values.cardText}px`,
+    `--space-case-title-x: ${values.caseTitleX}px`,
+    `--space-case-title-y: ${values.caseTitleY}px`,
     `--space-connect-gap: ${values.connectGap}px`,
+    `--foreground: ${values.foreground}`,
+    `--muted-foreground: ${values.mutedForeground}`,
+    `--background: ${values.background}`,
+    `--border: ${values.border}`,
+    `--card: ${values.card}`,
+    `--card-foreground: ${values.cardForeground}`,
+    `--popover: ${values.popover}`,
+    `--popover-foreground: ${values.popoverForeground}`,
+    `--primary: ${values.primary}`,
+    `--primary-foreground: ${values.primaryForeground}`,
+    `--secondary: ${values.secondary}`,
+    `--secondary-foreground: ${values.secondaryForeground}`,
+    `--muted: ${values.muted}`,
+    `--accent: ${values.accent}`,
+    `--accent-foreground: ${values.accentForeground}`,
+    `--destructive: ${values.destructive}`,
+    `--destructive-foreground: ${values.destructiveForeground}`,
+    `--input: ${values.input}`,
+    `--ring: ${values.ring}`,
   ].join("\n")
 }
 
@@ -95,8 +137,41 @@ export function SpacingControls() {
         headingBottom: { value: defaults.headingBottom, min: 0, max: 200, step: 1, label: "Heading bottom" },
         cardMedia: { value: defaults.cardMedia, min: 0, max: 120, step: 1, label: "Card media" },
         cardText: { value: defaults.cardText, min: 0, max: 120, step: 1, label: "Card text" },
+        caseTitleX: { value: defaults.caseTitleX, min: 0, max: 120, step: 1, label: "Case title pad X" },
+        caseTitleY: { value: defaults.caseTitleY, min: 0, max: 120, step: 1, label: "Case title pad Y" },
         connectGap: { value: defaults.connectGap, min: 0, max: 80, step: 1, label: "Connect gap" },
         copySpecs: button(() => copyToClipboard(buildSpecs(valuesRef.current))),
+      }),
+      Colors: folder({
+        Typography: folder({
+          foreground: { value: defaults.foreground, label: "Foreground" },
+          mutedForeground: { value: defaults.mutedForeground, label: "Muted foreground" },
+        }),
+        Surfaces: folder({
+          background: { value: defaults.background, label: "Background" },
+          card: { value: defaults.card, label: "Card" },
+          popover: { value: defaults.popover, label: "Popover" },
+          secondary: { value: defaults.secondary, label: "Secondary" },
+          muted: { value: defaults.muted, label: "Muted" },
+          accent: { value: defaults.accent, label: "Accent" },
+        }),
+        Accents: folder({
+          primary: { value: defaults.primary, label: "Primary" },
+          primaryForeground: { value: defaults.primaryForeground, label: "Primary foreground" },
+          secondaryForeground: { value: defaults.secondaryForeground, label: "Secondary foreground" },
+          accentForeground: { value: defaults.accentForeground, label: "Accent foreground" },
+          cardForeground: { value: defaults.cardForeground, label: "Card foreground" },
+          popoverForeground: { value: defaults.popoverForeground, label: "Popover foreground" },
+        }),
+        Lines: folder({
+          border: { value: defaults.border, label: "Border" },
+          input: { value: defaults.input, label: "Input" },
+          ring: { value: defaults.ring, label: "Ring" },
+        }),
+        Status: folder({
+          destructive: { value: defaults.destructive, label: "Destructive" },
+          destructiveForeground: { value: defaults.destructiveForeground, label: "Destructive foreground" },
+        }),
       }),
     },
     { collapsed: false }
@@ -119,7 +194,28 @@ export function SpacingControls() {
     root.style.setProperty("--space-heading-bottom", `${values.headingBottom}px`)
     root.style.setProperty("--space-card-media", `${values.cardMedia}px`)
     root.style.setProperty("--space-card-text", `${values.cardText}px`)
+    root.style.setProperty("--space-case-title-x", `${values.caseTitleX}px`)
+    root.style.setProperty("--space-case-title-y", `${values.caseTitleY}px`)
     root.style.setProperty("--space-connect-gap", `${values.connectGap}px`)
+    root.style.setProperty("--foreground", values.foreground)
+    root.style.setProperty("--muted-foreground", values.mutedForeground)
+    root.style.setProperty("--background", values.background)
+    root.style.setProperty("--border", values.border)
+    root.style.setProperty("--card", values.card)
+    root.style.setProperty("--card-foreground", values.cardForeground)
+    root.style.setProperty("--popover", values.popover)
+    root.style.setProperty("--popover-foreground", values.popoverForeground)
+    root.style.setProperty("--primary", values.primary)
+    root.style.setProperty("--primary-foreground", values.primaryForeground)
+    root.style.setProperty("--secondary", values.secondary)
+    root.style.setProperty("--secondary-foreground", values.secondaryForeground)
+    root.style.setProperty("--muted", values.muted)
+    root.style.setProperty("--accent", values.accent)
+    root.style.setProperty("--accent-foreground", values.accentForeground)
+    root.style.setProperty("--destructive", values.destructive)
+    root.style.setProperty("--destructive-foreground", values.destructiveForeground)
+    root.style.setProperty("--input", values.input)
+    root.style.setProperty("--ring", values.ring)
   }, [values])
 
   return (

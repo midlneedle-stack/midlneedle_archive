@@ -54,7 +54,7 @@ function CaseCard({ caseItem }: { caseItem: CaseItem }) {
         >
           <div
             className={cn(
-              "relative h-full w-full border border-black/20"
+              "relative h-full w-full overflow-hidden border border-border bg-black"
             )}
           >
             <video
@@ -63,10 +63,10 @@ function CaseCard({ caseItem }: { caseItem: CaseItem }) {
               loop
               muted
               playsInline
-              className="block h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover transform-gpu scale-[1.01]"
             />
-            <div className="absolute inset-0 flex items-end p-[var(--space-card-media)] z-10">
-              <h3 className="font-semibold text-white">
+            <div className="absolute inset-0 flex items-end px-[var(--space-case-title-x)] py-[var(--space-case-title-y)] z-10">
+              <h3 className="m-0 font-semibold leading-none text-white">
                 {caseItem.title}
               </h3>
             </div>

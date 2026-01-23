@@ -16,15 +16,15 @@ const socialLinks: SocialLink[] = [
   },
   {
     label: "Telegram",
-    href: "https://t.me/vladislavivanov",
-  },
-  {
-    label: "Twitter",
-    href: "https://twitter.com/vladislavivanov",
+    href: "https://t.me/midlneedle",
   },
   {
     label: "Threads",
-    href: "https://threads.net/@vladislavivanov",
+    href: "https://www.threads.com/@midlneedle",
+  },
+  {
+    label: "Twitter",
+    href: "https://x.com/midlneedle",
   },
 ];
 
@@ -33,7 +33,7 @@ export function ConnectSection() {
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText("hello@vladislavivanov.com");
+      await navigator.clipboard.writeText("midlneedle@gmail.com");
       setCopiedEmail(true);
       setTimeout(() => setCopiedEmail(false), 2000);
     } catch (err) {
@@ -49,7 +49,7 @@ export function ConnectSection() {
             <button
               onClick={handleCopyEmail}
               className={cn(
-                "inline-flex items-center gap-2 text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
+                "inline-flex items-center gap-2 text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground cursor-pointer"
               )}
             >
               {copiedEmail ? "Copied!" : link.label}
