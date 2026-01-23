@@ -1,13 +1,19 @@
-import { VideoCard } from "@/components/video-card"
 import { ConnectSection } from "@/components/connect-section"
 import { SectionHeader } from "@/components/section-header"
 import { CasesGrid } from "@/components/cases-grid"
 import { MediaProvider } from "@/components/media-context"
+import { VideoCard } from "@/components/video-card"
 import { withBasePath } from "@/lib/base-path"
 
 const videos = {
   cummera: withBasePath("/videos/cummera.mp4"),
   winxp: withBasePath("/videos/winxp.mp4"),
+}
+const icons = {
+  playground: withBasePath("/resourses/icons/playground.png"),
+  cases: withBasePath("/resourses/icons/casses.png"),
+  connect: withBasePath("/resourses/icons/connect.png"),
+  vladislav: withBasePath("/resourses/icons/vladislav.png"),
 }
 
 export default function Home() {
@@ -17,18 +23,23 @@ export default function Home() {
         <div className="mx-auto max-w-2xl">
           {/* Hero Section */}
           <section className="mb-[var(--space-section)]">
-            <h1 className="type-title text-foreground">
-              Vladislav Ivanov
-            </h1>
-            <p className="type-body text-muted-foreground">
-              I'm a product designer curious about technology and digital products.
-              {'\n'}I prototype in code and enjoy solving complex problems that bring value to users and businesses.
-            </p>
+            <div className="group">
+              <h1 className="type-title inline-flex items-center gap-0 text-foreground">
+                <span>Vladislav Ivanov</span>
+                <span className="pointer-events-none ml-0 translate-x-0 opacity-0 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-[0.2em]">
+                  <img src={icons.vladislav} alt="" className="h-[1em] w-[1em]" />
+                </span>
+              </h1>
+              <p className="type-body text-muted-foreground">
+                I'm a product designer curious about technology and digital products.
+                {'\n'}I prototype in code and enjoy solving complex problems that bring value to users and businesses.
+              </p>
+            </div>
           </section>
 
           {/* Playground Section */}
-          <section className="mb-[var(--space-section)]">
-            <SectionHeader title="Playground" />
+          <section className="mb-[var(--space-section)] group">
+            <SectionHeader title="Playground" iconSrc={icons.playground} />
 
             {/* Stack 1: 3 vertical videos */}
             <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid-x)] sm:grid-cols-2 md:grid-cols-3">
@@ -118,8 +129,8 @@ export default function Home() {
           </section>
 
           {/* Cases Section */}
-          <section className="mb-[var(--space-section)]">
-            <SectionHeader title="Cases" />
+          <section className="mb-[var(--space-section)] group">
+            <SectionHeader title="Cases" iconSrc={icons.cases} />
 
             <CasesGrid
               cases={[
@@ -131,8 +142,8 @@ export default function Home() {
           </section>
 
           {/* Connect Section */}
-          <section>
-            <SectionHeader title="Connect" />
+          <section className="group">
+            <SectionHeader title="Connect" iconSrc={icons.connect} />
             <ConnectSection />
           </section>
         </div>
