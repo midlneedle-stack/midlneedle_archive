@@ -3,6 +3,12 @@ import { ConnectSection } from "@/components/connect-section"
 import { SectionHeader } from "@/components/section-header"
 import { CasesGrid } from "@/components/cases-grid"
 import { MediaProvider } from "@/components/media-context"
+import { withBasePath } from "@/lib/base-path"
+
+const videos = {
+  cummera: withBasePath("/videos/cummera.mp4"),
+  winxp: withBasePath("/videos/winxp.mp4"),
+}
 
 export default function Home() {
   return (
@@ -27,21 +33,21 @@ export default function Home() {
             {/* Stack 1: 3 vertical videos */}
             <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid-x)] sm:grid-cols-2 md:grid-cols-3">
               <VideoCard
-                src="/videos/cummera.mp4"
+                src={videos.cummera}
                 title="Interactive List"
                 description="Gesture-driven list interactions in SwiftUI"
                 orientation="vertical"
                 showTitle={false}
               />
               <VideoCard
-                src="/videos/winxp.mp4"
+                src={videos.winxp}
                 title="Haptic Feedback"
                 description="Custom haptic patterns for UI feedback"
                 orientation="vertical"
                 showTitle={false}
               />
               <VideoCard
-                src="/videos/cummera.mp4"
+                src={videos.cummera}
                 title="Scroll Animation"
                 description="Parallax scrolling effects"
                 orientation="vertical"
@@ -52,21 +58,21 @@ export default function Home() {
             {/* Stack 2: 3 vertical videos */}
             <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid-x)] sm:grid-cols-2 md:grid-cols-3">
               <VideoCard
-                src="/videos/winxp.mp4"
+                src={videos.winxp}
                 title="Tab Bar Transition"
                 description="Fluid navigation transitions between views"
                 orientation="vertical"
                 showTitle={false}
               />
               <VideoCard
-                src="/videos/cummera.mp4"
+                src={videos.cummera}
                 title="Card Stack"
                 description="Stackable card interface pattern"
                 orientation="vertical"
                 showTitle={false}
               />
               <VideoCard
-                src="/videos/winxp.mp4"
+                src={videos.winxp}
                 title="Animation Library"
                 description="Reusable animation components"
                 orientation="vertical"
@@ -77,21 +83,21 @@ export default function Home() {
             {/* Stack 3: 3 vertical videos */}
             <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid-x)] sm:grid-cols-2 md:grid-cols-3">
               <VideoCard
-                src="/videos/cummera.mp4"
+                src={videos.cummera}
                 title="Gesture Recognition"
                 description="Advanced touch gesture handling"
                 orientation="vertical"
                 showTitle={false}
               />
               <VideoCard
-                src="/videos/winxp.mp4"
+                src={videos.winxp}
                 title="State Management"
                 description="Complex state transitions"
                 orientation="vertical"
                 showTitle={false}
               />
               <VideoCard
-                src="/videos/cummera.mp4"
+                src={videos.cummera}
                 title="Performance Tuning"
                 description="Optimized rendering techniques"
                 orientation="vertical"
@@ -102,7 +108,7 @@ export default function Home() {
             {/* Horizontal video */}
             <div>
               <VideoCard
-                src="/videos/winxp.mp4"
+                src={videos.winxp}
                 title="Full Design System"
                 description="Complete component library and design system implementation"
                 orientation="horizontal"
@@ -117,9 +123,9 @@ export default function Home() {
 
             <CasesGrid
               cases={[
-                { src: "/videos/cummera.mp4", title: "Finance App Redesign" },
-                { src: "/videos/winxp.mp4", title: "E-commerce Checkout" },
-                { src: "/videos/cummera.mp4", title: "Health Tracking Dashboard" },
+                { src: videos.cummera, title: "Finance App Redesign" },
+                { src: videos.winxp, title: "E-commerce Checkout" },
+                { src: videos.cummera, title: "Health Tracking Dashboard" },
               ]}
             />
           </section>
