@@ -11,9 +11,9 @@ const monochromeTheme = {
     accent1: "#000000",
     accent2: "#141414",
     accent3: "#2a2a2a",
-    highlight1: "#f5f5f5",
-    highlight2: "#e0e0e0",
-    highlight3: "#cfcfcf",
+    highlight1: "#6b6f74",
+    highlight2: "#2a2a2a",
+    highlight3: "#111111",
     vivid1: "#000000",
   },
   radii: {
@@ -24,11 +24,16 @@ const monochromeTheme = {
   fontSizes: {
     root: "12px",
   },
+  fontWeights: {
+    label: "500",
+    folder: "600",
+    button: "500",
+  },
 } as const
 
 const defaults = {
   pageX: 64,
-  pageY: 64,
+  pageY: 128,
   section: 64,
   stack: 32,
   gridX: 16,
@@ -60,7 +65,24 @@ const defaults = {
   destructiveForeground: "oklch(0.577 0.245 27.325)",
   input: "#f5f5f5",
   ring: "#e0e0e0",
+  titleEnabled: true,
+  titleSize: 1.2,
+  titleLineHeight: 0,
+  titleWeight: 500,
+  titleLetterSpacing: 0,
+  titleWordSpacing: -0.04,
+  bodyTextEnabled: true,
+  bodyTextSize: 1.1,
+  bodyTextLineHeight: 1.5,
+  bodyTextWeight: 440,
+  bodyTextLetterSpacing: 0.01,
+  bodyTextWordSpacing: -0.04,
 }
+
+const typeConfigs = [
+  { key: "title", selector: ".type-title" },
+  { key: "bodyText", selector: ".type-body" },
+] as const
 
 function buildSpecs(values: typeof defaults) {
   return [
@@ -100,6 +122,28 @@ function buildSpecs(values: typeof defaults) {
   ].join("\n")
 }
 
+function buildTypeSpecs(values: typeof defaults) {
+  const payload = {
+    titles: {
+      enabled: values.titleEnabled,
+      sizeEm: values.titleSize,
+      lineHeightEm: values.titleLineHeight,
+      weight: values.titleWeight,
+      letterSpacingEm: values.titleLetterSpacing,
+      wordSpacingEm: values.titleWordSpacing,
+    },
+    body: {
+      enabled: values.bodyTextEnabled,
+      sizeEm: values.bodyTextSize,
+      lineHeightEm: values.bodyTextLineHeight,
+      weight: values.bodyTextWeight,
+      letterSpacingEm: values.bodyTextLetterSpacing,
+      wordSpacingEm: values.bodyTextWordSpacing,
+    },
+  }
+  return JSON.stringify(payload, null, 2)
+}
+
 async function copyToClipboard(text: string) {
   try {
     await navigator.clipboard.writeText(text)
@@ -118,8 +162,8 @@ async function copyToClipboard(text: string) {
 export function SpacingControls() {
   const valuesRef = useRef(defaults)
 
-  const values = useControls(
-    {
+  const [values, setValues] = useControls(
+    () => ({
       Spacing: folder({
         pageX: { value: defaults.pageX, min: 0, max: 200, step: 1, label: "Page padding X" },
         pageY: { value: defaults.pageY, min: 0, max: 200, step: 1, label: "Page padding Y" },
@@ -168,13 +212,96 @@ export function SpacingControls() {
           destructiveForeground: { value: defaults.destructiveForeground, label: "Destructive foreground" },
         }),
       }),
-    },
+      Typography: folder({
+        Titles: folder({
+          titleEnabled: { value: defaults.titleEnabled, label: "Enable overrides" },
+          titleSize: { value: defaults.titleSize, min: 0.8, max: 5, step: 0.01, label: "Size (em)" },
+          titleLineHeight: { value: defaults.titleLineHeight, min: 0, max: 3.5, step: 0.01, label: "Line height (em, 0 = auto)" },
+          titleWeight: { value: defaults.titleWeight, min: 300, max: 800, step: 10, label: "Weight" },
+          titleLetterSpacing: { value: defaults.titleLetterSpacing, min: -0.2, max: 0.2, step: 0.001, label: "Letter spacing (em)" },
+          titleWordSpacing: { value: defaults.titleWordSpacing, min: -0.3, max: 0.3, step: 0.001, label: "Word spacing (em)" },
+        }),
+        "Body text": folder({
+          bodyTextEnabled: { value: defaults.bodyTextEnabled, label: "Enable overrides" },
+          bodyTextSize: { value: defaults.bodyTextSize, min: 0.6, max: 2.4, step: 0.01, label: "Size (em)" },
+          bodyTextLineHeight: { value: defaults.bodyTextLineHeight, min: 0, max: 3, step: 0.01, label: "Line height (em, 0 = auto)" },
+          bodyTextWeight: { value: defaults.bodyTextWeight, min: 300, max: 800, step: 10, label: "Weight" },
+          bodyTextLetterSpacing: { value: defaults.bodyTextLetterSpacing, min: -0.2, max: 0.2, step: 0.001, label: "Letter spacing (em)" },
+          bodyTextWordSpacing: { value: defaults.bodyTextWordSpacing, min: -0.3, max: 0.3, step: 0.001, label: "Word spacing (em)" },
+        }),
+        copyTypography: button(() => copyToClipboard(buildTypeSpecs(valuesRef.current))),
+      }),
+    }),
     { collapsed: false }
   )
 
   useEffect(() => {
     valuesRef.current = { ...defaults, ...values }
   }, [values])
+
+  const baseSyncedRef = useRef(false)
+
+  useEffect(() => {
+    const parseLineHeight = (value: string) => {
+      if (value === "normal") return 0
+      const parsed = Number.parseFloat(value)
+      return Number.isNaN(parsed) ? 0 : parsed
+    }
+    const parseWeight = (value: string) => {
+      const parsed = Number.parseFloat(value)
+      return Number.isNaN(parsed) ? 400 : parsed
+    }
+    const parseSpacingEm = (value: string, fontSize: number) => {
+      if (value === "normal") return 0
+      const parsed = Number.parseFloat(value)
+      if (Number.isNaN(parsed)) return 0
+      if (value.endsWith("em")) return parsed
+      if (Number.isNaN(fontSize) || fontSize === 0) return 0
+      return parsed / fontSize
+    }
+    const syncBase = async () => {
+      if (baseSyncedRef.current) return
+      if (document.fonts?.ready) {
+        try {
+          await document.fonts.ready
+        } catch {
+          // Ignore font loading errors; fall back to current metrics.
+        }
+      }
+      const updates: Record<string, number> = {}
+      typeConfigs.forEach(({ key, selector }) => {
+        const el = document.querySelector<HTMLElement>(selector)
+        if (!el) return
+        const computed = window.getComputedStyle(el)
+        const parent = el.parentElement
+          ? window.getComputedStyle(el.parentElement)
+          : window.getComputedStyle(document.body)
+        const parentSize = Number.parseFloat(parent.fontSize) || 16
+        const size = Number.parseFloat(computed.fontSize)
+        const lineHeight = parseLineHeight(computed.lineHeight)
+        const weight = parseWeight(computed.fontWeight)
+        const letterSpacing = parseSpacingEm(computed.letterSpacing, size)
+        const wordSpacing = parseSpacingEm(computed.wordSpacing, size)
+        if (!Number.isNaN(size) && size > 0 && parentSize !== 0) {
+          updates[`${key}Size`] = size / parentSize
+        }
+        updates[`${key}LineHeight`] =
+          lineHeight === 0 || Number.isNaN(lineHeight) || Number.isNaN(size) || size === 0
+            ? 0
+            : lineHeight / size
+        if (!Number.isNaN(weight)) {
+          updates[`${key}Weight`] = weight
+        }
+        updates[`${key}LetterSpacing`] = Number.isNaN(letterSpacing) ? 0 : letterSpacing
+        updates[`${key}WordSpacing`] = Number.isNaN(wordSpacing) ? 0 : wordSpacing
+      })
+      if (Object.keys(updates).length > 0) {
+        setValues(updates)
+      }
+      baseSyncedRef.current = true
+    }
+    void syncBase()
+  }, [setValues])
 
   useEffect(() => {
     const root = document.documentElement
@@ -211,6 +338,71 @@ export function SpacingControls() {
     root.style.setProperty("--destructive-foreground", values.destructiveForeground)
     root.style.setProperty("--input", values.input)
     root.style.setProperty("--ring", values.ring)
+    const setInlineSize = (el: HTMLElement, size: number, lineHeight: number) => {
+      if (Number.isNaN(size) || size === 0) {
+        el.style.removeProperty("font-size")
+      } else {
+        el.style.fontSize = `${size}em`
+      }
+      if (Number.isNaN(lineHeight) || lineHeight === 0) {
+        el.style.removeProperty("line-height")
+      } else {
+        el.style.lineHeight = `${lineHeight}em`
+      }
+    }
+    const clearInlineSize = (el: HTMLElement) => {
+      el.style.removeProperty("font-size")
+      el.style.removeProperty("line-height")
+    }
+    const setInlineWeight = (el: HTMLElement, weight: number) => {
+      if (Number.isNaN(weight) || weight === 0) {
+        el.style.removeProperty("font-weight")
+        el.style.removeProperty("font-variation-settings")
+        return
+      }
+      el.style.fontWeight = `${weight}`
+      el.style.fontVariationSettings = `'wght' ${weight}, var(--sans-variation)`
+    }
+    const clearInlineWeight = (el: HTMLElement) => {
+      el.style.removeProperty("font-weight")
+      el.style.removeProperty("font-variation-settings")
+    }
+    const setInlineSpacing = (el: HTMLElement, letterSpacing: number, wordSpacing: number) => {
+      if (Number.isNaN(letterSpacing)) {
+        el.style.removeProperty("letter-spacing")
+      } else {
+        el.style.letterSpacing = `${letterSpacing}em`
+      }
+      if (Number.isNaN(wordSpacing)) {
+        el.style.removeProperty("word-spacing")
+      } else {
+        el.style.wordSpacing = `${wordSpacing}em`
+      }
+    }
+    const clearInlineSpacing = (el: HTMLElement) => {
+      el.style.removeProperty("letter-spacing")
+      el.style.removeProperty("word-spacing")
+    }
+    const getValue = (name: string) => (values as Record<string, number | boolean>)[name]
+    typeConfigs.forEach(({ key, selector }) => {
+      const enabled = Boolean(getValue(`${key}Enabled`))
+      const size = Number(getValue(`${key}Size`))
+      const lineHeight = Number(getValue(`${key}LineHeight`))
+      const weight = Number(getValue(`${key}Weight`))
+      const letterSpacing = Number(getValue(`${key}LetterSpacing`))
+      const wordSpacing = Number(getValue(`${key}WordSpacing`))
+      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+        if (!enabled) {
+          clearInlineSize(el)
+          clearInlineWeight(el)
+          clearInlineSpacing(el)
+          return
+        }
+        setInlineSize(el, size, lineHeight)
+        setInlineWeight(el, weight)
+        setInlineSpacing(el, letterSpacing, wordSpacing)
+      })
+    })
   }, [values])
 
   return (

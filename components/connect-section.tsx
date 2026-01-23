@@ -49,7 +49,7 @@ export function ConnectSection() {
             <button
               onClick={handleCopyEmail}
               className={cn(
-                "inline-flex items-center gap-2 text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground cursor-pointer"
+                "type-body inline-flex items-center gap-2 text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground cursor-pointer"
               )}
             >
               {copiedEmail ? "Copied!" : link.label}
@@ -60,7 +60,7 @@ export function ConnectSection() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
+              className="type-body inline-flex items-center gap-2 text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
             >
               {link.label}
               <span>↗</span>

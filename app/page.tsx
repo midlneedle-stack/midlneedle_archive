@@ -17,10 +17,10 @@ export default function Home() {
         <div className="mx-auto max-w-2xl">
           {/* Hero Section */}
           <section className="mb-[var(--space-section)]">
-            <h1 className="font-semibold text-foreground">
+            <h1 className="type-title text-foreground">
               Vladislav Ivanov
             </h1>
-            <p className="text-muted-foreground">
+            <p className="type-body text-muted-foreground">
               I'm a product designer curious about technology and digital products.
               {'\n'}I prototype in code and enjoy solving complex problems that bring value to users and businesses.
             </p>

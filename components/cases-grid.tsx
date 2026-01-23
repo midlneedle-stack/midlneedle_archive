@@ -66,7 +66,7 @@ function CaseCard({ caseItem }: { caseItem: CaseItem }) {
               className="absolute inset-0 h-full w-full object-cover transform-gpu scale-[1.01]"
             />
             <div className="absolute inset-0 flex items-end px-[var(--space-case-title-x)] py-[var(--space-case-title-y)] z-10">
-              <h3 className="m-0 font-semibold leading-none text-white">
+              <h3 className="type-title m-0 text-white">
                 {caseItem.title}
               </h3>
             </div>

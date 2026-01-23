@@ -78,7 +78,7 @@
   --ring: #e0e0e0;
   --radius: 0;
   --space-page-x: 64px;
-  --space-page-y: 64px;
+  --space-page-y: 128px;
   --space-section: 64px;
   --space-stack: 32px;
   --space-grid-x: 16px;
@@ -356,10 +356,12 @@ article {
   }
 
   h2, h3 {
-    @apply font-semibold;
     margin-top: var(--space-heading-top);
     margin-bottom: var(--space-heading-bottom);
     text-wrap: balance;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
   }
 
   p {
@@ -387,6 +389,24 @@ article {
   /* Links */
   a {
     @apply transition-colors duration-200;
+  }
+
+  .type-title {
+    font-size: 1.2em;
+    line-height: normal;
+    font-weight: 500;
+    font-variation-settings: 'wght' 500, var(--sans-variation);
+    letter-spacing: 0em;
+    word-spacing: -0.04em;
+  }
+
+  .type-body {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    font-weight: 440;
+    font-variation-settings: 'wght' 440, var(--sans-variation);
+    letter-spacing: 0.01em;
+    word-spacing: -0.04em;
   }
 
   /* Focus states */

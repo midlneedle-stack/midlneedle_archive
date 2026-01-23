@@ -67,7 +67,6 @@ export default function RootLayout({
         serif.variable,
         mono.variable,
         'w-full px-[var(--space-page-x)] py-[var(--space-page-y)]',
-        'text-sm leading-6 sm:text-[15px] sm:leading-7 md:text-base md:leading-7',
         'text-foreground',
         'antialiased'
       )}>

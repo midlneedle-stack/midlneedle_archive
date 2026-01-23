@@ -84,12 +84,12 @@ export function VideoCard({
         </MorphingMedia>
         <div>
           {showTitle && (
-            <h3 className="font-semibold text-foreground">
+            <h3 className="text-foreground">
               {title}
             </h3>
           )}
           {showDescription && description && (
-            <p className="mt-[var(--space-card-text)] text-muted-foreground">
+            <p className="type-body mt-[var(--space-card-text)] text-muted-foreground">
               {description}
             </p>
           )}
