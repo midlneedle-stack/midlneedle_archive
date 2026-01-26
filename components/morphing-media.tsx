@@ -1,6 +1,14 @@
 "use client"
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react"
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
+} from "react"
 import { createPortal } from "react-dom"
 import { AnimatePresence, MotionConfig, motion } from "motion/react"
 import { cn } from "@/lib/utils"
@@ -27,6 +35,8 @@ export function MorphingMedia({
   const [mounted, setMounted] = useState(false)
   const triggerRef = useRef<HTMLDivElement | null>(null)
   const modalRef = useRef<HTMLDivElement | null>(null)
+  const lastActiveRef = useRef<HTMLElement | null>(null)
+  const wasOpenRef = useRef(false)
   const scrollLockStyles = useRef<{
     bodyPaddingRight: string
     bodyOverflow: string
@@ -114,6 +124,16 @@ export function MorphingMedia({
   }, [isOpen, pauseAll, playAll])
 
   useEffect(() => {
+    if (isOpen) {
+      lastActiveRef.current = document.activeElement as HTMLElement
+      requestAnimationFrame(() => modalRef.current?.focus())
+    } else if (wasOpenRef.current) {
+      lastActiveRef.current?.focus()
+    }
+    wasOpenRef.current = isOpen
+  }, [isOpen])
+
+  useEffect(() => {
     if (!isOpen) return
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -123,6 +143,48 @@ export function MorphingMedia({
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, onClose])
+
+  const handleTriggerKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault()
+      handleOpen()
+    }
+  }
+
+  const handleOpen = () => {
+    lastActiveRef.current = document.activeElement as HTMLElement
+    onOpen()
+  }
+
+  const getFocusableElements = (container: HTMLElement) => {
+    const focusable = container.querySelectorAll<HTMLElement>(
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    )
+    return Array.from(focusable).filter((el) => !el.hasAttribute("disabled"))
+  }
+
+  const handleModalKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Tab") return
+    const container = modalRef.current
+    if (!container) return
+    const focusable = getFocusableElements(container)
+    if (focusable.length === 0) {
+      event.preventDefault()
+      container.focus()
+      return
+    }
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    const active = document.activeElement as HTMLElement | null
+
+    if (event.shiftKey && active === first) {
+      event.preventDefault()
+      last.focus()
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault()
+      first.focus()
+    }
+  }
 
   return (
     <MotionConfig transition={{ duration: 0.3, ease: "easeInOut" }}>
@@ -135,7 +197,12 @@ export function MorphingMedia({
           isOpen && "pointer-events-none",
           triggerClassName
         )}
-        onClick={onOpen}
+        role="button"
+        tabIndex={0}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        onClick={handleOpen}
+        onKeyDown={handleTriggerKeyDown}
       >
         {children}
       </motion.div>
@@ -159,10 +226,15 @@ export function MorphingMedia({
                       layoutId={layoutId}
                       layout
                       ref={modalRef}
+                      role="dialog"
+                      aria-modal="true"
+                      aria-label="Media preview"
+                      tabIndex={-1}
                       className={cn(
                         "relative overflow-clip cursor-zoom-out transform-gpu",
                         expandedClassName
                       )}
+                      onKeyDown={handleModalKeyDown}
                     >
                       {children}
                     </motion.div>

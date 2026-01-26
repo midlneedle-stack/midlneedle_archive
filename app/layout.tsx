@@ -6,6 +6,8 @@ import { withBasePath } from '@/lib/base-path'
 import './globals.css'
 import { SpacingControls } from '@/components/spacing-controls'
 
+export const dynamic = 'error'
+
 const sans = localFont({
   src: './_fonts/InterVariable.woff2',
   preload: true,
