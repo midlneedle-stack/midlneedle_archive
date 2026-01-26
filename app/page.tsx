@@ -41,7 +41,7 @@ export default function Home() {
           <section className="mb-[var(--space-section)] group">
             <SectionHeader title="Playground" iconSrc={icons.playground} />
 
-            <div className="flex flex-col gap-[var(--space-stack)] sm:gap-0">
+            <div className="flex flex-col gap-[var(--space-grid)] sm:gap-0">
               {/* Stack 1: 2 vertical videos */}
               <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
                 <VideoCard
