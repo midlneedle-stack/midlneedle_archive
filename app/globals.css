@@ -168,6 +168,19 @@ blockquote {
   }
 }
 
+@media (max-width: 767px) {
+  :root {
+    --space-page-x: 32px;
+    --space-page-y: 32px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .hover\:scale-\[1\.02\] {
+    transform: none !important;
+  }
+}
+
 blockquote + blockquote {
   display: flow-root;
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Leva, button, folder, useControls } from "leva"
 
 const monochromeTheme = {
@@ -153,6 +153,14 @@ async function copyToClipboard(text: string) {
 
 export function SpacingControls() {
   const valuesRef = useRef(defaults)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.matchMedia("(max-width: 767px)").matches)
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
 
   const [values, setValues] = useControls(
     () => ({
@@ -388,6 +396,10 @@ export function SpacingControls() {
       })
     })
   }, [values])
+
+  if (isMobile) {
+    return null
+  }
 
   return (
     <div
