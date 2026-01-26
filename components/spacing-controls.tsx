@@ -300,6 +300,9 @@ export function SpacingControls() {
   }, [setValues])
 
   useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return
+    }
     const root = document.documentElement
     root.style.setProperty("--space-page-x", `${values.pageX}px`)
     root.style.setProperty("--space-page-y", `${values.pageY}px`)
