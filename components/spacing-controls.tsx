@@ -367,7 +367,7 @@ export function SpacingControls() {
       el.style.removeProperty("letter-spacing")
       el.style.removeProperty("word-spacing")
     }
-    const getValue = (name: string) => (values as Record<string, number | boolean>)[name]
+    const getValue = (name: string) => (values as Record<string, number | boolean | string>)[name]
     typeConfigs.forEach(({ key, selector }) => {
       const enabled = Boolean(getValue(`${key}Enabled`))
       const size = Number(getValue(`${key}Size`))
