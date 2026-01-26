@@ -41,69 +41,71 @@ export default function Home() {
           <section className="mb-[var(--space-section)] group">
             <SectionHeader title="Playground" iconSrc={icons.playground} />
 
-            {/* Stack 1: 3 vertical videos */}
-            <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid)] sm:grid-cols-2">
-              <VideoCard
-                src={videos.cummera}
-                title="Interactive List"
-                description="Gesture-driven list interactions in SwiftUI"
-                orientation="vertical"
-                showTitle={true}
-              />
-              <VideoCard
-                src={videos.winxp}
-                title="Haptic Feedback"
-                description="Custom haptic patterns for UI feedback"
-                orientation="vertical"
-                showTitle={true}
-              />
-            </div>
+            <div className="flex flex-col gap-[var(--space-stack)] sm:gap-0">
+              {/* Stack 1: 2 vertical videos */}
+              <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
+                <VideoCard
+                  src={videos.cummera}
+                  title="Interactive List"
+                  description="Gesture-driven list interactions in SwiftUI"
+                  orientation="vertical"
+                  showTitle={true}
+                />
+                <VideoCard
+                  src={videos.winxp}
+                  title="Haptic Feedback"
+                  description="Custom haptic patterns for UI feedback"
+                  orientation="vertical"
+                  showTitle={true}
+                />
+              </div>
 
-            {/* Stack 2: 3 vertical videos */}
-            <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid)] sm:grid-cols-2">
-              <VideoCard
-                src={videos.winxp}
-                title="Tab Bar Transition"
-                description="Fluid navigation transitions between views"
-                orientation="vertical"
-                showTitle={true}
-              />
-              <VideoCard
-                src={videos.cummera}
-                title="Card Stack"
-                description="Stackable card interface pattern"
-                orientation="vertical"
-                showTitle={true}
-              />
-            </div>
+              {/* Stack 2: 2 vertical videos */}
+              <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
+                <VideoCard
+                  src={videos.winxp}
+                  title="Tab Bar Transition"
+                  description="Fluid navigation transitions between views"
+                  orientation="vertical"
+                  showTitle={true}
+                />
+                <VideoCard
+                  src={videos.cummera}
+                  title="Card Stack"
+                  description="Stackable card interface pattern"
+                  orientation="vertical"
+                  showTitle={true}
+                />
+              </div>
 
-            {/* Stack 3: 3 vertical videos */}
-            <div className="mb-[var(--space-stack)] grid grid-cols-1 gap-[var(--space-grid)] sm:grid-cols-2">
-              <VideoCard
-                src={videos.cummera}
-                title="Gesture Recognition"
-                description="Advanced touch gesture handling"
-                orientation="vertical"
-                showTitle={true}
-              />
-              <VideoCard
-                src={videos.winxp}
-                title="State Management"
-                description="Complex state transitions"
-                orientation="vertical"
-                showTitle={true}
-              />
-            </div>
+              {/* Stack 3: 2 vertical videos */}
+              <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
+                <VideoCard
+                  src={videos.cummera}
+                  title="Gesture Recognition"
+                  description="Advanced touch gesture handling"
+                  orientation="vertical"
+                  showTitle={true}
+                />
+                <VideoCard
+                  src={videos.winxp}
+                  title="State Management"
+                  description="Complex state transitions"
+                  orientation="vertical"
+                  showTitle={true}
+                />
+              </div>
 
-            {/* Horizontal video */}
-            <div>
-              <VideoCard
-                src={videos.winxp}
-                title="Full Design System"
-                description="Complete component library and design system implementation"
-                orientation="horizontal"
-                showTitle={true}
-              />
+              {/* Horizontal video */}
+              <div>
+                <VideoCard
+                  src={videos.winxp}
+                  title="Full Design System"
+                  description="Complete component library and design system implementation"
+                  orientation="horizontal"
+                  showTitle={true}
+                />
+              </div>
             </div>
           </section>
 
