@@ -33,6 +33,11 @@ export const metadata: Metadata = {
     default: 'Vladislav Ivanov — Product Designer',
   },
   description: 'Product designer curious about technology and digital products. Prototyping in code and solving complex problems.',
+  openGraph: {
+    type: 'website',
+    title: 'Vladislav Ivanov — Product Designer',
+    description: 'Product designer curious about technology and digital products. Prototyping in code and solving complex problems.',
+  },
   icons: {
     icon: [
       {

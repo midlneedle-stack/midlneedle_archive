@@ -118,7 +118,7 @@ export function VideoCard({
             </h3>
           )}
           {showDescription && description && (
-            <p className="type-body mt-[var(--space-card-text)] text-muted-foreground">
+            <p className="type-card-caption mt-[var(--space-card-text)] text-muted-foreground">
               {description}
             </p>
           )}

@@ -60,6 +60,17 @@ export default function Home() {
                 />
               </div>
 
+              {/* Horizontal video */}
+              <div className="sm:mb-[var(--space-stack)]">
+                <VideoCard
+                  src={videos.winxp}
+                  title="Full Design System"
+                  description="Complete component library and design system implementation"
+                  orientation="horizontal"
+                  showTitle={true}
+                />
+              </div>
+
               {/* Stack 2: 2 vertical videos */}
               <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
                 <VideoCard

@@ -176,7 +176,7 @@ blockquote {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  .hover\:scale-\[1\.02\] {
+  [class*="hover:scale-"] {
     transform: none !important;
   }
 }
@@ -401,12 +401,30 @@ article {
   }
 
   .scroll-gradient-overlay {
-    height: 64px;
+    height: 32px;
     opacity: 0;
     transition: opacity 1.4s ease;
     will-change: opacity;
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    position: fixed;
+  }
+
+  .scroll-gradient-overlay::before,
+  .scroll-gradient-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .scroll-gradient-overlay::before {
+    background: rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    -webkit-mask-image: var(--scroll-blur-mask);
+    mask-image: var(--scroll-blur-mask);
+  }
+
+  .scroll-gradient-overlay::after {
+    background: var(--scroll-gradient);
   }
 
   .scroll-gradient-overlay--visible {
@@ -422,7 +440,7 @@ article {
   }
 
   .scroll-gradient-overlay--bottom {
-    background: linear-gradient(
+    --scroll-gradient: linear-gradient(
       to top,
       rgba(255, 255, 255, 0.92),
       rgba(255, 255, 255, 0.88) 6%,
@@ -435,19 +453,7 @@ article {
       rgba(255, 255, 255, 0.1) 84%,
       rgba(255, 255, 255, 0)
     );
-    -webkit-mask-image: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0.86) 12%,
-      rgba(0, 0, 0, 0.72) 24%,
-      rgba(0, 0, 0, 0.58) 36%,
-      rgba(0, 0, 0, 0.44) 48%,
-      rgba(0, 0, 0, 0.32) 60%,
-      rgba(0, 0, 0, 0.2) 72%,
-      rgba(0, 0, 0, 0.1) 84%,
-      rgba(0, 0, 0, 0)
-    );
-    mask-image: linear-gradient(
+    --scroll-blur-mask: linear-gradient(
       to top,
       rgba(0, 0, 0, 1),
       rgba(0, 0, 0, 0.86) 12%,
@@ -462,7 +468,7 @@ article {
   }
 
   .scroll-gradient-overlay--top {
-    background: linear-gradient(
+    --scroll-gradient: linear-gradient(
       to bottom,
       rgba(255, 255, 255, 0.92),
       rgba(255, 255, 255, 0.88) 6%,
@@ -475,19 +481,7 @@ article {
       rgba(255, 255, 255, 0.1) 84%,
       rgba(255, 255, 255, 0)
     );
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0.86) 12%,
-      rgba(0, 0, 0, 0.72) 24%,
-      rgba(0, 0, 0, 0.58) 36%,
-      rgba(0, 0, 0, 0.44) 48%,
-      rgba(0, 0, 0, 0.32) 60%,
-      rgba(0, 0, 0, 0.2) 72%,
-      rgba(0, 0, 0, 0.1) 84%,
-      rgba(0, 0, 0, 0)
-    );
-    mask-image: linear-gradient(
+    --scroll-blur-mask: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 1),
       rgba(0, 0, 0, 0.86) 12%,
@@ -525,6 +519,15 @@ article {
     font-weight: 480;
     font-variation-settings: 'wght' 480, var(--sans-variation);
     letter-spacing: 0em;
+    word-spacing: -0.04em;
+  }
+
+  .type-card-caption {
+    font-size: 1em;
+    line-height: 1.5em;
+    font-weight: 440;
+    font-variation-settings: 'wght' 440, var(--sans-variation);
+    letter-spacing: 0.01em;
     word-spacing: -0.04em;
   }
 
