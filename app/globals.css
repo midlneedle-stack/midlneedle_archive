@@ -406,25 +406,11 @@ article {
     transition: opacity 1.4s ease;
     will-change: opacity;
     position: fixed;
-  }
-
-  .scroll-gradient-overlay::before,
-  .scroll-gradient-overlay::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-  }
-
-  .scroll-gradient-overlay::before {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--scroll-gradient);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     -webkit-mask-image: var(--scroll-blur-mask);
     mask-image: var(--scroll-blur-mask);
-  }
-
-  .scroll-gradient-overlay::after {
-    background: var(--scroll-gradient);
   }
 
   .scroll-gradient-overlay--visible {
@@ -442,15 +428,17 @@ article {
   .scroll-gradient-overlay--bottom {
     --scroll-gradient: linear-gradient(
       to top,
-      rgba(255, 255, 255, 0.92),
-      rgba(255, 255, 255, 0.88) 6%,
-      rgba(255, 255, 255, 0.78) 14%,
-      rgba(255, 255, 255, 0.66) 26%,
-      rgba(255, 255, 255, 0.5) 38%,
-      rgba(255, 255, 255, 0.36) 48%,
-      rgba(255, 255, 255, 0.26) 60%,
-      rgba(255, 255, 255, 0.18) 72%,
-      rgba(255, 255, 255, 0.1) 84%,
+      rgba(255, 255, 255, 0.62),
+      rgba(255, 255, 255, 0.57) 8%,
+      rgba(255, 255, 255, 0.5) 18%,
+      rgba(255, 255, 255, 0.43) 30%,
+      rgba(255, 255, 255, 0.34) 42%,
+      rgba(255, 255, 255, 0.26) 54%,
+      rgba(255, 255, 255, 0.19) 66%,
+      rgba(255, 255, 255, 0.13) 78%,
+      rgba(255, 255, 255, 0.08) 88%,
+      rgba(255, 255, 255, 0.04) 94%,
+      rgba(255, 255, 255, 0.02) 97%,
       rgba(255, 255, 255, 0)
     );
     --scroll-blur-mask: linear-gradient(
@@ -470,15 +458,17 @@ article {
   .scroll-gradient-overlay--top {
     --scroll-gradient: linear-gradient(
       to bottom,
-      rgba(255, 255, 255, 0.92),
-      rgba(255, 255, 255, 0.88) 6%,
-      rgba(255, 255, 255, 0.78) 14%,
-      rgba(255, 255, 255, 0.66) 26%,
-      rgba(255, 255, 255, 0.5) 38%,
-      rgba(255, 255, 255, 0.36) 48%,
-      rgba(255, 255, 255, 0.26) 60%,
-      rgba(255, 255, 255, 0.18) 72%,
-      rgba(255, 255, 255, 0.1) 84%,
+      rgba(255, 255, 255, 0.62),
+      rgba(255, 255, 255, 0.57) 8%,
+      rgba(255, 255, 255, 0.5) 18%,
+      rgba(255, 255, 255, 0.43) 30%,
+      rgba(255, 255, 255, 0.34) 42%,
+      rgba(255, 255, 255, 0.26) 54%,
+      rgba(255, 255, 255, 0.19) 66%,
+      rgba(255, 255, 255, 0.13) 78%,
+      rgba(255, 255, 255, 0.08) 88%,
+      rgba(255, 255, 255, 0.04) 94%,
+      rgba(255, 255, 255, 0.02) 97%,
       rgba(255, 255, 255, 0)
     );
     --scroll-blur-mask: linear-gradient(
