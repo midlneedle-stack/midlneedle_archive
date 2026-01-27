@@ -5,6 +5,7 @@ import cn from 'clsx'
 import { withBasePath } from '@/lib/base-path'
 import './globals.css'
 import { SpacingControls } from '@/components/spacing-controls'
+import { ScrollGradientOverlay } from '@/components/scroll-gradient-overlay'
 
 export const dynamic = 'error'
 
@@ -72,6 +73,7 @@ export default function RootLayout({
         'text-foreground',
         'antialiased'
       )}>
+        <ScrollGradientOverlay />
         {children}
         <SpacingControls />
         <Analytics />

@@ -60,7 +60,7 @@
   --background: #ffffff;
   --foreground: #353b42;
   --muted-foreground: #5d6268;
-  --border: #353b42;
+  --border: #5d6268;
   --card: #ffffff;
   --card-foreground: var(--foreground);
   --popover: #ffffff;
@@ -84,7 +84,7 @@
   --space-grid: 16px;
   --space-inset: 12px;
   --space-text: 22px;
-  --radius-card: 8px;
+  --radius-card: 10px;
   --space-hero-text: 18px;
   --space-card-text: 2px;
   --space-connect-gap: 12px;
@@ -398,6 +398,107 @@ article {
   /* Links */
   a {
     transition: none !important;
+  }
+
+  .scroll-gradient-overlay {
+    height: 64px;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    will-change: opacity;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  .scroll-gradient-overlay--visible {
+    opacity: 1;
+  }
+
+  .scroll-gradient-overlay--active {
+    opacity: 1;
+  }
+
+  .scroll-gradient-overlay--visible:not(.scroll-gradient-overlay--active) {
+    opacity: 0;
+  }
+
+  .scroll-gradient-overlay--bottom {
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.92),
+      rgba(255, 255, 255, 0.88) 6%,
+      rgba(255, 255, 255, 0.78) 14%,
+      rgba(255, 255, 255, 0.66) 26%,
+      rgba(255, 255, 255, 0.5) 38%,
+      rgba(255, 255, 255, 0.36) 48%,
+      rgba(255, 255, 255, 0.26) 60%,
+      rgba(255, 255, 255, 0.18) 72%,
+      rgba(255, 255, 255, 0.1) 84%,
+      rgba(255, 255, 255, 0)
+    );
+    -webkit-mask-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0.86) 12%,
+      rgba(0, 0, 0, 0.72) 24%,
+      rgba(0, 0, 0, 0.58) 36%,
+      rgba(0, 0, 0, 0.44) 48%,
+      rgba(0, 0, 0, 0.32) 60%,
+      rgba(0, 0, 0, 0.2) 72%,
+      rgba(0, 0, 0, 0.1) 84%,
+      rgba(0, 0, 0, 0)
+    );
+    mask-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0.86) 12%,
+      rgba(0, 0, 0, 0.72) 24%,
+      rgba(0, 0, 0, 0.58) 36%,
+      rgba(0, 0, 0, 0.44) 48%,
+      rgba(0, 0, 0, 0.32) 60%,
+      rgba(0, 0, 0, 0.2) 72%,
+      rgba(0, 0, 0, 0.1) 84%,
+      rgba(0, 0, 0, 0)
+    );
+  }
+
+  .scroll-gradient-overlay--top {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.92),
+      rgba(255, 255, 255, 0.88) 6%,
+      rgba(255, 255, 255, 0.78) 14%,
+      rgba(255, 255, 255, 0.66) 26%,
+      rgba(255, 255, 255, 0.5) 38%,
+      rgba(255, 255, 255, 0.36) 48%,
+      rgba(255, 255, 255, 0.26) 60%,
+      rgba(255, 255, 255, 0.18) 72%,
+      rgba(255, 255, 255, 0.1) 84%,
+      rgba(255, 255, 255, 0)
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0.86) 12%,
+      rgba(0, 0, 0, 0.72) 24%,
+      rgba(0, 0, 0, 0.58) 36%,
+      rgba(0, 0, 0, 0.44) 48%,
+      rgba(0, 0, 0, 0.32) 60%,
+      rgba(0, 0, 0, 0.2) 72%,
+      rgba(0, 0, 0, 0.1) 84%,
+      rgba(0, 0, 0, 0)
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0.86) 12%,
+      rgba(0, 0, 0, 0.72) 24%,
+      rgba(0, 0, 0, 0.58) 36%,
+      rgba(0, 0, 0, 0.44) 48%,
+      rgba(0, 0, 0, 0.32) 60%,
+      rgba(0, 0, 0, 0.2) 72%,
+      rgba(0, 0, 0, 0.1) 84%,
+      rgba(0, 0, 0, 0)
+    );
   }
 
   .type-title {

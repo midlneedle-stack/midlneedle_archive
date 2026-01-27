@@ -45,7 +45,7 @@ const defaults = {
   foreground: "#353b42",
   mutedForeground: "#5d6268",
   background: "#ffffff",
-  border: "#353b42",
+  border: "#5d6268",
   card: "#ffffff",
   cardForeground: "#353b42",
   popover: "#ffffff",
