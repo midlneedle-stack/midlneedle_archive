@@ -173,7 +173,7 @@ export default async function WatchfaceCasePage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-2xl">
-        <section className="py-[var(--space-section)]">
+        <section>
           <header className="flex flex-col gap-[var(--space-text)]">
             <h1 className={`type-title text-foreground ${styles.title}`}>
               {title}

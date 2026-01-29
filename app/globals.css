@@ -171,7 +171,7 @@ blockquote {
 
 @media (max-width: 767px) {
   :root {
-    --space-page-x: 32px;
+    --space-page-x: 20px;
     --space-page-y: 64px;
   }
 }
@@ -188,8 +188,7 @@ blockquote + blockquote {
 
 main {
   hanging-punctuation: first allow-end last;
-  hyphens: auto;
-  hyphenate-limit-chars: 10 6 6;
+  overflow-wrap: break-word;
 }
 
 pre {
