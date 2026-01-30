@@ -1475,7 +1475,7 @@ html {
     0% {
       box-shadow: var(--pixel-playground-1);
     }
-    15% {
+    12% {
       box-shadow:
         calc(var(--px) * 2) calc(var(--px) * 3) 0 0 var(--pixel-dark),
         calc(var(--px) * 2) calc(var(--px) * 6) 0 0 var(--pixel-dark),
@@ -1487,33 +1487,59 @@ html {
         calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 3) calc(var(--px) * 4) 0 0 var(--pixel-mid),
         calc(var(--px) * 3) calc(var(--px) * 6) 0 0 var(--pixel-mid),
+        calc(var(--px) * 8) calc(var(--px) * 5) 0 0 var(--pixel-mid),
+        calc(var(--px) * 6) calc(var(--px) * 3) 0 0 var(--pixel-mid),
+        calc(var(--px) * 5) calc(var(--px) * 4) 0 0 var(--pixel-light),
+        calc(var(--px) * 5) calc(var(--px) * 6) 0 0 var(--pixel-light);
+    }
+    25% {
+      box-shadow:
+        calc(var(--px) * 2) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 2) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 9) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 9) calc(var(--px) * 7) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 4) 0 0 var(--pixel-mid),
         calc(var(--px) * 8) calc(var(--px) * 5) 0 0 var(--pixel-mid);
     }
-    30% {
+    38% {
       box-shadow:
         calc(var(--px) * 2) calc(var(--px) * 3) 0 0 var(--pixel-dark),
         calc(var(--px) * 9) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
-        calc(var(--px) * 3) calc(var(--px) * 4) 0 0 var(--pixel-mid),
-        calc(var(--px) * 8) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 4) 0 0 var(--pixel-mid);
     }
     50% {
       box-shadow:
         calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
-        calc(var(--px) * 8) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-mid);
     }
-    70% {
+    63% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-light);
+    }
+    75% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-light);
     }
-    85% {
+    88% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-faint);
+    }
+    95% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 rgb(53 59 66 / 0.05);
     }
     100% {
       box-shadow: 0 0 0 0 transparent;
@@ -1525,7 +1551,20 @@ html {
     0% {
       box-shadow: var(--pixel-cases-1);
     }
-    20% {
+    14% {
+      box-shadow:
+        calc(var(--px) * 3) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 7) 0 0 var(--pixel-mid),
+        calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-mid),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+    }
+    29% {
       box-shadow:
         calc(var(--px) * 3) calc(var(--px) * 2) 0 0 var(--pixel-dark),
         calc(var(--px) * 4) calc(var(--px) * 2) 0 0 var(--pixel-dark),
@@ -1535,21 +1574,29 @@ html {
         calc(var(--px) * 4) calc(var(--px) * 7) 0 0 var(--pixel-mid),
         calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-mid);
     }
-    40% {
+    43% {
       box-shadow:
         calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-mid);
     }
-    60% {
+    57% {
       box-shadow:
         calc(var(--px) * 6) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-light);
     }
-    80% {
+    71% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+    }
+    86% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-faint);
+    }
+    93% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 rgb(53 59 66 / 0.05);
     }
     100% {
       box-shadow: 0 0 0 0 transparent;
@@ -1561,7 +1608,17 @@ html {
     0% {
       box-shadow: var(--pixel-connect-1);
     }
-    20% {
+    13% {
+      box-shadow:
+        calc(var(--px) * 2) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 7) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 2) 0 0 var(--pixel-mid);
+    }
+    27% {
       box-shadow:
         calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
         calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
@@ -1577,14 +1634,27 @@ html {
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
         calc(var(--px) * 7) calc(var(--px) * 7) 0 0 var(--pixel-mid);
     }
-    60% {
+    53% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark);
+    }
+    67% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-light);
     }
     80% {
       box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+    }
+    87% {
+      box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-faint);
+    }
+    93% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 rgb(53 59 66 / 0.05);
     }
     100% {
       box-shadow: 0 0 0 0 transparent;
@@ -1612,29 +1682,63 @@ html {
     0% {
       box-shadow: 0 0 0 0 transparent;
     }
-    15% {
+    5% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 rgb(53 59 66 / 0.05);
+    }
+    12% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-faint);
     }
-    30% {
+    25% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-light);
+    }
+    37% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
-        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-light);
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-light);
     }
     50% {
       box-shadow:
         calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
-        calc(var(--px) * 8) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-mid);
     }
-    70% {
+    62% {
       box-shadow:
         calc(var(--px) * 2) calc(var(--px) * 3) 0 0 var(--pixel-dark),
         calc(var(--px) * 9) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 4) 0 0 var(--pixel-mid);
+    }
+    75% {
+      box-shadow:
+        calc(var(--px) * 2) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 9) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 4) 0 0 var(--pixel-mid),
+        calc(var(--px) * 8) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+    }
+    88% {
+      box-shadow:
+        calc(var(--px) * 2) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 2) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 9) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 9) calc(var(--px) * 7) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 3) calc(var(--px) * 4) 0 0 var(--pixel-mid),
         calc(var(--px) * 8) calc(var(--px) * 5) 0 0 var(--pixel-mid);
     }
@@ -1648,21 +1752,52 @@ html {
     0% {
       box-shadow: 0 0 0 0 transparent;
     }
-    20% {
+    7% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 rgb(53 59 66 / 0.05);
+    }
+    14% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-faint);
     }
-    40% {
+    29% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+    }
+    43% {
       box-shadow:
         calc(var(--px) * 6) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-light);
     }
-    60% {
+    57% {
       box-shadow:
         calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 4) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-mid);
+    }
+    71% {
+      box-shadow:
+        calc(var(--px) * 3) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 7) 0 0 var(--pixel-mid),
+        calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-mid);
+    }
+    86% {
+      box-shadow:
+        calc(var(--px) * 3) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 7) 0 0 var(--pixel-mid),
+        calc(var(--px) * 5) calc(var(--px) * 7) 0 0 var(--pixel-mid),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid);
     }
     100% {
       box-shadow: var(--pixel-cases-1);
@@ -1674,14 +1809,27 @@ html {
     0% {
       box-shadow: 0 0 0 0 transparent;
     }
-    20% {
+    7% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 rgb(53 59 66 / 0.05);
+    }
+    13% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-faint);
     }
-    40% {
+    20% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-mid);
+    }
+    33% {
       box-shadow:
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-light);
+    }
+    47% {
+      box-shadow:
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark);
     }
     60% {
       box-shadow:
@@ -1689,6 +1837,25 @@ html {
         calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
         calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
         calc(var(--px) * 7) calc(var(--px) * 7) 0 0 var(--pixel-mid);
+    }
+    73% {
+      box-shadow:
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 7) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 2) 0 0 var(--pixel-mid);
+    }
+    87% {
+      box-shadow:
+        calc(var(--px) * 2) calc(var(--px) * 2) 0 0 var(--pixel-dark),
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--pixel-dark),
+        calc(var(--px) * 4) calc(var(--px) * 4) 0 0 var(--pixel-dark),
+        calc(var(--px) * 5) calc(var(--px) * 5) 0 0 var(--pixel-dark),
+        calc(var(--px) * 6) calc(var(--px) * 6) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 7) 0 0 var(--pixel-dark),
+        calc(var(--px) * 7) calc(var(--px) * 2) 0 0 var(--pixel-mid);
     }
     100% {
       box-shadow: var(--pixel-connect-1);
