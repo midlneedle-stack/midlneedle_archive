@@ -1927,20 +1927,8 @@ html {
 }
 
 /* ========================================
-   View Transitions (Fade In)
+   View Transitions (React Official)
    ======================================== */
-
-/* Предотвращаем мерцание при скролле - скрываем overflow во время transition */
-html:has(::view-transition) {
-  overflow: clip;
-}
-
-/* Используем large viewport units для стабильности на мобильных */
-@supports (height: 100lvh) {
-  html {
-    min-height: 100lvh;
-  }
-}
 
 /* Старая страница исчезает мгновенно */
 ::view-transition-old(root) {

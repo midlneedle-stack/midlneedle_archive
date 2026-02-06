@@ -2,6 +2,8 @@
 
 Документация по оптимизациям для production на Vercel.
 
+> **Note:** Проект использует официальный React ViewTransition API. Подробности в [VIEW_TRANSITIONS.md](./VIEW_TRANSITIONS.md)
+
 ---
 
 ## ⚠️ Важно: Full Next.js на Vercel
