@@ -7,6 +7,7 @@ import './globals.css'
 import { SpacingControls } from '@/components/spacing-controls'
 import { ScrollGradientOverlay } from '@/components/scroll-gradient-overlay'
 import { ScrollManager } from '@/components/scroll-manager'
+import { ViewTransition } from 'react'
 
 export const dynamic = 'error'
 
@@ -83,7 +84,9 @@ export default function RootLayout({
       )}>
         <ScrollManager />
         <ScrollGradientOverlay />
-        {children}
+        <ViewTransition default="page-fade">
+          {children}
+        </ViewTransition>
         <SpacingControls />
         <Analytics />
       </body>

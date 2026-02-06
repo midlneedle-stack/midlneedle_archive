@@ -293,16 +293,6 @@ html {
 }
 
 
-/* ========================================
-   View Transitions (без анимации)
-   ======================================== */
-
-@supports (view-transition-name: none) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-  }
-}
 
 /* ========================================
    Base Layer Styles
@@ -1931,13 +1921,13 @@ html {
    ======================================== */
 
 /* Старая страница исчезает мгновенно */
-::view-transition-old(root) {
+::view-transition-old(.page-fade) {
   animation: none;
   opacity: 0;
 }
 
 /* Новая страница плавно появляется */
-::view-transition-new(root) {
+::view-transition-new(.page-fade) {
   animation: fade-in 0.4s ease;
 }
 

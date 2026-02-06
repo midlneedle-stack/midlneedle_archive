@@ -38,77 +38,66 @@ const config: NextConfig = {
 
 ## 🔧 Как используется
 
-### Компонент: `components/cases-grid.tsx`
+### Компонент: `app/layout.tsx`
 
 ```tsx
 import { ViewTransition } from 'react'
-import { startTransition } from 'react'
-import Link from 'next/link'
 
-function CaseCard({ title, href }: CaseItem) {
-  const router = useRouter()
-
-  const handleClick = (e: React.MouseEvent) => {
-    if (href) {
-      e.preventDefault()
-      startTransition(() => {
-        router.push(href)
-      })
-    }
-  }
-
+export default function RootLayout({ children }) {
   return (
-    <ViewTransition>
-      <div>
-        <Link href={href} onClick={handleClick}>
-          {content}
-        </Link>
-      </div>
-    </ViewTransition>
+    <html lang="en">
+      <body>
+        <ScrollManager />
+        <ScrollGradientOverlay />
+        <ViewTransition default="page-fade">
+          {children}
+        </ViewTransition>
+        <SpacingControls />
+        <Analytics />
+      </body>
+    </html>
   )
 }
 ```
 
 **Ключевые моменты:**
-1. `<ViewTransition>` оборачивает элемент который анимируется
-2. `startTransition()` активирует view transition
-3. `router.push()` внутри startTransition для навигации
+1. `<ViewTransition>` оборачивает `{children}` — контент который меняется между страницами
+2. `default="page-fade"` — CSS класс для кастомной анимации
+3. Next.js автоматически активирует transitions при навигации через `<Link>` компоненты
 
 ---
 
 ## 🎨 Анимация
 
-### По умолчанию:
-- **Crossfade** между старой и новой страницей
-- **Длительность:** 0.25s (браузерный дефолт)
+### Текущая реализация:
+- **Старая страница:** исчезает мгновенно (`opacity: 0`, без анимации)
+- **Новая страница:** fade-in анимация (0 → 100% opacity)
+- **Длительность:** 0.4s
 - **Timing:** ease (плавное начало и конец)
 
 ### Кастомизация через CSS:
 
-```css
-/* globals.css */
-::view-transition-old(root) {
-  animation-duration: 0.4s;
-}
-
-::view-transition-new(root) {
-  animation-duration: 0.4s;
-}
-```
-
-Или через props:
-
-```tsx
-<ViewTransition default="slow-fade">
-  <div>Content</div>
-</ViewTransition>
-```
+**Файл:** `app/globals.css`
 
 ```css
-::view-transition-old(.slow-fade) {
-  animation-duration: 500ms;
+/* Старая страница исчезает мгновенно */
+::view-transition-old(.page-fade) {
+  animation: none;
+  opacity: 0;
+}
+
+/* Новая страница плавно появляется */
+::view-transition-new(.page-fade) {
+  animation: fade-in 0.4s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 ```
+
+**Важно:** Класс `.page-fade` соответствует prop `default="page-fade"` в компоненте ViewTransition.
 
 ---
 
@@ -179,8 +168,25 @@ export const viewport: Viewport = {
 
 **Проверьте:**
 1. `experimental.viewTransition: true` в next.config.ts
-2. Навигация обернута в `startTransition()`
-3. `ViewTransition` оборачивает DOM элемент (не текст)
+2. `ViewTransition` оборачивает `{children}` в layout.tsx
+3. Используется prop `default="page-fade"` (или другое имя класса)
+4. CSS селекторы используют тот же класс: `::view-transition-old(.page-fade)`
+
+### Анимация не применяется?
+
+**Частая ошибка:** использование селектора `::view-transition-old(root)` вместо `::view-transition-old(.page-fade)`
+
+```css
+/* ❌ Неправильно - root не работает с React ViewTransition */
+::view-transition-old(root) {
+  animation: none;
+}
+
+/* ✅ Правильно - используем класс из default prop */
+::view-transition-old(.page-fade) {
+  animation: none;
+}
+```
 
 ### Ошибка "ViewTransition must wrap DOM nodes"?
 
