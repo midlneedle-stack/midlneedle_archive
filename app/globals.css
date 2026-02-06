@@ -282,14 +282,7 @@ article {
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: var(--space-page-y);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
 }
 
 
@@ -1916,26 +1909,3 @@ html {
   opacity: 0.3;
 }
 
-/* ========================================
-   View Transitions (React Official)
-   ======================================== */
-
-/* Старая страница исчезает мгновенно */
-::view-transition-old(.page-fade) {
-  animation: none;
-  opacity: 0;
-}
-
-/* Новая страница плавно появляется */
-::view-transition-new(.page-fade) {
-  animation: fade-in 0.4s ease;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}

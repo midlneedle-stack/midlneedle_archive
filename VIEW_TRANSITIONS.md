@@ -38,66 +38,77 @@ const config: NextConfig = {
 
 ## 🔧 Как используется
 
-### Компонент: `app/layout.tsx`
+### Подход: Обертка каждой страницы
+
+**По примеру официального Next.js demo** (vercel/next-view-transition-example):
 
 ```tsx
+// app/page.tsx
 import { ViewTransition } from 'react'
 
-export default function RootLayout({ children }) {
+export default function Home() {
   return (
-    <html lang="en">
-      <body>
-        <ScrollManager />
-        <ScrollGradientOverlay />
-        <ViewTransition default="page-fade">
-          {children}
-        </ViewTransition>
-        <SpacingControls />
-        <Analytics />
-      </body>
-    </html>
+    <MediaProvider>
+      <ViewTransition>
+        <main className="min-h-screen bg-background">
+          {/* Контент страницы */}
+        </main>
+      </ViewTransition>
+    </MediaProvider>
+  )
+}
+```
+
+```tsx
+// app/cases/watchface/page-client.tsx
+'use client'
+import { ViewTransition } from 'react'
+
+export default function PageClient({ title, blocks, footnotes }) {
+  return (
+    <ViewTransition>
+      <main className="min-h-screen bg-background">
+        {/* Контент статьи */}
+      </main>
+    </ViewTransition>
   )
 }
 ```
 
 **Ключевые моменты:**
-1. `<ViewTransition>` оборачивает `{children}` — контент который меняется между страницами
-2. `default="page-fade"` — CSS класс для кастомной анимации
-3. Next.js автоматически активирует transitions при навигации через `<Link>` компоненты
+1. Каждая **страница** оборачивается в `<ViewTransition>` (не layout)
+2. **Без props** — используется дефолтный crossfade браузера
+3. Server Components рендерят данные, Client Components оборачивают в ViewTransition
+4. Next.js автоматически активирует transitions при навигации
 
 ---
 
 ## 🎨 Анимация
 
 ### Текущая реализация:
-- **Старая страница:** исчезает мгновенно (`opacity: 0`, без анимации)
-- **Новая страница:** fade-in анимация (0 → 100% opacity)
-- **Длительность:** 0.4s
+- **Дефолтный crossfade браузера** — без кастомизации
+- **Длительность:** ~250ms (браузерный дефолт)
 - **Timing:** ease (плавное начало и конец)
 
-### Кастомизация через CSS:
+### Почему без кастомных CSS?
 
-**Файл:** `app/globals.css`
+**По примеру официального Next.js demo:**
+- Нет кастомных `::view-transition-old/new` стилей в globals.css
+- Браузер сам управляет анимацией
+- Плавные переходы без вспышек и артефактов
 
+**Что убрали из globals.css:**
 ```css
-/* Старая страница исчезает мгновенно */
-::view-transition-old(.page-fade) {
-  animation: none;
-  opacity: 0;
+/* ❌ Убрали - вызывало проблемы */
+html {
+  scroll-behavior: smooth; /* Конфликтовало с transitions */
+  overflow-x: hidden; /* Не нужно для transitions */
 }
 
-/* Новая страница плавно появляется */
-::view-transition-new(.page-fade) {
-  animation: fade-in 0.4s ease;
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+::view-transition-old(root) { /* Кастомизация не нужна */
+  animation-duration: 0.4s;
 }
 ```
-
-**Важно:** Класс `.page-fade` соответствует prop `default="page-fade"` в компоненте ViewTransition.
 
 ---
 
@@ -168,24 +179,24 @@ export const viewport: Viewport = {
 
 **Проверьте:**
 1. `experimental.viewTransition: true` в next.config.ts
-2. `ViewTransition` оборачивает `{children}` в layout.tsx
-3. Используется prop `default="page-fade"` (или другое имя класса)
-4. CSS селекторы используют тот же класс: `::view-transition-old(.page-fade)`
+2. Каждая **страница** обернута в `<ViewTransition>` (не layout!)
+3. Навигация происходит через Next.js `<Link>` компоненты
+4. ViewTransition импортирован из `'react'`, не из библиотеки
 
-### Анимация не применяется?
+### Нужны ли props для ViewTransition?
 
-**Частая ошибка:** использование селектора `::view-transition-old(root)` вместо `::view-transition-old(.page-fade)`
+**Нет** — для простого crossfade достаточно:
+```tsx
+<ViewTransition>
+  <main>...</main>
+</ViewTransition>
+```
 
-```css
-/* ❌ Неправильно - root не работает с React ViewTransition */
-::view-transition-old(root) {
-  animation: none;
-}
-
-/* ✅ Правильно - используем класс из default prop */
-::view-transition-old(.page-fade) {
-  animation: none;
-}
+**Да** — только если нужны shared element transitions:
+```tsx
+<ViewTransition name="avatar-123">
+  <Avatar />
+</ViewTransition>
 ```
 
 ### Ошибка "ViewTransition must wrap DOM nodes"?

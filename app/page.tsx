@@ -1,3 +1,4 @@
+import { ViewTransition } from 'react'
 import { ConnectSection } from "@/components/connect-section"
 import { SectionHeader } from "@/components/section-header"
 import { CasesGrid } from "@/components/cases-grid"
@@ -19,8 +20,9 @@ const icons = {
 export default function Home() {
   return (
     <MediaProvider>
-      <main className="min-h-screen bg-background">
-        <div className="mx-auto max-w-2xl">
+      <ViewTransition>
+        <main className="min-h-screen bg-background">
+          <div className="mx-auto max-w-2xl">
           {/* Hero Section */}
           <section className="mb-[var(--space-section)]">
             <div className="group">
@@ -136,6 +138,7 @@ export default function Home() {
           </section>
         </div>
       </main>
+      </ViewTransition>
     </MediaProvider>
   )
 }

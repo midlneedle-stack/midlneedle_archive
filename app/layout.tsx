@@ -7,7 +7,6 @@ import './globals.css'
 import { SpacingControls } from '@/components/spacing-controls'
 import { ScrollGradientOverlay } from '@/components/scroll-gradient-overlay'
 import { ScrollManager } from '@/components/scroll-manager'
-import { ViewTransition } from 'react'
 
 export const dynamic = 'error'
 
@@ -63,8 +62,6 @@ export const viewport: Viewport = {
   maximumScale: 1,
   colorScheme: 'only light',
   themeColor: '#ffffff',
-  // Предотвращает InvalidStateError на мобильных при изменении viewport
-  interactiveWidget: 'resizes-visual',
 }
 
 export default function RootLayout({
@@ -73,7 +70,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="overflow-x-hidden touch-manipulation">
+    <html lang="en">
       <body className={cn(
         sans.variable,
         serif.variable,
@@ -84,9 +81,7 @@ export default function RootLayout({
       )}>
         <ScrollManager />
         <ScrollGradientOverlay />
-        <ViewTransition default="page-fade">
-          {children}
-        </ViewTransition>
+        {children}
         <SpacingControls />
         <Analytics />
       </body>
