@@ -7,6 +7,11 @@ import { VideoCard } from "@/components/video-card"
 import { withBasePath } from "@/lib/base-path"
 
 const videos = {
+  film_segment: withBasePath("/videos/film_segment.mp4"),
+  fofocus: withBasePath("/videos/fofocus.mp4"),
+  wheeel: withBasePath("/videos/wheeel.mp4"),
+  xmbb: withBasePath("/videos/xmbb.mov"),
+  lumon: withBasePath("/videos/lumon_trimmmed.mov"),
   cummera: withBasePath("/videos/cummera.mp4"),
   winxp: withBasePath("/videos/winxp.mp4"),
 }
@@ -43,16 +48,16 @@ export default function Home() {
               {/* Stack 1: 2 vertical videos */}
               <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
                 <VideoCard
-                  src={videos.cummera}
-                  title="Interactive List"
-                  description="Gesture-driven list interactions in SwiftUI"
+                  src={videos.film_segment}
+                  title="Film Segment"
+                  description="Cinematic UI transitions"
                   orientation="vertical"
                   showTitle={true}
                 />
                 <VideoCard
-                  src={videos.winxp}
-                  title="Haptic Feedback"
-                  description="Custom haptic patterns for UI feedback"
+                  src={videos.fofocus}
+                  title="Focus Animation"
+                  description="Smooth focus state transitions"
                   orientation="vertical"
                   showTitle={true}
                 />
@@ -61,9 +66,9 @@ export default function Home() {
               {/* Horizontal video */}
               <div className="sm:mb-[var(--space-stack)]">
                 <VideoCard
-                  src={videos.winxp}
-                  title="Full Design System"
-                  description="Complete component library and design system implementation"
+                  src={videos.xmbb}
+                  title="XMB Interface"
+                  description="Cross Media Bar navigation system"
                   orientation="horizontal"
                   showTitle={true}
                 />
@@ -72,16 +77,16 @@ export default function Home() {
               {/* Stack 2: 2 vertical videos */}
               <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
                 <VideoCard
-                  src={videos.winxp}
-                  title="Tab Bar Transition"
-                  description="Fluid navigation transitions between views"
+                  src={videos.wheeel}
+                  title="Wheel Interaction"
+                  description="Rotary picker interface"
                   orientation="vertical"
                   showTitle={true}
                 />
                 <VideoCard
                   src={videos.cummera}
-                  title="Card Stack"
-                  description="Stackable card interface pattern"
+                  title="Interactive List"
+                  description="Gesture-driven list interactions"
                   orientation="vertical"
                   showTitle={true}
                 />
@@ -90,16 +95,16 @@ export default function Home() {
               {/* Stack 3: 2 vertical videos */}
               <div className="grid grid-cols-1 gap-[var(--space-grid)] sm:mb-[var(--space-stack)] sm:grid-cols-2">
                 <VideoCard
-                  src={videos.cummera}
-                  title="Gesture Recognition"
-                  description="Advanced touch gesture handling"
+                  src={videos.winxp}
+                  title="Haptic Feedback"
+                  description="Custom haptic patterns for UI feedback"
                   orientation="vertical"
                   showTitle={true}
                 />
                 <VideoCard
-                  src={videos.winxp}
-                  title="State Management"
-                  description="Complex state transitions"
+                  src={videos.film_segment}
+                  title="Film Segment"
+                  description="Cinematic UI transitions"
                   orientation="vertical"
                   showTitle={true}
                 />
@@ -108,9 +113,9 @@ export default function Home() {
               {/* Horizontal video */}
               <div>
                 <VideoCard
-                  src={videos.winxp}
-                  title="Full Design System"
-                  description="Complete component library and design system implementation"
+                  src={videos.lumon}
+                  title="Lumon Interface"
+                  description="Modern dashboard design system"
                   orientation="horizontal"
                   showTitle={true}
                 />
