@@ -45,18 +45,18 @@ export function OptimizedVideoPlayer({
 
   return (
     <div ref={containerRef} className={className}>
-      {/* Placeholder - первый кадр без blur */}
+      {/* Placeholder - преобладающий цвет с opacity 0.05 */}
       {blurDataURL && !isVideoLoaded && (
         <>
           <div
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0"
             style={{
-              backgroundImage: `url(${blurDataURL})`,
+              backgroundColor: blurDataURL,
             }}
           />
           {/* Loading spinner поверх placeholder */}
           {shouldLoad && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+            <div className="absolute inset-0 flex items-center justify-center">
               <PixelLoadingSpinner size={3} />
             </div>
           )}
