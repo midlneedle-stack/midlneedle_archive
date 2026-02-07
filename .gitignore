@@ -26,9 +26,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# next-video
-/.next-video/
-/videos/*.json
 
 # worktrees
 .worktrees

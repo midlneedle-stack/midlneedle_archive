@@ -9,8 +9,8 @@ const videos = {
   film_segment: withBasePath("/videos/film_segment.mp4"),
   fofocus: withBasePath("/videos/fofocus.mp4"),
   wheeel: withBasePath("/videos/wheeel.mp4"),
-  xmbb: withBasePath("/videos/xmbb.mov"),
-  lumon: withBasePath("/videos/lumon_trimmmed.mov"),
+  xmbb: withBasePath("/videos/xmbb.mp4"),
+  lumon: withBasePath("/videos/lumon_trimmmed.mp4"),
   cummera: withBasePath("/videos/cummera.mp4"),
   winxp: withBasePath("/videos/winxp.mp4"),
 }
