@@ -15,18 +15,6 @@ const sans = localFont({
   variable: '--sans',
 })
 
-const serif = localFont({
-  src: './_fonts/LoraItalicVariable.woff2',
-  preload: true,
-  variable: '--serif',
-})
-
-const mono = localFont({
-  src: './_fonts/IosevkaFixedCurly-ExtendedMedium.woff2',
-  preload: true,
-  variable: '--mono',
-})
-
 export const metadata: Metadata = {
   title: {
     template: '%s — Vladislav Ivanov',
@@ -71,8 +59,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(
         sans.variable,
-        serif.variable,
-        mono.variable,
         'w-full px-[var(--space-page-x)] py-[var(--space-page-y)]',
         'text-foreground',
         'antialiased'

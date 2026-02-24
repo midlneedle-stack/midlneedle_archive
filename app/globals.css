@@ -47,8 +47,6 @@
   --color-ring: var(--ring);
 
   --font-sans: var(--sans), -apple-system, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-serif: var(--serif), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-  --font-mono: var(--mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --breakpoint-mobile: 420px;
 }
@@ -121,20 +119,6 @@ body {
   text-autospace: normal;
 }
 
-i,
-em,
-blockquote,
-nav,
-.sidenote {
-  font-family: var(--serif), Baskerville, Georgia, Cambria, 'Times New Roman',
-    Times, serif;
-  font-style: initial;
-  font-optical-sizing: auto;
-  font-variation-settings: 'wght' 480, var(--sans-variation);
-  font-weight: 400;
-  font-variant-ligatures: contextual;
-  letter-spacing: -0.006em;
-}
 
 del {
   text-decoration-thickness: 1px;
@@ -187,8 +171,7 @@ pre code {
 }
 
 code {
-  font-family: var(--mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   word-spacing: -0.15em;
   padding: 0.15em 0.2em;
   --shiki-token-comment: hsl(215deg 32% 37% / 45%);
@@ -487,7 +470,8 @@ html {
     position: relative;
   }
 
-  .type-body {
+  .type-body,
+  .type-article {
     font-size: 1.1em;
     line-height: 1.44em;
     font-weight: 422;
@@ -507,15 +491,6 @@ html {
 
   .type-card-caption {
     font-size: 1em;
-    line-height: 1.44em;
-    font-weight: 422;
-    font-variation-settings: 'wght' 422, var(--sans-variation);
-    letter-spacing: 0em;
-    word-spacing: 0em;
-  }
-
-  .type-article {
-    font-size: 1.1em;
     line-height: 1.44em;
     font-weight: 422;
     font-variation-settings: 'wght' 422, var(--sans-variation);
@@ -570,8 +545,7 @@ html {
 [data-annotation-popup] pre,
 [data-annotation-popup] kbd,
 [data-annotation-popup] samp {
-  font-family: var(--mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
 }
 
 [data-feedback-toolbar] svg text,
