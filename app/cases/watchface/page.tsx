@@ -57,6 +57,11 @@ const WATCHFACE_MEDIA_INSERTIONS_RU: CaseArticleMediaInsertion[] = [
     aspect: "aspect-video",
   },
   {
+    match: "несколько человек даже поделились фотографиями своих часов с моим вотчфейсом",
+    label: "Фото · Discord",
+    aspect: "aspect-video",
+  },
+  {
     match:
       "В целом реакция была положительной и я подумал почему бы не запостить про это в Twitter – перед сном решил набросать небольшое сообщение, отметил аккаунт Эрика Магиковски и нажал на кнопку “Post”.",
     label: "Фото · Пост в Twitter",
@@ -66,7 +71,7 @@ const WATCHFACE_MEDIA_INSERTIONS_RU: CaseArticleMediaInsertion[] = [
 
 const WATCHFACE_MEDIA_INSERTIONS_EN: CaseArticleMediaInsertion[] = [
   {
-    match: "This is about shipping a small project for a niche device.",
+    match: "This is a story about launching a small product for a niche device.",
     label: "Photo · Case cover",
     aspect: "aspect-video",
     position: "after",
@@ -91,6 +96,11 @@ const WATCHFACE_MEDIA_INSERTIONS_EN: CaseArticleMediaInsertion[] = [
   {
     match: "worth noting that most of my time went into optimizing and polishing this animation.",
     label: "Video · Launch animation",
+    aspect: "aspect-video",
+  },
+  {
+    match: "A few people even shared photos of their watches with my watchface running.",
+    label: "Photo · Discord",
     aspect: "aspect-video",
   },
   {

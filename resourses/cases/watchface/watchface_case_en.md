@@ -1,6 +1,6 @@
 **How I built a Pebble watchface and got noticed by the company's founder**
 
-This is about shipping a small project for a niche device. Everyone starts somewhere, right?
+This is a story about launching a small product for a niche device. But everyone has to start somewhere, right?
 
 **Why Pebble**
 
