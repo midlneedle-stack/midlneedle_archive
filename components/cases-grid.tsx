@@ -37,7 +37,7 @@ function CaseCard({ title, date, href }: CaseItem) {
 
 export function CasesGrid({ cases }: CasesGridProps) {
   return (
-    <div className="cases-list group/list flex flex-col">
+    <div className="cases-list group/list flex flex-col -mt-[8px]">
       {cases.map((item, index) => (
         <CaseCard key={`${item.title}-${index}`} {...item} />
       ))}
