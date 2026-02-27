@@ -131,9 +131,9 @@ export default function Home() {
 
             <CasesGrid
               cases={[
-                { title: "Finance App Redesign", date: "15.03" },
-                { title: "How I Built a Pebble Watchface That Caught the Founder's Attention", date: "18.12", href: "/cases/watchface" },
-                { title: "Health Tracking Dashboard", date: "08.11" },
+                { title: "Finance App Redesign", date: "15/03" },
+                { title: "How I Built a Pebble Watchface That Caught the Founder's Attention", date: "18/12", href: "/cases/watchface" },
+                { title: "Health Tracking Dashboard", date: "08/11" },
               ]}
             />
           </section>

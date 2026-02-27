@@ -62,7 +62,7 @@ export function VideoCard({
             "cursor-zoom-in mb-[var(--space-inset)]",
             !expandedId &&
               !isClosing &&
-              "transition-transform duration-300 ease-out hover:scale-[1.02]",
+              "transition-transform duration-200 ease-out hover:scale-[1.01]",
             orientation === "vertical" ? "aspect-[9/16]" : "aspect-video"
           )}
           expandedVariant={orientation}
