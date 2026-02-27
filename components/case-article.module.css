@@ -3,16 +3,11 @@
 }
 
 .meta {
-  margin-top: 0;
+  margin-top: var(--article-meta-gap);
   color: var(--stroke);
   display: flex;
   align-items: center;
   gap: 0.35em;
-}
-
-.languageSwitch {
-  display: inline-flex;
-  align-items: center;
 }
 
 .languageSeparator {
@@ -20,23 +15,22 @@
 }
 
 .languageButton {
+  font: inherit;
   border: 0;
   background: transparent;
   padding: 0;
   color: inherit;
-  opacity: 0.68;
   cursor: pointer;
-  transition: opacity 0.15s ease, color 0.15s ease;
+  transition: color 0.15s ease;
   text-decoration: none;
 }
 
 .languageButton:hover {
-  opacity: 1;
+  color: var(--foreground);
 }
 
 .languageButtonActive {
   color: var(--foreground);
-  opacity: 1;
   cursor: default;
   text-decoration-line: underline;
   text-decoration-color: var(--stroke);
@@ -44,24 +38,7 @@
   text-decoration-thickness: 1px;
 }
 
-.languagePicker {
-  display: flex;
-  align-items: center;
-  gap: 0.75em;
-  flex-wrap: wrap;
-  margin-top: 0;
-  margin-bottom: var(--article-inner-gap);
-  padding: 0.85rem 1rem;
-  border: 1px dashed var(--stroke);
-  border-radius: var(--radius-card);
-  background: var(--card);
-}
 
-.languagePickerLabel {
-  flex: 1;
-  min-width: 0;
-  color: var(--muted-foreground);
-}
 
 
 .sectionTitle {

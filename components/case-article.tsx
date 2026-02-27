@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  Fragment,
   useState,
   type MouseEvent,
   type ReactNode,
@@ -204,10 +203,28 @@ export function CaseArticle({ content }: CaseArticleProps) {
       <div className="mx-auto max-w-2xl">
         <section>
             <header className="flex flex-col">
+              <h2 className="type-card-title text-foreground">{title}</h2>
               <div className={`type-card-caption ${styles.meta}`}>
                 <span>{publishedAt}</span>
+                <span aria-hidden="true" className={styles.languageSeparator}> · </span>
+                <button
+                  type="button"
+                  className={`${styles.languageButton} ${language === 'eng' ? styles.languageButtonActive : ''}`}
+                  onClick={() => setLanguage('eng')}
+                  aria-pressed={language === 'eng'}
+                >
+                  in english
+                </button>
+                <span aria-hidden="true" className={styles.languageSeparator}> / </span>
+                <button
+                  type="button"
+                  className={`${styles.languageButton} ${language === 'ru' ? styles.languageButtonActive : ''}`}
+                  onClick={() => setLanguage('ru')}
+                  aria-pressed={language === 'ru'}
+                >
+                  на русском
+                </button>
               </div>
-              <h2 className="type-card-title text-foreground mt-[var(--article-meta-gap)]">{title}</h2>
             </header>
 
             <article data-article-content className={`mt-[var(--space-text)] ${styles.article}`}>
@@ -244,35 +261,9 @@ export function CaseArticle({ content }: CaseArticleProps) {
 
                 if (index === firstParaIdx) {
                   return (
-                    <Fragment key={`p-${index}`}>
-                      <div className={styles.languagePicker}>
-                        <span className={`type-card-caption ${styles.languagePickerLabel}`}>
-                          {language === 'eng' ? 'Which language do you prefer?' : 'Какой язык предпочитаете?'}
-                        </span>
-                        <span className={styles.languageSwitch} aria-label="Article language">
-                          <button
-                            type="button"
-                            className={`${styles.languageButton} ${language === 'eng' ? styles.languageButtonActive : ''}`}
-                            onClick={() => setLanguage('eng')}
-                            aria-pressed={language === 'eng'}
-                          >
-                            in english
-                          </button>
-                          <span aria-hidden="true" className={styles.languageSeparator}> / </span>
-                          <button
-                            type="button"
-                            className={`${styles.languageButton} ${language === 'ru' ? styles.languageButtonActive : ''}`}
-                            onClick={() => setLanguage('ru')}
-                            aria-pressed={language === 'ru'}
-                          >
-                            на русском
-                          </button>
-                        </span>
-                      </div>
-                      <p className={`type-article text-foreground ${styles.paragraph}`}>
-                        {renderInline(block.text, footnoteCounter, handleFootnoteNavigate)}
-                      </p>
-                    </Fragment>
+                    <p key={`p-${index}`} className={`type-article text-foreground ${styles.paragraph}`}>
+                      {renderInline(block.text, footnoteCounter, handleFootnoteNavigate)}
+                    </p>
                   )
                 }
 
