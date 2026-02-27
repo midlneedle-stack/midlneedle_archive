@@ -204,10 +204,10 @@ export function CaseArticle({ content }: CaseArticleProps) {
       <div className="mx-auto max-w-2xl">
         <section>
             <header className="flex flex-col">
-              <h2 className="type-card-title text-foreground">{title}</h2>
               <div className={`type-card-caption ${styles.meta}`}>
                 <span>{publishedAt}</span>
               </div>
+              <h2 className="type-card-title text-foreground mt-[var(--article-meta-gap)]">{title}</h2>
             </header>
 
             <article data-article-content className={`mt-[var(--space-text)] ${styles.article}`}>
@@ -256,7 +256,7 @@ export function CaseArticle({ content }: CaseArticleProps) {
                             onClick={() => setLanguage('eng')}
                             aria-pressed={language === 'eng'}
                           >
-                            In english
+                            in english
                           </button>
                           <span aria-hidden="true" className={styles.languageSeparator}> / </span>
                           <button
@@ -265,7 +265,7 @@ export function CaseArticle({ content }: CaseArticleProps) {
                             onClick={() => setLanguage('ru')}
                             aria-pressed={language === 'ru'}
                           >
-                            На русском
+                            на русском
                           </button>
                         </span>
                       </div>
