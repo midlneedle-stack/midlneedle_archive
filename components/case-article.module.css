@@ -44,6 +44,26 @@
   text-decoration-thickness: 1px;
 }
 
+.languagePicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  flex-wrap: wrap;
+  margin-top: 0;
+  margin-bottom: var(--article-inner-gap);
+  padding: 0.85rem 1rem;
+  border: 1px dashed var(--stroke);
+  border-radius: var(--radius-card);
+  background: var(--card);
+}
+
+.languagePickerLabel {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted-foreground);
+}
+
+
 .sectionTitle {
   margin-top: var(--article-paragraph-gap);
   margin-bottom: var(--article-title-gap);

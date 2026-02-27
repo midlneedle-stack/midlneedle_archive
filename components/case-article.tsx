@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  Fragment,
   useState,
   type MouseEvent,
   type ReactNode,
@@ -196,6 +197,8 @@ export function CaseArticle({ content }: CaseArticleProps) {
     navigateToHash(`#fnref-${index + 1}`)
   }
 
+  const firstParaIdx = blocks.findIndex(b => b.type === 'paragraph')
+
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-2xl">
@@ -203,30 +206,6 @@ export function CaseArticle({ content }: CaseArticleProps) {
             <header className="flex flex-col">
               <h2 className="type-card-title text-foreground">{title}</h2>
               <div className={`type-card-caption ${styles.meta}`}>
-                <span className={styles.languageSwitch} aria-label="Article language">
-                  <button
-                    type="button"
-                    className={`${styles.languageButton} ${
-                      language === 'eng' ? styles.languageButtonActive : ''
-                    }`}
-                    onClick={() => setLanguage('eng')}
-                    aria-pressed={language === 'eng'}
-                  >
-                    In english
-                  </button>
-                  <span aria-hidden="true" className={styles.languageSeparator}> / </span>
-                  <button
-                    type="button"
-                    className={`${styles.languageButton} ${
-                      language === 'ru' ? styles.languageButtonActive : ''
-                    }`}
-                    onClick={() => setLanguage('ru')}
-                    aria-pressed={language === 'ru'}
-                  >
-                    На русском
-                  </button>
-                </span>
-                <span aria-hidden="true">·</span>
                 <span>{publishedAt}</span>
               </div>
             </header>
@@ -260,6 +239,40 @@ export function CaseArticle({ content }: CaseArticleProps) {
                     <div key={`m-${index}`} className={`${styles.placeholder} ${block.aspect}`}>
                       <span className="type-card-caption text-muted-foreground">{block.label}</span>
                     </div>
+                  )
+                }
+
+                if (index === firstParaIdx) {
+                  return (
+                    <Fragment key={`p-${index}`}>
+                      <div className={styles.languagePicker}>
+                        <span className={`type-card-caption ${styles.languagePickerLabel}`}>
+                          {language === 'eng' ? 'Which language do you prefer?' : 'Какой язык предпочитаете?'}
+                        </span>
+                        <span className={styles.languageSwitch} aria-label="Article language">
+                          <button
+                            type="button"
+                            className={`${styles.languageButton} ${language === 'eng' ? styles.languageButtonActive : ''}`}
+                            onClick={() => setLanguage('eng')}
+                            aria-pressed={language === 'eng'}
+                          >
+                            In english
+                          </button>
+                          <span aria-hidden="true" className={styles.languageSeparator}> / </span>
+                          <button
+                            type="button"
+                            className={`${styles.languageButton} ${language === 'ru' ? styles.languageButtonActive : ''}`}
+                            onClick={() => setLanguage('ru')}
+                            aria-pressed={language === 'ru'}
+                          >
+                            На русском
+                          </button>
+                        </span>
+                      </div>
+                      <p className={`type-article text-foreground ${styles.paragraph}`}>
+                        {renderInline(block.text, footnoteCounter, handleFootnoteNavigate)}
+                      </p>
+                    </Fragment>
                   )
                 }
 
