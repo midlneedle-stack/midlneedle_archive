@@ -11,14 +11,11 @@ interface CasesGridProps {
 function CaseCard({ title, date, href }: CaseItem) {
   const content = (
     <div className="flex w-full items-center gap-[calc(var(--space-text)*0.5)] py-[8px]">
-      <span className="cases-item-title type-body text-muted-foreground transition-colors duration-200">
+      <span className="cases-item-title type-body">
         {title}
       </span>
-      <span
-        aria-hidden="true"
-        className="h-px flex-1 bg-[var(--stroke)]"
-      />
-      <span className="type-body text-muted-foreground transition-colors duration-200">
+      <span aria-hidden="true" className="h-px flex-1 bg-[var(--stroke)] transition-colors duration-100 ease-out group-hover/item:bg-foreground" />
+      <span className="cases-item-date type-body shrink-0 w-[2.4em] text-right">
         {date}
       </span>
     </div>

@@ -512,12 +512,22 @@ html {
    Cases List
    ======================================== */
 
-.cases-list:has(.cases-item:hover) .cases-item-title {
-  color: var(--muted-foreground);
+.cases-list {
+  --item-color: var(--foreground);
 }
 
-.cases-list:has(.cases-item:hover) .cases-item:hover .cases-item-title {
-  color: var(--foreground);
+.cases-list:has(.cases-item:hover) {
+  --item-color: var(--stroke);
+}
+
+.cases-list .cases-item:hover {
+  --item-color: var(--foreground);
+}
+
+.cases-item-title,
+.cases-item-date {
+  color: var(--item-color);
+  transition: color 0.1s ease-out;
 }
 
 /* ========================================
