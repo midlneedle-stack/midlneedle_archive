@@ -80,7 +80,7 @@
   --article-title-gap: 18px;
   --article-inner-gap: 18px;
   --article-meta-gap: 8px;
-  --article-media-gap: 32px;
+  --article-media-gap: var(--article-paragraph-gap);
   --pixel-unit: 1.536px;
 
   /* Typography settings */
@@ -480,6 +480,8 @@ html {
     font-variation-settings: 'wght' 422, var(--sans-variation);
     letter-spacing: 0em;
     word-spacing: 0em;
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
   }
 
   .type-card-title {
