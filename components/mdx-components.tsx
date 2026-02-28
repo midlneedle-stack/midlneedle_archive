@@ -81,9 +81,15 @@ export const mdxComponents: MDXComponents = {
       />
     </div>
   ),
-  AudioPlayer: ({ src, label }: { src: string; label?: string }) => (
-    <div className={styles.audioCard}>
-      <AudioPlayer src={src} label={label} />
+  AudioPlayer: ({ src }: { src: string }) => (
+    <AudioPlayer src={src} />
+  ),
+  InterviewHeading: ({ title, src }: { title: string; src: string }) => (
+    <div className={styles.subsectionTitle}>
+      <h3 className="type-card-title text-foreground">{title}</h3>
+      <div className="type-article text-foreground" style={{ marginTop: "var(--article-title-gap)" }}>
+        <AudioPlayer src={src} />
+      </div>
     </div>
   ),
   VideoPlayer: ({ src }: { src: string }) => (

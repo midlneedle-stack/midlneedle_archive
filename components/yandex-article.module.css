@@ -23,12 +23,23 @@
 .sectionTitle + .paragraph,
 .subsectionTitle + .paragraph,
 .sectionTitle + .list,
-.subsectionTitle + .list {
+.subsectionTitle + .list,
+.sectionTitle + .hypothesisCard,
+.subsectionTitle + .hypothesisCard,
+.sectionTitle + .imageWrapper,
+.subsectionTitle + .imageWrapper,
+.sectionTitle + .videoCard,
+.subsectionTitle + .videoCard,
+.sectionTitle + .audioCard,
+.subsectionTitle + .audioCard,
+.sectionTitle + .tableWrapper,
+.subsectionTitle + .tableWrapper {
   margin-top: 0;
 }
 
-/* Collapse gap when subsection follows section title directly */
-.sectionTitle + .subsectionTitle {
+/* Collapse gap when subsection follows section/subsection title directly */
+.sectionTitle + .subsectionTitle,
+.subsectionTitle + .subsectionTitle {
   margin-top: 0;
 }
 
@@ -89,6 +100,7 @@
 .hypothesisCard:last-child {
   margin-bottom: 6px;
 }
+
 
 .inlineLink {
   color: inherit;

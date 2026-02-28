@@ -43,9 +43,7 @@
 
 ![Скриншот интервью](/cases/yandex-tovary/screenshot_interviews.png)
 
-## Диана, маркетолог
-
-<AudioPlayer src="/cases/yandex-tovary/diana_cut.m4a" label="Отрывок интервью с Дианой" />
+<InterviewHeading title="Диана, маркетолог" src="/cases/yandex-tovary/diana_cut.m4a" />
 
 ### Боли пользователя
 
@@ -139,9 +137,7 @@
 
 - Чем менее навязчивый и более индивидуализированный будет онбординг — тем выше шанс, что пользователь не испытает раздражения и дойдёт до результата
 
-## Даша, PR-менеджер ex маркетолог
-
-<AudioPlayer src="/cases/yandex-tovary/dasha_cut.m4a" label="Отрывок интервью с Дашей" />
+<InterviewHeading title="Даша, PR-менеджер ex маркетолог" src="/cases/yandex-tovary/dasha_cut.m4a" />
 
 ### Боли пользователя
 
