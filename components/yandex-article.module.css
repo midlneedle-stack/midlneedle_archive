@@ -40,6 +40,19 @@
   margin-top: var(--article-inner-gap);
 }
 
+/* Paragraph wrapping a media card inherits media spacing */
+.paragraph:has(> .imageWrapper) + .paragraph,
+.paragraph:has(> .videoCard) + .paragraph,
+.paragraph:has(> .audioCard) + .paragraph {
+  margin-top: 32px;
+}
+
+.paragraph + .paragraph:has(> .imageWrapper),
+.paragraph + .paragraph:has(> .videoCard),
+.paragraph + .paragraph:has(> .audioCard) {
+  margin-top: 32px;
+}
+
 /* After block elements, a paragraph gets matching media gap */
 .list + .paragraph,
 .imageWrapper + .paragraph,
