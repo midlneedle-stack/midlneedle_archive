@@ -13,7 +13,6 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const idRef = useRef(Math.random().toString(36).slice(2))
   const [playing, setPlaying] = useState(false)
-  const [hovered, setHovered] = useState(false)
 
   const handlePauseOthers = useCallback((e: Event) => {
     const detail = (e as CustomEvent).detail
@@ -51,24 +50,17 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
     }
   }
 
-  const showButton = hovered || playing
-
   return (
-    <span
-      style={{ display: "inline-flex", alignItems: "center" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <>
       <audio ref={audioRef} src={withBasePath(src)} preload="metadata" />
       <button
         onClick={toggle}
         aria-label={playing ? "Pause" : "Play"}
         style={{
-          width: showButton ? 28 : 0,
-          minWidth: showButton ? 28 : 0,
+          width: 28,
           height: 28,
           borderRadius: "50%",
-          border: showButton ? "1px solid var(--stroke)" : "none",
+          border: "1px solid var(--stroke)",
           background: "rgb(53 59 66 / 0.02)",
           color: "var(--foreground)",
           cursor: "pointer",
@@ -77,10 +69,13 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
           justifyContent: "center",
           padding: 0,
           flexShrink: 0,
-          opacity: showButton ? 1 : 0,
-          marginRight: showButton ? 8 : 0,
-          transition: "opacity 0.2s ease, width 0.2s ease, margin-right 0.2s ease, background 0.15s ease",
-          overflow: "hidden",
+          transition: "background 0.15s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = "rgb(53 59 66 / 0.06)"
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = "rgb(53 59 66 / 0.02)"
         }}
       >
         {playing ? (
@@ -100,25 +95,6 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
           </svg>
         )}
       </button>
-      <span
-        onClick={toggle}
-        style={{
-          cursor: "pointer",
-          textDecorationLine: "underline",
-          textDecorationThickness: "1px",
-          textUnderlineOffset: "0.16em",
-          textDecorationColor: "var(--stroke)",
-          transition: "text-decoration-color 0.15s ease",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.textDecorationColor = "var(--foreground)"
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.textDecorationColor = "var(--stroke)"
-        }}
-      >
-        Прослушать отрывок из интервью
-      </span>
-    </span>
+    </>
   )
 }
