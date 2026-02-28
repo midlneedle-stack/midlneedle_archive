@@ -47,7 +47,7 @@
 .videoCard + .paragraph,
 .tableWrapper + .paragraph,
 .hypothesisCard + .paragraph {
-  margin-top: 28px;
+  margin-top: 32px;
 }
 
 /* After block elements, a subsection title gets full section gap + buffer */
@@ -109,7 +109,7 @@
 }
 
 .tableWrapper {
-  margin-top: 28px;
+  margin-top: 32px;
   margin-bottom: 0;
   box-shadow: 0 0 0 1px var(--stroke);
   border-radius: var(--radius-card);
@@ -162,7 +162,7 @@
 }
 
 .hypothesisCard {
-  margin-top: 28px;
+  margin-top: 32px;
   margin-bottom: 0;
   box-shadow: 0 0 0 1px var(--stroke);
   border-radius: var(--radius-card);
@@ -182,7 +182,7 @@
 }
 
 .imageWrapper {
-  margin-top: 28px;
+  margin-top: 32px;
   margin-bottom: 0;
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -196,7 +196,7 @@
 }
 
 .audioCard {
-  margin-top: 28px;
+  margin-top: 32px;
   margin-bottom: 0;
   box-shadow: inset 0 0 0 1px var(--stroke);
   border-radius: var(--radius-card);
@@ -205,7 +205,7 @@
 }
 
 .videoCard {
-  margin-top: 28px;
+  margin-top: 32px;
   margin-bottom: 0;
   border-radius: var(--radius-card);
   overflow: hidden;
