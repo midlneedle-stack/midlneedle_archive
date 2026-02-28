@@ -35,12 +35,12 @@ export const mdxComponents: MDXComponents = {
     return <p className={`type-article text-foreground ${styles.paragraph}`}>{children}</p>
   },
   ul: ({ children }: ComponentPropsWithoutRef<"ul">) => (
-    <ul className={styles.list} style={{ listStyleType: "disc" }}>
+    <ul className={styles.list}>
       {children}
     </ul>
   ),
   ol: ({ children }: ComponentPropsWithoutRef<"ol">) => (
-    <ol className={styles.list} style={{ listStyleType: "decimal" }}>
+    <ol className={styles.list}>
       {children}
     </ol>
   ),

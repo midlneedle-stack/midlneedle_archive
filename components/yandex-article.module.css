@@ -4,7 +4,7 @@
 
 /* h1 → major sections with inline rule line */
 .sectionTitle {
-  margin-top: var(--space-section);
+  margin-top: var(--article-paragraph-gap);
   margin-bottom: var(--article-title-gap);
 }
 
@@ -21,7 +21,9 @@
 }
 
 .sectionTitle + .paragraph,
-.subsectionTitle + .paragraph {
+.subsectionTitle + .paragraph,
+.sectionTitle + .list,
+.subsectionTitle + .list {
   margin-top: 0;
 }
 
@@ -53,7 +55,7 @@
 .audioCard + .sectionTitle,
 .videoCard + .sectionTitle,
 .tableWrapper + .sectionTitle {
-  margin-top: calc(var(--space-section) + 6px);
+  margin-top: calc(var(--article-paragraph-gap) + 6px);
 }
 
 .imageWrapper + .subsectionTitle,
@@ -86,13 +88,19 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
   margin-top: var(--article-inner-gap);
-  padding-left: 1.25rem;
+  padding-left: 0;
+  list-style: none;
 }
 
 .listItem {
-  padding-left: 0.375rem;
+  padding: 12px 0;
+  box-shadow: 0 1px 0 var(--stroke);
+}
+
+.listItem:last-child {
+  box-shadow: none;
 }
 
 .tableWrapper {
