@@ -102,7 +102,6 @@
 .listItem {
   padding: 14px 18px;
   box-shadow: 0 1px 0 var(--stroke);
-  font-size: 1rem;
 }
 
 .listItem:last-child {
@@ -180,7 +179,6 @@
 .hypothesisBody {
   padding: 14px 18px;
   background: rgb(53 59 66 / 0.02);
-  font-size: 1rem;
 }
 
 .imageWrapper {
