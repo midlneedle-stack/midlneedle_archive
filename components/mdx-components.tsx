@@ -91,4 +91,10 @@ export const mdxComponents: MDXComponents = {
       <ArticleVideo src={withBasePath(src)} />
     </div>
   ),
+  HypothesisCard: ({ title, body }: { title: string; body: string }) => (
+    <div className={styles.hypothesisCard}>
+      <div className={`type-article text-foreground ${styles.hypothesisTitle}`}>{title}</div>
+      <div className={`type-article text-foreground ${styles.hypothesisBody}`}>{body}</div>
+    </div>
+  ),
 }
