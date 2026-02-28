@@ -43,7 +43,7 @@ export default async function YandexTovaryCasePage() {
                 Yandex Tovary — Onboarding
               </h2>
               <div className="type-card-caption" style={{ marginTop: "var(--article-meta-gap)", color: "var(--faint-foreground)" }}>
-                15 октября 2025
+                15 ноября 2025
               </div>
             </header>
 
