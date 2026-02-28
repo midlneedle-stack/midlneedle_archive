@@ -39,7 +39,7 @@ export default async function YandexTovaryCasePage() {
         <div className="mx-auto max-w-2xl">
           <section>
             <header className="flex flex-col">
-              <h2 className="type-card-title text-foreground">
+              <h2 className="type-title text-foreground">
                 Yandex Tovary — Onboarding
               </h2>
               <div className="type-card-caption" style={{ marginTop: "var(--article-meta-gap)", color: "var(--faint-foreground)" }}>

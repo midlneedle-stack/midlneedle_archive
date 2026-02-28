@@ -6,17 +6,8 @@
 .sectionTitle {
   margin-top: var(--space-section);
   margin-bottom: var(--article-title-gap);
-  display: flex;
-  align-items: center;
-  gap: calc(var(--space-text) * 0.5);
 }
 
-.sectionTitle::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: var(--stroke);
-}
 
 /* First section title — no extra top margin */
 .sectionTitle:first-child {
@@ -47,22 +38,37 @@
   margin-top: var(--article-inner-gap);
 }
 
-/* After block elements, a paragraph gets full subsection gap */
+/* After block elements, a paragraph gets matching media gap */
 .list + .paragraph,
 .imageWrapper + .paragraph,
 .audioCard + .paragraph,
 .videoCard + .paragraph,
 .tableWrapper + .paragraph {
-  margin-top: var(--article-paragraph-gap);
+  margin-top: 28px;
 }
 
-/* After block elements, a subsection title gets full section gap */
+/* After block elements, a subsection title gets full section gap + buffer */
 .list + .sectionTitle,
 .imageWrapper + .sectionTitle,
 .audioCard + .sectionTitle,
 .videoCard + .sectionTitle,
 .tableWrapper + .sectionTitle {
-  margin-top: var(--space-section);
+  margin-top: calc(var(--space-section) + 6px);
+}
+
+.imageWrapper + .subsectionTitle,
+.audioCard + .subsectionTitle,
+.videoCard + .subsectionTitle,
+.tableWrapper + .subsectionTitle {
+  margin-top: calc(var(--article-paragraph-gap) + 6px);
+}
+
+/* Last media card in article gets bottom buffer */
+.imageWrapper:last-child,
+.audioCard:last-child,
+.videoCard:last-child,
+.tableWrapper:last-child {
+  margin-bottom: 6px;
 }
 
 .inlineLink {
@@ -90,7 +96,8 @@
 }
 
 .tableWrapper {
-  margin-block: var(--article-media-gap);
+  margin-top: 28px;
+  margin-bottom: 0;
   box-shadow: 0 0 0 1px var(--stroke);
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -143,7 +150,8 @@
 }
 
 .imageWrapper {
-  margin-block: var(--article-media-gap);
+  margin-top: 28px;
+  margin-bottom: 0;
   border-radius: var(--radius-card);
   overflow: hidden;
   line-height: 0;
@@ -156,7 +164,8 @@
 }
 
 .audioCard {
-  margin-block: var(--article-media-gap);
+  margin-top: 28px;
+  margin-bottom: 0;
   box-shadow: inset 0 0 0 1px var(--stroke);
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -164,7 +173,8 @@
 }
 
 .videoCard {
-  margin-block: var(--article-media-gap);
+  margin-top: 28px;
+  margin-bottom: 0;
   border-radius: var(--radius-card);
   overflow: hidden;
   line-height: 0;

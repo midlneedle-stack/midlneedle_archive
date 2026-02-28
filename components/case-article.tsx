@@ -203,7 +203,7 @@ export function CaseArticle({ content }: CaseArticleProps) {
       <div className="mx-auto max-w-2xl">
         <section>
             <header className="flex flex-col">
-              <h2 className="type-card-title text-foreground">{title}</h2>
+              <h2 className="type-title text-foreground">{title}</h2>
               <div className={`type-card-caption ${styles.meta}`}>
                 <span>{publishedAt}</span>
                 <span aria-hidden="true" className={styles.languageSeparator}> · </span>
@@ -233,7 +233,7 @@ export function CaseArticle({ content }: CaseArticleProps) {
                   return (
                     <h2
                       key={`h-${index}`}
-                      className={`type-card-title text-foreground ${styles.sectionTitle}`}
+                      className={`type-title text-foreground ${styles.sectionTitle}`}
                     >
                       {block.text}
                     </h2>

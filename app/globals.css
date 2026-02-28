@@ -480,8 +480,6 @@ html {
     font-variation-settings: 'wght' 422, var(--sans-variation);
     letter-spacing: 0em;
     word-spacing: 0em;
-    text-box-trim: trim-both;
-    text-box-edge: cap alphabetic;
   }
 
   .type-card-title {

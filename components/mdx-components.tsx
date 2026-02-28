@@ -20,7 +20,7 @@ function hasBlockContent(children: ReactNode): boolean {
 
 export const mdxComponents: MDXComponents = {
   h1: ({ children }: ComponentPropsWithoutRef<"h1">) => (
-    <h2 className={`type-card-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
+    <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
   ),
   h2: ({ children }: ComponentPropsWithoutRef<"h2">) => (
     <h3 className={`type-card-title text-foreground ${styles.subsectionTitle}`}>{children}</h3>
