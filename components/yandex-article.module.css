@@ -243,28 +243,12 @@
 .imageWrapper {
   margin-top: 32px;
   margin-bottom: 0;
-  border-radius: var(--radius-card);
-  overflow: hidden;
   line-height: 0;
-}
-
-.image {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 .videoCard {
   margin-top: 32px;
   margin-bottom: 0;
-  border-radius: var(--radius-card);
-  overflow: hidden;
   line-height: 0;
 }
 
-.videoElement {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: var(--radius-card);
-}

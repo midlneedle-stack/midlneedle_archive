@@ -4,6 +4,8 @@ import { useId } from "react"
 import { cn } from "@/lib/utils"
 import { useMedia } from "./media-context"
 import { MorphingMedia } from "./morphing-media"
+import { useVideoAutoplay } from "@/hooks/use-video-autoplay"
+import { OptimizedVideoPlayer } from "./optimized-video-player"
 
 interface ArticleImageProps {
   src: string
@@ -56,7 +58,11 @@ interface ArticleVideoProps {
 export function ArticleVideo({ src }: ArticleVideoProps) {
   const id = useId()
   const { expandedId, isClosing, setExpandedId } = useMedia()
+  const allowAutoplay = useVideoAutoplay()
   const isExpanded = expandedId === id
+  const hasExpandedMedia = expandedId !== null
+  const shouldAutoplay =
+    isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
 
   return (
@@ -81,12 +87,11 @@ export function ArticleVideo({ src }: ArticleVideoProps) {
           backgroundColor: "#000",
         }}
       >
-        <video
+        <OptimizedVideoPlayer
           src={src}
-          controls
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover"
+          shouldAutoplay={shouldAutoplay}
+          keepMounted={isExpanded || isClosing}
+          className="relative h-full w-full"
         />
       </div>
     </MorphingMedia>
