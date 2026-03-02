@@ -60,7 +60,8 @@
   --foreground: #353b42;
   --muted-foreground: #5d6268;
   --faint-foreground: #82858a;
-  --stroke: rgb(53 59 66 / 0.2);
+  --stroke: rgb(53 59 66 / 0.1);
+  --link-underline: rgb(53 59 66 / 0.2);
   --border: var(--stroke);
   --card: #ffffff;
   --card-foreground: var(--foreground);
@@ -94,6 +95,7 @@
   --muted-foreground: oklch(0.708 0 0);
   --faint-foreground: oklch(0.58 0 0);
   --stroke: oklch(0.269 0 0);
+  --link-underline: oklch(0.269 0 0 / 0.2);
   --border: var(--stroke);
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);

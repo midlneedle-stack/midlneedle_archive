@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const linkStyle = "underline decoration-[var(--stroke)] hover:decoration-foreground transition-colors";
+const linkStyle = "underline decoration-[var(--link-underline)] hover:decoration-foreground transition-colors";
 
 export function ConnectSection() {
   const [copiedEmail, setCopiedEmail] = useState(false);

@@ -141,7 +141,7 @@
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.16em;
-  text-decoration-color: var(--stroke);
+  text-decoration-color: var(--link-underline);
 }
 
 .inlineLink:hover {
@@ -251,4 +251,3 @@
   margin-bottom: 0;
   line-height: 0;
 }
-
