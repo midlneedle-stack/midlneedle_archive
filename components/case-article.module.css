@@ -163,22 +163,20 @@
   color: var(--foreground);
 }
 
+.footnotes li:has(a:not([data-footnote-backref]):hover) {
+  color: var(--faint-foreground);
+}
+
 .footnotes h2 {
   display: none;
 }
 
-.footnotes a {
-  color: inherit;
-  text-decoration-color: currentColor;
-}
-
-.footnotes a:hover {
-  color: inherit;
-  text-decoration-color: currentColor;
-}
-
 .footnotes :global(.text-foreground) {
   color: inherit;
+}
+
+.footnotes :global(a[class*="inlineLink"]:hover) {
+  color: var(--foreground);
 }
 
 .article :global(sup) {
