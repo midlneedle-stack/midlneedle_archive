@@ -101,10 +101,13 @@ type PlaygroundGroup =
   | { type: "pair"; items: VideoKey[] }
   | { type: "full"; item: VideoKey }
 
+const makePair = (items: VideoKey[]): PlaygroundGroup => ({ type: "pair", items })
+const makeFull = (item: VideoKey): PlaygroundGroup => ({ type: "full", item })
+
 const playgroundGroups: PlaygroundGroup[] = [
-  ...(verticalPairs[0] ? [{ type: "pair", items: verticalPairs[0] }] : []),
-  { type: "full", item: "xmbb" },
-  ...verticalPairs.slice(1).map((items) => ({ type: "pair", items })),
+  ...(verticalPairs[0] ? [makePair(verticalPairs[0])] : []),
+  makeFull("xmbb"),
+  ...verticalPairs.slice(1).map((items) => makePair(items)),
 ]
 
 export default function Home() {
