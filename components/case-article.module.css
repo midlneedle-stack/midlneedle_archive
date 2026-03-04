@@ -138,28 +138,66 @@
 
 .footnotes li {
   position: relative;
-  padding-left: 22px;
+  margin-left: 8px;
   color: var(--faint-foreground);
   font-size: 0.8em;
   line-height: 1.5;
   letter-spacing: 0.01em;
   counter-increment: list;
   text-align: left;
+  transition: color 0.1s ease-out;
+  cursor: pointer;
+}
+
+.footnotes li::before {
+  position: absolute;
+  left: -8px;
+  top: 0;
+  content: counter(list) ".";
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.footnotes li:hover {
+  color: var(--foreground);
 }
 
 .footnotes h2 {
   display: none;
 }
 
-.article :global(sup:has(a[data-footnote-ref])) {
+.footnotes a {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+
+.footnotes a:hover {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+
+.footnotes :global(.text-foreground) {
+  color: inherit;
+}
+
+.article :global(sup) {
   vertical-align: baseline;
   font-size: inherit;
+  line-height: inherit;
+  position: relative;
+  top: 0;
+}
+
+.article :global(sup > a[data-footnote-ref]) {
+  margin-left: 0.15em;
 }
 
 .article :global(a[data-footnote-ref]) {
   text-decoration: none;
   color: var(--faint-foreground);
   transition: color 0.1s ease-out;
+  display: inline;
 }
 
 .article :global(a[data-footnote-ref])::before {
@@ -175,20 +213,6 @@
 }
 
 .footnotes :global(a[data-footnote-backref]) {
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-size: 0;
   text-decoration: none;
-}
-
-.footnotes :global(a[data-footnote-backref])::before {
-  content: "[" counter(list) "]";
-  font-size: 0.8em;
-  color: var(--faint-foreground);
-  transition: color 0.1s ease-out;
-}
-
-.footnotes :global(a[data-footnote-backref]:hover)::before {
-  color: var(--foreground);
+  color: inherit;
 }

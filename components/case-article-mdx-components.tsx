@@ -19,6 +19,7 @@ export const caseArticleMdxComponents: MDXComponents = {
   a: ({ href, children, className, ...props }: ComponentPropsWithoutRef<"a">) => {
     const isFootnoteRef = "data-footnote-ref" in props
     const isFootnoteBackref = "data-footnote-backref" in props
+    const renderedChildren = isFootnoteBackref ? null : children
     const isExternal =
       typeof href === "string" && /^https?:\/\//.test(href)
     const resolvedClassName = [
@@ -36,7 +37,7 @@ export const caseArticleMdxComponents: MDXComponents = {
         rel={isExternal ? "noopener noreferrer" : undefined}
         {...props}
       >
-        {children}
+        {renderedChildren}
       </a>
     )
   },
