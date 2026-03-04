@@ -24,11 +24,17 @@ The visual design was the easy part – I already had a mockup in Figma and knew
 
 But just porting the design over would've been boring. I wanted to make something that felt like Pebble, so I started adding details.
 
-**Launch animation** I wanted pixels to randomly light up across the grid when the watchface launches, and for the digits to gradually emerge from the noise. After a lot of iterations, it finally came together – worth noting that most of my time went into optimizing and polishing this animation.
+**Launch animation**
 
-**Vibration pattern** I wanted the animation to have some physical feedback, like Apple's Haptics. I took one of the original Pebble OS vibration patterns\* as a starting point and heavily customized it. The result is a pattern of barely-there taps that lines up with the animation's timing and pace.
+I wanted pixels to randomly light up across the grid when the watchface launches, and for the digits to gradually emerge from the noise. After a lot of iterations, it finally came together – worth noting that most of my time went into optimizing and polishing this animation.
 
-**Settings** Pebble SDK lets you customize pretty much any element of a watchface if you build it in. I added a few must-haves: 24/12-hour time format, toggles for vibration and animation, and theme selection.
+**Vibration pattern**
+
+I wanted the animation to have some physical feedback, like Apple's Haptics. I took one of the original Pebble OS vibration patterns\* as a starting point and heavily customized it. The result is a pattern of barely-there taps that lines up with the animation's timing and pace.
+
+**Settings**
+
+Pebble SDK lets you customize pretty much any element of a watchface if you build it in. I added a few must-haves: 24/12-hour time format, toggles for vibration and animation, and theme selection.
 
 After some research, I noticed users were missing hourly chime vibrations – a classic digital watch thing. Added that too – now there's a short, subtle buzz when the hour changes.
 

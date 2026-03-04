@@ -8,20 +8,17 @@ import {
 import styles from './case-article.module.css'
 import type { CaseArticleBlock } from '@/lib/case-article'
 
+interface CaseArticleLanguageContent {
+  title: string
+  blocks: CaseArticleBlock[]
+  footnotes: string[]
+  publishedAt: string
+}
+
 interface CaseArticleProps {
   content: {
-    eng: {
-      title: string
-      blocks: CaseArticleBlock[]
-      footnotes: string[]
-      publishedAt: string
-    }
-    ru: {
-      title: string
-      blocks: CaseArticleBlock[]
-      footnotes: string[]
-      publishedAt: string
-    }
+    eng?: CaseArticleLanguageContent
+    ru: CaseArticleLanguageContent
   }
 }
 
@@ -160,8 +157,9 @@ function renderInline(
 }
 
 export function CaseArticle({ content }: CaseArticleProps) {
-  const [language, setLanguage] = useState<'eng' | 'ru'>('eng')
-  const currentContent = content[language]
+  const hasEnglish = Boolean(content.eng)
+  const [language, setLanguage] = useState<'eng' | 'ru'>(hasEnglish ? 'eng' : 'ru')
+  const currentContent = language === 'eng' && content.eng ? content.eng : content.ru
   const { title, blocks, footnotes, publishedAt } = currentContent
   const footnoteCounter = { current: 0 }
 
@@ -206,24 +204,28 @@ export function CaseArticle({ content }: CaseArticleProps) {
               <h2 className="type-title text-foreground">{title}</h2>
               <div className={`type-card-caption ${styles.meta}`}>
                 <span>{publishedAt}</span>
-                <span aria-hidden="true" className={styles.languageSeparator}> · </span>
-                <button
-                  type="button"
-                  className={`${styles.languageButton} ${language === 'eng' ? styles.languageButtonActive : ''}`}
-                  onClick={() => setLanguage('eng')}
-                  aria-pressed={language === 'eng'}
-                >
-                  in english
-                </button>
-                <span aria-hidden="true" className={styles.languageSeparator}> / </span>
-                <button
-                  type="button"
-                  className={`${styles.languageButton} ${language === 'ru' ? styles.languageButtonActive : ''}`}
-                  onClick={() => setLanguage('ru')}
-                  aria-pressed={language === 'ru'}
-                >
-                  на русском
-                </button>
+                {hasEnglish ? (
+                  <>
+                    <span aria-hidden="true" className={styles.languageSeparator}> · </span>
+                    <button
+                      type="button"
+                      className={`${styles.languageButton} ${language === 'eng' ? styles.languageButtonActive : ''}`}
+                      onClick={() => setLanguage('eng')}
+                      aria-pressed={language === 'eng'}
+                    >
+                      in english
+                    </button>
+                    <span aria-hidden="true" className={styles.languageSeparator}> / </span>
+                    <button
+                      type="button"
+                      className={`${styles.languageButton} ${language === 'ru' ? styles.languageButtonActive : ''}`}
+                      onClick={() => setLanguage('ru')}
+                      aria-pressed={language === 'ru'}
+                    >
+                      на русском
+                    </button>
+                  </>
+                ) : null}
               </div>
             </header>
 
