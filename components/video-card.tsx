@@ -86,7 +86,7 @@ export function VideoCard({
         </MorphingMedia>
         <div>
           {showTitle && (
-            <h3 className="type-body mb-0 text-foreground">
+            <h3 className="type-card-title mb-0 text-foreground">
               {title}
             </h3>
           )}

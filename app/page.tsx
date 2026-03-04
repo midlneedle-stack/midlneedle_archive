@@ -45,7 +45,11 @@ const defaultMeta = (key: VideoKey) => ({
 
 const videoMeta: Record<
   VideoKey,
-  { title: string; description: string; orientation?: "vertical" | "horizontal" }
+  {
+    title: string
+    description: string
+    orientation?: "vertical" | "horizontal"
+  }
 > = {
   general_magic: defaultMeta("general_magic"),
   film_segment: {

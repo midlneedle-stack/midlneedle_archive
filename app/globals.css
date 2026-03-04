@@ -4,22 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ========================================
-   Font Variation Settings
-   ======================================== */
-
-@layer utilities {
-  .font-thin { font-variation-settings: 'wght' 100, var(--sans-variation); }
-  .font-extralight { font-variation-settings: 'wght' 200, var(--sans-variation); }
-  .font-light { font-variation-settings: 'wght' 300, var(--sans-variation); }
-  .font-normal { font-variation-settings: 'wght' 440, var(--sans-variation); }
-  .font-medium { font-variation-settings: 'wght' 500, var(--sans-variation); }
-  .font-semibold { font-variation-settings: 'wght' 600, var(--sans-variation); }
-  .font-bold { font-variation-settings: 'wght' 640, var(--sans-variation); }
-  .font-extrabold { font-variation-settings: 'wght' 700, var(--sans-variation); }
-  .font-black { font-variation-settings: 'wght' 800, var(--sans-variation); }
-}
-
-/* ========================================
    Theme
    ======================================== */
 
@@ -100,7 +84,6 @@ body {
     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
     sans-serif;
   font-feature-settings: var(--font-features);
-  font-variation-settings: 'wght' 440, var(--sans-variation);
   font-variant: common-ligatures contextual;
   text-decoration-skip-ink: auto;
   text-spacing-trim: space-first;
