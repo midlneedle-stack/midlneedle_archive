@@ -2,6 +2,7 @@
   display: block;
 }
 
+
 /* h1 → major sections with inline rule line */
 .sectionTitle {
   margin-top: var(--article-paragraph-gap);
@@ -250,4 +251,37 @@
   margin-top: 32px;
   margin-bottom: 0;
   line-height: 0;
+}
+
+.footnotesReset .subsectionTitle {
+  display: none;
+}
+
+.footnotesReset {
+  font-weight: 422;
+  font-variation-settings: 'wght' 422, var(--sans-variation);
+  letter-spacing: 0em;
+  word-spacing: 0em;
+}
+
+.footnotesReset :global(.type-article) {
+  font-weight: inherit;
+  font-variation-settings: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+}
+
+.footnotesReset .list {
+  margin-top: 0;
+  padding-left: 0;
+  box-shadow: none;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.footnotesReset .listItem {
+  padding: 0;
+  box-shadow: none;
+  background: transparent;
 }

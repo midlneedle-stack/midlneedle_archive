@@ -5,6 +5,9 @@ import remarkGfm from "remark-gfm"
 import { mdxComponents } from "@/components/mdx-components"
 import { MediaProvider } from "@/components/media-context"
 import type { Metadata } from "next"
+import styles from "@/components/yandex-article.module.css"
+import caseArticleStyles from "@/components/case-article.module.css"
+import { FootnoteArticle } from "@/components/case-article"
 
 const ARTICLE_PATH = path.join(
   process.cwd(),
@@ -47,7 +50,11 @@ export default async function YandexTovaryCasePage() {
               </div>
             </header>
 
-            <article className="mt-[var(--space-text)]">{content}</article>
+            <FootnoteArticle
+              className={`mt-[var(--space-text)] ${styles.article} ${caseArticleStyles.article}`}
+            >
+              {content}
+            </FootnoteArticle>
           </section>
         </div>
       </main>

@@ -138,7 +138,7 @@
 
 .footnotes li {
   position: relative;
-  margin-left: 8px;
+  margin-left: 0;
   color: var(--faint-foreground);
   font-size: 0.8em;
   line-height: 1.5;
@@ -147,16 +147,21 @@
   text-align: left;
   transition: color 0.1s ease-out;
   cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
 }
 
 .footnotes li::before {
-  position: absolute;
-  left: -8px;
-  top: 0;
+  position: static;
   content: counter(list) ".";
   font-size: inherit;
   line-height: inherit;
   color: inherit;
+  font-weight: inherit;
+  font-variation-settings: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
 }
 
 .footnotes li:hover {

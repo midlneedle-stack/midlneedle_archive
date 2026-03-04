@@ -5,6 +5,7 @@ import { withBasePath } from "@/lib/base-path"
 import { AudioPlayer } from "@/components/audio-player"
 import { ArticleImage, ArticleVideo } from "@/components/article-media"
 import styles from "./yandex-article.module.css"
+import caseArticleStyles from "./case-article.module.css"
 
 const BLOCK_TYPES = new Set(["img", "div", "figure", "table", "video", "audio"])
 
@@ -34,29 +35,54 @@ export const mdxComponents: MDXComponents = {
     }
     return <p className={`type-article text-foreground ${styles.paragraph}`}>{children}</p>
   },
-  ul: ({ children }: ComponentPropsWithoutRef<"ul">) => (
-    <ul className={styles.list}>
+  ul: ({ children, className, ...props }: ComponentPropsWithoutRef<"ul">) => (
+    <ul
+      {...props}
+      className={[className, styles.list].filter(Boolean).join(" ")}
+    >
       {children}
     </ul>
   ),
-  ol: ({ children }: ComponentPropsWithoutRef<"ol">) => (
-    <ol className={styles.list}>
+  ol: ({ children, className, ...props }: ComponentPropsWithoutRef<"ol">) => (
+    <ol
+      {...props}
+      className={[className, styles.list].filter(Boolean).join(" ")}
+    >
       {children}
     </ol>
   ),
-  li: ({ children }: ComponentPropsWithoutRef<"li">) => (
-    <li className={styles.listItem}>{children}</li>
-  ),
-  a: ({ href, children }: ComponentPropsWithoutRef<"a">) => (
-    <a
-      href={href}
-      className={styles.inlineLink}
-      target="_blank"
-      rel="noopener noreferrer"
+  li: ({ children, className, ...props }: ComponentPropsWithoutRef<"li">) => (
+    <li
+      {...props}
+      className={[className, styles.listItem].filter(Boolean).join(" ")}
     >
       {children}
-    </a>
+    </li>
   ),
+  a: ({ href, children, className, ...props }: ComponentPropsWithoutRef<"a">) => {
+    const isFootnoteRef = "data-footnote-ref" in props
+    const isFootnoteBackref = "data-footnote-backref" in props
+    const renderedChildren = isFootnoteBackref ? null : children
+    const isExternal = typeof href === "string" && /^https?:\/\//.test(href)
+    const resolvedClassName = [
+      className,
+      !isFootnoteRef && !isFootnoteBackref ? styles.inlineLink : null,
+    ]
+      .filter(Boolean)
+      .join(" ")
+
+    return (
+      <a
+        href={href}
+        className={resolvedClassName || undefined}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noopener noreferrer" : undefined}
+        {...props}
+      >
+        {renderedChildren}
+      </a>
+    )
+  },
   strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
     <strong>{children}</strong>
   ),
@@ -102,4 +128,17 @@ export const mdxComponents: MDXComponents = {
       <div className={`type-article text-foreground ${styles.hypothesisBody}`}>{body}</div>
     </div>
   ),
+  section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {
+    if (props["data-footnotes"] !== undefined) {
+      const className = props.className
+        ? `${caseArticleStyles.footnotes} ${styles.footnotesReset} ${props.className}`
+        : `${caseArticleStyles.footnotes} ${styles.footnotesReset}`
+      return (
+        <section {...props} className={className}>
+          {children}
+        </section>
+      )
+    }
+    return <section {...props}>{children}</section>
+  },
 }
