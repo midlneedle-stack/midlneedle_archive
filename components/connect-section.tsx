@@ -1,13 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { useWebHaptics } from "web-haptics/react";
+import { HapticLink } from "@/components/haptic-link";
+import { HAPTIC_COPY } from "@/lib/haptics";
 
 const linkStyle = "underline decoration-[var(--link-underline)] hover:decoration-foreground transition-colors";
 
 export function ConnectSection() {
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const { trigger } = useWebHaptics();
 
   const handleCopyEmail = async () => {
+    trigger(HAPTIC_COPY);
+
     try {
       await navigator.clipboard.writeText("midlneedle@gmail.com");
       setCopiedEmail(true);
@@ -35,14 +41,14 @@ export function ConnectSection() {
     <div className="type-body text-faint-foreground">
       <p className="mb-[var(--space-connect-gap)]">
         Reach out via{" "}
-        <a
+        <HapticLink
           href="https://t.me/midlneedle"
           target="_blank"
           rel="noopener noreferrer"
           className={linkStyle}
         >
           Telegram
-        </a>{" "}
+        </HapticLink>{" "}
         or{" "}
         <button
           onClick={handleCopyEmail}
@@ -65,32 +71,32 @@ export function ConnectSection() {
       </p>
       <p>
         You can also find me on{" "}
-        <a
+        <HapticLink
           href="https://www.threads.com/@midlneedle"
           target="_blank"
           rel="noopener noreferrer"
           className={linkStyle}
         >
           Threads
-        </a>
+        </HapticLink>
         ,{" "}
-        <a
+        <HapticLink
           href="https://github.com/midlneedle"
           target="_blank"
           rel="noopener noreferrer"
           className={linkStyle}
         >
           GitHub
-        </a>{" "}
+        </HapticLink>{" "}
         and{" "}
-        <a
+        <HapticLink
           href="https://x.com/midlneedle"
           target="_blank"
           rel="noopener noreferrer"
           className={linkStyle}
         >
           Twitter
-        </a>
+        </HapticLink>
       </p>
     </div>
   );

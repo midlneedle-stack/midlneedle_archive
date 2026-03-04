@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState, type ReactNode, type RefObject, type DependencyList } from 'react'
+import { useWebHaptics } from 'web-haptics/react'
 import styles from './case-article.module.css'
+import { HAPTIC_TRANSITION, HAPTIC_TRANSITION_OPTIONS } from '@/lib/haptics'
 
 interface CaseArticleLanguageContent {
   title: string
@@ -22,8 +24,13 @@ export function CaseArticle({ content }: CaseArticleProps) {
   const currentContent = language === 'eng' && content.eng ? content.eng : content.ru
   const { title, body, publishedAt } = currentContent
   const articleRef = useRef<HTMLElement | null>(null)
+  const { trigger } = useWebHaptics()
 
-  useFootnoteScroll(articleRef, [language])
+  const triggerFootnoteHaptic = () => {
+    trigger(HAPTIC_TRANSITION, HAPTIC_TRANSITION_OPTIONS)
+  }
+
+  useFootnoteScroll(articleRef, [language], triggerFootnoteHaptic)
 
   return (
     <main className="min-h-screen bg-background">
@@ -73,7 +80,13 @@ export function CaseArticle({ content }: CaseArticleProps) {
 
 export function FootnoteArticle({ className, children }: { className?: string; children: ReactNode }) {
   const articleRef = useRef<HTMLElement | null>(null)
-  useFootnoteScroll(articleRef, [])
+  const { trigger } = useWebHaptics()
+
+  const triggerFootnoteHaptic = () => {
+    trigger(HAPTIC_TRANSITION, HAPTIC_TRANSITION_OPTIONS)
+  }
+
+  useFootnoteScroll(articleRef, [], triggerFootnoteHaptic)
 
   return (
     <article
@@ -88,7 +101,8 @@ export function FootnoteArticle({ className, children }: { className?: string; c
 
 function useFootnoteScroll(
   articleRef: RefObject<HTMLElement | null>,
-  deps: DependencyList
+  deps: DependencyList,
+  onHaptic?: () => void
 ) {
   useEffect(() => {
     const article = articleRef.current
@@ -99,6 +113,16 @@ function useFootnoteScroll(
     )
 
     if (footnotesSections.length === 0) return
+
+    const handleFootnoteLinkClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null
+      if (!target) return
+
+      const link = target.closest('a[data-footnote-ref], a[data-footnote-backref]')
+      if (!link) return
+
+      onHaptic?.()
+    }
 
     const handleFootnoteClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null
@@ -123,19 +147,23 @@ function useFootnoteScroll(
       const destination = document.querySelector<HTMLElement>(href)
       if (!destination) return
 
+      onHaptic?.()
       destination.scrollIntoView({ behavior: 'smooth', block: 'center' })
       window.history.pushState(null, '', href)
       event.preventDefault()
     }
+
+    article.addEventListener('click', handleFootnoteLinkClick)
 
     footnotesSections.forEach((section) =>
       section.addEventListener('click', handleFootnoteClick)
     )
 
     return () => {
+      article.removeEventListener('click', handleFootnoteLinkClick)
       footnotesSections.forEach((section) =>
         section.removeEventListener('click', handleFootnoteClick)
       )
     }
-  }, deps)
+  }, [...deps, onHaptic])
 }

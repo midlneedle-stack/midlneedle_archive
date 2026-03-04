@@ -1,6 +1,9 @@
+import { NotFoundHaptics } from "@/components/not-found-haptics"
+
 export default function NotFound() {
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
+      <NotFoundHaptics />
       <div className="flex flex-col items-start">
         <p className="type-card-caption text-muted-foreground">
           well, i guess it&rsquo;s 404

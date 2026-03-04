@@ -1,3 +1,5 @@
+import { HapticLink } from "@/components/haptic-link"
+
 interface CaseItem {
   title: string
   date: string
@@ -22,9 +24,9 @@ function CaseCard({ title, date, href }: CaseItem) {
   )
 
   return href ? (
-    <a href={href} className="cases-item group/item block w-full">
+    <HapticLink href={href} className="cases-item group/item block w-full">
       {content}
-    </a>
+    </HapticLink>
   ) : (
     <div className="cases-item group/item">
       {content}

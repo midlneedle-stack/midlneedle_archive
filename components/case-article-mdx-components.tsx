@@ -2,6 +2,7 @@ import type { MDXComponents } from "mdx/types"
 import type { ComponentPropsWithoutRef } from "react"
 import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
+import { HapticLink } from "@/components/haptic-link"
 
 export const caseArticleMdxComponents: MDXComponents = {
   h1: ({ children }: ComponentPropsWithoutRef<"h1">) => (
@@ -29,8 +30,22 @@ export const caseArticleMdxComponents: MDXComponents = {
       .filter(Boolean)
       .join(" ")
 
+    if (isFootnoteRef || isFootnoteBackref) {
+      return (
+        <a
+          href={href}
+          className={resolvedClassName || undefined}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          {...props}
+        >
+          {renderedChildren}
+        </a>
+      )
+    }
+
     return (
-      <a
+      <HapticLink
         href={href}
         className={resolvedClassName || undefined}
         target={isExternal ? "_blank" : undefined}
@@ -38,7 +53,7 @@ export const caseArticleMdxComponents: MDXComponents = {
         {...props}
       >
         {renderedChildren}
-      </a>
+      </HapticLink>
     )
   },
   strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (

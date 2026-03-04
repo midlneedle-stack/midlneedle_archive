@@ -6,6 +6,7 @@ import { AudioPlayer } from "@/components/audio-player"
 import { ArticleImage, ArticleVideo } from "@/components/article-media"
 import styles from "./yandex-article.module.css"
 import caseArticleStyles from "./case-article.module.css"
+import { HapticLink } from "@/components/haptic-link"
 
 const BLOCK_TYPES = new Set(["img", "div", "figure", "table", "video", "audio"])
 
@@ -71,8 +72,22 @@ export const mdxComponents: MDXComponents = {
       .filter(Boolean)
       .join(" ")
 
+    if (isFootnoteRef || isFootnoteBackref) {
+      return (
+        <a
+          href={href}
+          className={resolvedClassName || undefined}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          {...props}
+        >
+          {renderedChildren}
+        </a>
+      )
+    }
+
     return (
-      <a
+      <HapticLink
         href={href}
         className={resolvedClassName || undefined}
         target={isExternal ? "_blank" : undefined}
@@ -80,7 +95,7 @@ export const mdxComponents: MDXComponents = {
         {...props}
       >
         {renderedChildren}
-      </a>
+      </HapticLink>
     )
   },
   strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
