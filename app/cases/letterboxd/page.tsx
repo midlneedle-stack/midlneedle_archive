@@ -36,7 +36,7 @@ export default async function LetterboxdCasePage() {
           ru: {
             title: TITLE_RU,
             body: ruContent,
-            publishedAt: "28 февраля 2026",
+          publishedAt: "28 февраля 2026",
           },
         }}
       />
