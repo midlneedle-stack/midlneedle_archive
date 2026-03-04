@@ -191,7 +191,7 @@
   text-align: left;
   padding: 10px 14px;
   font-variation-settings: 'wght' 482, var(--sans-variation);
-  line-height: 1.44em;
+  line-height: 1.48em;
   box-shadow: inset 0 -1px 0 var(--stroke), inset -1px 0 0 var(--stroke);
   vertical-align: top;
   background: rgb(53 59 66 / 0.06);
@@ -204,7 +204,7 @@
 .td {
   text-align: left;
   padding: 10px 14px;
-  line-height: 1.44em;
+  line-height: 1.48em;
   vertical-align: top;
   box-shadow: inset 0 -1px 0 var(--stroke), inset -1px 0 0 var(--stroke);
 }

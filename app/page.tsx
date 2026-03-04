@@ -121,7 +121,7 @@ export default function Home() {
               <h1 className="type-title mb-[var(--space-hero-text)] text-foreground">
                 Vladislav Ivanov
               </h1>
-              <p className="type-body mt-0 text-muted-foreground">
+              <p className="type-body mt-0 text-faint-foreground">
                 I&apos;m a product designer curious about technology and digital products. I prototype in code, enjoy solving complex problems and deeply care about craft.
               </p>
             </div>

@@ -28,6 +28,7 @@
   --color-foreground: var(--foreground);
   --color-foreground-light: var(--muted-foreground);
   --color-muted-foreground: var(--muted-foreground);
+  --color-faint-foreground: var(--faint-foreground);
   --color-border: var(--stroke);
   --color-stroke: var(--stroke);
   --color-card: var(--card);
@@ -57,11 +58,11 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #353b42;
-  --muted-foreground: #5d6268;
-  --faint-foreground: #82858a;
-  --stroke: rgb(53 59 66 / 0.1);
-  --link-underline: rgb(53 59 66 / 0.2);
+  --foreground: #26292c;
+  --muted-foreground: #3c3e41;
+  --faint-foreground: #67696b;
+  --stroke: rgb(38 41 44 / 0.12);
+  --link-underline: rgb(38 41 44 / 0.22);
   --border: var(--stroke);
   --card: #ffffff;
   --card-foreground: var(--foreground);
@@ -87,18 +88,6 @@
   /* Typography settings */
   --sans-variation: 'opsz' 32;
   --font-features: 'cpsp' 1, 'cv01', 'cv03', 'cv04', 'calt', 'ss03', 'liga', 'ordn';
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --faint-foreground: oklch(0.58 0 0);
-  --stroke: oklch(0.269 0 0);
-  --link-underline: oklch(0.269 0 0 / 0.2);
-  --border: var(--stroke);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
 }
 
 /* ========================================
@@ -477,7 +466,7 @@ html {
   .type-body,
   .type-article {
     font-size: 1.1em;
-    line-height: 1.44em;
+    line-height: 1.48em;
     font-weight: 422;
     font-variation-settings: 'wght' 422, var(--sans-variation);
     letter-spacing: 0em;
@@ -486,7 +475,7 @@ html {
 
   .type-card-title {
     font-size: 1.1em;
-    line-height: 1.44em;
+    line-height: 1.48em;
     font-weight: 482;
     font-variation-settings: 'wght' 482, var(--sans-variation);
     letter-spacing: 0em;

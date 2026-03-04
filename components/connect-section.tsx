@@ -32,7 +32,7 @@ export function ConnectSection() {
   };
 
   return (
-    <div className="type-body text-muted-foreground">
+    <div className="type-body text-faint-foreground">
       <p className="mb-[var(--space-connect-gap)]">
         Reach out via{" "}
         <a
