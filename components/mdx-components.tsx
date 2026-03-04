@@ -94,10 +94,10 @@ export const mdxComponents: MDXComponents = {
     </div>
   ),
   th: ({ children }: ComponentPropsWithoutRef<"th">) => (
-    <th className={styles.th}>{children}</th>
+    <th className={`type-article ${styles.th}`}>{children}</th>
   ),
   td: ({ children }: ComponentPropsWithoutRef<"td">) => (
-    <td className={styles.td}>{children}</td>
+    <td className={`type-article ${styles.td}`}>{children}</td>
   ),
   img: ({ src, alt }: ComponentPropsWithoutRef<"img">) => (
     <div className={styles.imageWrapper}>
