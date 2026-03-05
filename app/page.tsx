@@ -3,6 +3,7 @@ import { SectionHeader } from "@/components/section-header"
 import { CasesGrid } from "@/components/cases-grid"
 import { MediaProvider } from "@/components/media-context"
 import { VideoCard } from "@/components/video-card"
+import { ScreencastCard } from "@/components/screencast-card"
 import { withBasePath } from "@/lib/base-path"
 import { videoPlaceholders } from "@/lib/video-placeholders"
 
@@ -114,6 +115,9 @@ const playgroundGroups: PlaygroundGroup[] = [
   ...verticalPairs.slice(1).map((items) => makePair(items)),
 ]
 
+const isScreencast = (key: VideoKey) =>
+  key === "fp_fd_transitionn" || key === "fcn_awesome"
+
 export default function Home() {
   return (
     <MediaProvider>
@@ -142,9 +146,12 @@ export default function Home() {
 
                 if (group.type === "full") {
                   const meta = videoMeta[group.item]
+                  const CardComponent = isScreencast(group.item)
+                    ? ScreencastCard
+                    : VideoCard
                   return (
                     <div key={group.item} className={groupSpacing}>
-                      <VideoCard
+                      <CardComponent
                         src={videos[group.item]}
                         title={meta.title}
                         description={meta.description}
@@ -164,8 +171,11 @@ export default function Home() {
                     {group.items.map((key) => {
                       const meta = videoMeta[key]
                       const isSolo = group.items.length === 1
+                      const CardComponent = isScreencast(key)
+                        ? ScreencastCard
+                        : VideoCard
                       return (
-                        <VideoCard
+                        <CardComponent
                           key={key}
                           src={videos[key]}
                           title={meta.title}

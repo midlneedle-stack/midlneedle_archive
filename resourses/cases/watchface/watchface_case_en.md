@@ -1,6 +1,6 @@
 This is a story about launching a small product for a niche device. But everyone has to start somewhere, right?
 
-<MediaPlaceholder label="Photo · Case cover" aspect="aspect-video" />
+![Case cover](/cases/pebble_case/coverr.webp)
 
 # Why Pebble
 
@@ -24,7 +24,7 @@ While figuring out how everything worked, I ended up making a few watchfaces. Wi
 
 The visual design was the easy part – I already had a mockup in Figma and knew how to use AI to speed up getting from design to code.
 
-<MediaPlaceholder label="Photo · General watchface view" aspect="aspect-video" />
+![General watchface view](/cases/pebble_case/general_watchface_view.webp)
 
 But just porting the design over would've been boring. I wanted to make something that felt like Pebble, so I started adding details.
 
@@ -54,11 +54,11 @@ I was happy with the result and decided to share the watchface with the communit
 
 To get some reach and catch any bugs[^3], I posted in the Pebble owners' Discord. A few people even shared photos of their watches with my watchface running.
 
-<MediaPlaceholder label="Photo · Discord" aspect="aspect-video" />
+![Discord](/cases/pebble_case/discord.webp)
 
 The response was positive, so I figured why not tweet about it. Right before bed, I put together a quick post, tagged Eric Migicovsky, and hit publish.
 
-<MediaPlaceholder label="Photo · Twitter post" aspect="aspect-video" />
+![Twitter post](/cases/pebble_case/twitter_post.webp)
 
 Next morning, the tweet had way more engagement than I expected – especially for an account with zero followers. Turns out Eric Migicovsky had retweeted it. Getting a nod from Pebble's founder was a nice feeling :)
 
