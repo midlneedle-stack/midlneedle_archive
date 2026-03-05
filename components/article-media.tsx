@@ -17,6 +17,8 @@ export function ArticleImage({ src, alt = "" }: ArticleImageProps) {
   const { expandedId, isClosing, setExpandedId } = useMedia()
   const isExpanded = expandedId === id
   const layoutId = `media-${id}`
+  const isTall = src.includes("1920_1360")
+  const aspectClass = isTall ? "aspect-[24/17]" : "aspect-video"
 
   return (
     <MorphingMedia
@@ -29,7 +31,7 @@ export function ArticleImage({ src, alt = "" }: ArticleImageProps) {
         !expandedId &&
           !isClosing &&
           "transition-transform duration-200 ease-out hover:scale-[1.01]",
-        "aspect-video"
+        aspectClass
       )}
       expandedVariant="horizontal"
     >

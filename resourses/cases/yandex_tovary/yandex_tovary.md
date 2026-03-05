@@ -43,7 +43,7 @@
 
 Поговорил с друзьями из сферы маркетинга и не только. Узнал, как они пользуются уже знакомыми и новыми сервисами, проходят обучение и решают сложные задачи.
 
-![Скриншот интервью](/cases/yandex-tovary/screenshot_interviews.png)
+![Скриншот интервью](/cases/yandex-tovary/screenshot_interviews.webp)
 
 <InterviewHeading title="Диана, маркетолог" src="/cases/yandex-tovary/diana_cut.m4a" />
 
@@ -185,15 +185,15 @@
 
 Я решил проанализировать, как реализуются фичи обучения/онбординга в крупных продуктах. Для этого воспользовался сервисом Mobbin и изучил довольно большой пул скриншотов — в первую очередь смотрел, как в интерфейсах построена система обучения, что предлагают пользователю на старте, какими способами решают задачу поддержки на дальнейших этапах.
 
-![Скриншот Mobbin](/cases/yandex-tovary/screenshot_mobbin.png)
+![Скриншот Mobbin](/cases/yandex-tovary/screenshot_mobbin.webp)
 
 **Глобально все решения делятся на три типа** — чеклисты, контекстные карточки, обучение раскрытое на весь экран[^1], а также окна, которые активируются или специальной кнопкой (например, с иконкой вопросительного знака), или вшиты прямо в элементы интерфейса и поясняют, какое изменение произошло или как пользоваться конкретной функцией.
 
-![Референсы типов онбординга](/cases/yandex-tovary/image.png)
+![Референсы типов онбординга](/cases/yandex-tovary/image.webp)
 
-![Референсы контекстных карточек](/cases/yandex-tovary/image_1.png)
+![Референсы контекстных карточек](/cases/yandex-tovary/image_1.webp)
 
-![Референсы чеклистов](/cases/yandex-tovary/image_2.png)
+![Референсы чеклистов](/cases/yandex-tovary/image_2.webp)
 
 Часто эти способы комбинируют и на мой взгляд – именно комбинация нескольких методов это – самый эффективный метод расскзать что-то новое пользователю.
 
@@ -227,17 +227,15 @@
 
 <VideoPlayer src="/cases/yandex-tovary/onboard_stats.mp4" />
 
-![Первый макет](/cases/yandex-tovary/first_one.png)
+![Первый макет](/cases/yandex-tovary/first_one_1920_1360.webp)
 
 <VideoPlayer src="/cases/yandex-tovary/helper_closed.mp4" />
 
-![Второй макет](/cases/yandex-tovary/2second.png)
+![Второй макет](/cases/yandex-tovary/2second_1920_1360.webp)
 
-![Третий макет](/cases/yandex-tovary/thirddd.png)
+![Четвертый макет](/cases/yandex-tovary/sdsfff.webp)
 
-![Четвертый макет](/cases/yandex-tovary/sdsfff.png)
-
-![Пятый макет](/cases/yandex-tovary/djjjfkkds.png)
+![Пятый макет](/cases/yandex-tovary/djjjfkkds.webp)
 
 # Что бы я еще хотел сделать?
 
