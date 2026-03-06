@@ -82,15 +82,18 @@ export const caseArticleMdxComponents: MDXComponents = {
     src,
     paddingY,
     framePadding,
+    showFrame,
   }: {
     src: string
     paddingY?: number
     framePadding?: number
+    showFrame?: boolean
   }) => (
     <ArticleIphoneVideo
       src={withBasePath(src)}
       paddingY={paddingY}
       framePadding={framePadding}
+      showFrame={showFrame}
     />
   ),
 }

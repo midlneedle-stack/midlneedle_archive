@@ -1,6 +1,6 @@
 // Единый цветовой placeholder для видео во время загрузки:
 // #353b42 с непрозрачностью 5%
-const VIDEO_PLACEHOLDER_COLOR = "rgba(53, 59, 66, 0.05)"
+export const VIDEO_PLACEHOLDER_COLOR = "rgba(53, 59, 66, 0.05)"
 
 export const videoPlaceholders = {
   general_magic: VIDEO_PLACEHOLDER_COLOR,

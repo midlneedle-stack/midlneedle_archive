@@ -7,6 +7,7 @@ import { MorphingMedia } from "./morphing-media"
 import { useVideoAutoplay } from "@/hooks/use-video-autoplay"
 import { OptimizedVideoPlayer } from "./optimized-video-player"
 import { withBasePath } from "@/lib/base-path"
+import { VIDEO_PLACEHOLDER_COLOR } from "@/lib/video-placeholders"
 
 interface ArticleImageProps {
   src: string
@@ -87,7 +88,7 @@ export function ArticleVideo({ src }: ArticleVideoProps) {
         className="stroke relative h-full w-full overflow-hidden"
         style={{
           borderRadius: "var(--radius-card)",
-          backgroundColor: "#000",
+          backgroundColor: VIDEO_PLACEHOLDER_COLOR,
         }}
       >
         <OptimizedVideoPlayer
@@ -105,12 +106,14 @@ interface ArticleIphoneVideoProps {
   src: string
   paddingY?: number
   framePadding?: number
+  showFrame?: boolean
 }
 
 export function ArticleIphoneVideo({
   src,
-  paddingY = 40,
+  paddingY = 20,
   framePadding = 18,
+  showFrame = false,
 }: ArticleIphoneVideoProps) {
   const id = useId()
   const { expandedId, isClosing, setExpandedId } = useMedia()
@@ -140,29 +143,33 @@ export function ArticleIphoneVideo({
         className="stroke relative h-full w-full overflow-hidden"
         style={{
           borderRadius: "var(--radius-card)",
-          backgroundColor: "#000",
+          backgroundColor: VIDEO_PLACEHOLDER_COLOR,
         }}
       >
         <div
           className="flex h-full w-full items-center justify-center bg-[rgb(38_41_44_/0.02)]"
           style={{ paddingTop: paddingY, paddingBottom: paddingY }}
         >
-          <div className="relative h-full aspect-[18/39] overflow-hidden rounded-[20px]">
+          <div className="relative h-full aspect-[9/16] overflow-hidden rounded-[20px]">
             <div className="absolute inset-0" style={{ padding: framePadding }}>
-              <OptimizedVideoPlayer
-                src={src}
-                shouldAutoplay={shouldAutoplay}
-                keepMounted={isExpanded || isClosing}
-                className="relative h-full w-full"
-              />
+              <div className="relative h-full w-full overflow-hidden rounded-[20px]">
+                <OptimizedVideoPlayer
+                  src={src}
+                  shouldAutoplay={shouldAutoplay}
+                  keepMounted={isExpanded || isClosing}
+                  className="relative h-full w-full"
+                />
+              </div>
             </div>
-            <div className="pointer-events-none absolute inset-0">
-              <img
-                src={withBasePath("/videos/iPhone17_frame.webp")}
-                alt=""
-                className="h-full w-full object-contain"
-              />
-            </div>
+            {showFrame ? (
+              <div className="pointer-events-none absolute inset-0">
+                <img
+                  src={withBasePath("/videos/iPhone17_frame.webp")}
+                  alt=""
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
