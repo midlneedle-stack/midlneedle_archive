@@ -18,7 +18,7 @@ That whole comeback energy and the excitement in the community got me wanting to
 
 While figuring out how everything worked, I ended up making a few watchfaces. With each one, I got a better feel for the workflow – figured out my stack, got comfortable with the emulator, and finally started using GitHub properly. With all that behind me, I took on my latest watchface.
 
-<MediaPlaceholder label="Video · First watchface" aspect="aspect-video" />
+<IphoneVideo src="/cases/pebble_case/first_watchface.mp4" paddingY={40} />
 
 # Details
 
@@ -50,7 +50,7 @@ I also put some work into the settings page itself. Instead of the bare HTML you
 
 # Shipping it
 
-I was happy with the result and decided to share the watchface with the community and put it on the store[^2].
+I was happy with the result and decided to share the watchface with the community and [put it on the store](https://apps.repebble.com/en_US/application/6914dc39a0d99d0009ff09f2?section=watchfaces)[^2].
 
 To get some reach and catch any bugs[^3], I posted in the Pebble owners' Discord. A few people even shared photos of their watches with my watchface running.
 

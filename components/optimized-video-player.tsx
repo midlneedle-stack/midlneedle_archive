@@ -21,6 +21,8 @@ interface OptimizedVideoPlayerProps {
   shouldAutoplay?: boolean
   keepMounted?: boolean
   className?: string
+  preload?: "auto" | "metadata" | "none"
+  forceVisible?: boolean
 }
 
 export function OptimizedVideoPlayer({
@@ -28,6 +30,8 @@ export function OptimizedVideoPlayer({
   shouldAutoplay = false,
   keepMounted = false,
   className,
+  preload,
+  forceVisible = false,
 }: OptimizedVideoPlayerProps) {
   const isHydrated = useIsHydrated()
   const containerRef = useRef<HTMLDivElement>(null)
@@ -40,6 +44,7 @@ export function OptimizedVideoPlayer({
   const hasPlaybackIssue = playbackIssueSrc === src
 
   const shouldRenderVideo =
+    forceVisible ||
     shouldLoad ||
     keepMounted ||
     isVideoLoaded ||
@@ -155,7 +160,7 @@ export function OptimizedVideoPlayer({
         <video
           ref={videoRef}
           src={src}
-          preload={shouldAutoplay && !isSafari ? "auto" : "metadata"}
+          preload={preload ?? (shouldAutoplay && !isSafari ? "auto" : "metadata")}
           loop={shouldAutoplay}
           muted
           playsInline
@@ -168,7 +173,7 @@ export function OptimizedVideoPlayer({
           onError={handleError}
           className="absolute inset-0 h-full w-full object-cover"
           style={{
-            opacity: isVideoLoaded ? 1 : 0,
+            opacity: forceVisible || isVideoLoaded ? 1 : 0,
             transition: "opacity 220ms ease-out",
           }}
         />

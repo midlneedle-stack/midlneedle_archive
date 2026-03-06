@@ -3,6 +3,8 @@ import type { ComponentPropsWithoutRef } from "react"
 import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
 import { HapticLink } from "@/components/haptic-link"
+import { ArticleIphoneVideo, ArticleVideo } from "@/components/article-media"
+import { withBasePath } from "@/lib/base-path"
 
 export const caseArticleMdxComponents: MDXComponents = {
   h1: ({ children }: ComponentPropsWithoutRef<"h1">) => (
@@ -73,4 +75,22 @@ export const caseArticleMdxComponents: MDXComponents = {
     return <section {...props}>{children}</section>
   },
   MediaPlaceholder: CaseMediaPlaceholder,
+  VideoPlayer: ({ src }: { src: string }) => (
+    <ArticleVideo src={withBasePath(src)} />
+  ),
+  IphoneVideo: ({
+    src,
+    paddingY,
+    framePadding,
+  }: {
+    src: string
+    paddingY?: number
+    framePadding?: number
+  }) => (
+    <ArticleIphoneVideo
+      src={withBasePath(src)}
+      paddingY={paddingY}
+      framePadding={framePadding}
+    />
+  ),
 }
