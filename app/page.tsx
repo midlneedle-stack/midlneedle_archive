@@ -71,7 +71,7 @@ const videoMeta: Record<
   },
   skeuo: {
     title: "Classic iOS Player",
-    description: "iOS 6-like music player design adapted for Dynamic Island",
+    description: "iOS 6-like music player for Dynamic Island",
   },
   cummera: {
     title: "Camera Control Scroll",
