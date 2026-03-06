@@ -29,6 +29,16 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
+        url: withBasePath('/icon-32x32.png'),
+        sizes: '32x32',
+        type: 'image/png',
+      },
+      {
+        url: withBasePath('/icon-16x16.png'),
+        sizes: '16x16',
+        type: 'image/png',
+      },
+      {
         url: withBasePath('/icon-light-32x32.png'),
         media: '(prefers-color-scheme: light)',
       },
@@ -41,7 +51,13 @@ export const metadata: Metadata = {
         type: 'image/svg+xml',
       },
     ],
-    apple: withBasePath('/apple-icon.png'),
+    apple: [
+      {
+        url: withBasePath('/apple-icon.png'),
+        sizes: '144x144',
+        type: 'image/png',
+      },
+    ],
   },
 }
 
