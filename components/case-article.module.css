@@ -81,6 +81,21 @@
   margin-top: var(--article-inner-gap);
 }
 
+.paragraph:has(> .mediaBlock),
+.paragraph:has(> .videoCard) {
+  margin: 0;
+}
+
+.paragraph:has(> .mediaBlock) + .paragraph,
+.paragraph:has(> .videoCard) + .paragraph {
+  margin-top: 28px;
+}
+
+.paragraph + .paragraph:has(> .mediaBlock),
+.paragraph + .paragraph:has(> .videoCard) {
+  margin-top: 28px;
+}
+
 .sectionTitle + .paragraph {
   margin-top: 0;
 }

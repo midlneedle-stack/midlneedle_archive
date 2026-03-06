@@ -11,15 +11,24 @@ import { VIDEO_PLACEHOLDER_COLOR } from "@/lib/video-placeholders"
 interface ArticleImageProps {
   src: string
   alt?: string
+  aspect?: "video" | "square" | "tall"
 }
 
-export function ArticleImage({ src, alt = "" }: ArticleImageProps) {
+export function ArticleImage({ src, alt = "", aspect }: ArticleImageProps) {
   const id = useId()
   const { expandedId, isClosing, setExpandedId } = useMedia()
   const isExpanded = expandedId === id
   const layoutId = `media-${id}`
   const isTall = src.includes("1920_1360")
-  const aspectClass = isTall ? "aspect-[24/17]" : "aspect-video"
+  const aspectClass = aspect
+    ? aspect === "square"
+      ? "aspect-square"
+      : aspect === "tall"
+        ? "aspect-[24/17]"
+        : "aspect-video"
+    : isTall
+      ? "aspect-[24/17]"
+      : "aspect-video"
 
   return (
     <MorphingMedia

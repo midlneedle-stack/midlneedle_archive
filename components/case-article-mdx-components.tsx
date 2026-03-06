@@ -94,6 +94,11 @@ export const caseArticleMdxComponents: MDXComponents = {
       />
     </div>
   ),
+  SquareImage: ({ src, alt }: { src: string; alt?: string }) => (
+    <div className={styles.mediaBlock}>
+      <ArticleImage src={withBasePath(src)} alt={alt ?? ""} aspect="square" />
+    </div>
+  ),
   section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {
     if (props["data-footnotes"] !== undefined) {
       const className = props.className
