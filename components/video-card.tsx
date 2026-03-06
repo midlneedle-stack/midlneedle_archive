@@ -6,11 +6,13 @@ import { useMedia } from "./media-context"
 import { MorphingMedia } from "./morphing-media"
 import { useVideoAutoplay } from "@/hooks/use-video-autoplay"
 import { OptimizedVideoPlayer } from "./optimized-video-player"
+import { HapticLink } from "@/components/haptic-link"
 
 interface VideoCardProps {
   src: string
   title: string
   description?: string
+  descriptionHref?: string
   orientation?: "vertical" | "horizontal"
   showTitle?: boolean
   showDescription?: boolean
@@ -22,6 +24,7 @@ export function VideoCard({
   src,
   title,
   description,
+  descriptionHref,
   orientation = "vertical",
   showTitle = true,
   showDescription = true,
@@ -91,9 +94,18 @@ export function VideoCard({
             </h3>
           )}
           {showDescription && description && (
-            <p className="type-body mt-[var(--space-card-text)] text-faint-foreground">
-              {description}
-            </p>
+            descriptionHref ? (
+              <HapticLink
+                href={descriptionHref}
+                className="type-body mt-[var(--space-card-text)] text-faint-foreground underline decoration-[var(--link-underline)] underline-offset-[0.16em] decoration-1 hover:decoration-foreground"
+              >
+                {description}
+              </HapticLink>
+            ) : (
+              <p className="type-body mt-[var(--space-card-text)] text-faint-foreground">
+                {description}
+              </p>
+            )
           )}
         </div>
       </div>

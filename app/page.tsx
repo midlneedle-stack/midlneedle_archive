@@ -46,35 +46,48 @@ const videoMeta: Record<
   {
     title: string
     description: string
+    descriptionHref?: string
     orientation?: "vertical" | "horizontal"
   }
 > = {
-  general_magic: defaultMeta("general_magic"),
+  general_magic: {
+    title: "Watchface for Pebble",
+    description:
+      "Full case study — How I Built a Pebble Watchface That Caught the Founder's Attention",
+    descriptionHref: "/cases/watchface",
+  },
   film_segment: {
-    title: "Film Segment",
-    description: "Cinematic UI transitions",
+    title: "Letterboxd Redesign",
+    description: "Read the full case study",
+    descriptionHref: "/cases/letterboxd",
   },
   fofocus: {
-    title: "Focus Animation",
-    description: "Smooth focus state transitions",
+    title: "Year in Review Animation",
+    description: "Concept inspired by Spotify Wrapped and Apple Music",
   },
-  gestures: defaultMeta("gestures"),
-  skeuo: defaultMeta("skeuo"),
+  gestures: {
+    title: "Interactive Grid",
+    description: "Gesture-driven interface based on wave engine by Janum Trivedi",
+  },
+  skeuo: {
+    title: "Classic iOS Player",
+    description: "Classic iOS music player design adapted for Dynamic Island",
+  },
   cummera: {
-    title: "Interactive List",
-    description: "Gesture-driven list interactions",
+    title: "Camera Control Scroll",
+    description: "Feed scrolling using Camera Control Button",
   },
   wheeel: {
-    title: "Wheel Interaction",
-    description: "Rotary picker interface",
+    title: "Scroll Wheel Navigation",
+    description: "iPod-style scroll wheel reimagined for modern iOS",
   },
   wiki25: {
-    title: "Wiki 25",
-    description: "Experimental interface concept",
+    title: "Wikipedia 25th",
+    description: "Tribute to my favorite website using SceneKit and Blender",
   },
   xmbb: {
-    title: "XMB Interface",
-    description: "Cross Media Bar navigation system",
+    title: "PSP Menu Waves",
+    description: "Recreated using Swift and Metal",
     orientation: "horizontal",
   },
 }
@@ -144,6 +157,7 @@ export default function Home() {
                         src={videos[group.item]}
                         title={meta.title}
                         description={meta.description}
+                        descriptionHref={meta.descriptionHref}
                         orientation={meta.orientation ?? "horizontal"}
                         showTitle={true}
                         blurDataURL={videoPlaceholders[group.item]}
@@ -166,6 +180,7 @@ export default function Home() {
                           src={videos[key]}
                           title={meta.title}
                           description={meta.description}
+                          descriptionHref={meta.descriptionHref}
                           orientation={meta.orientation ?? "vertical"}
                           showTitle={true}
                           blurDataURL={videoPlaceholders[key]}
