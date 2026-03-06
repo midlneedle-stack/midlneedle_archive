@@ -1,11 +1,24 @@
 import type { MDXComponents } from "mdx/types"
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import { Children, isValidElement } from "react"
 import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
 import { HapticLink } from "@/components/haptic-link"
-import { ArticleVideo } from "@/components/article-media"
+import { ArticleImage, ArticleVideo } from "@/components/article-media"
 import { IphoneVideoBlock } from "@/components/iphone-video-block"
 import { withBasePath } from "@/lib/base-path"
+
+const BLOCK_TYPES = new Set(["img", "div", "figure", "table", "video", "audio"])
+
+function hasBlockContent(children: ReactNode): boolean {
+  return Children.toArray(children).some(
+    (child) =>
+      isValidElement(child) &&
+      (typeof child.type === "string"
+        ? BLOCK_TYPES.has(child.type)
+        : true)
+  )
+}
 
 export const caseArticleMdxComponents: MDXComponents = {
   h1: ({ children }: ComponentPropsWithoutRef<"h1">) => (
@@ -17,9 +30,20 @@ export const caseArticleMdxComponents: MDXComponents = {
   h3: ({ children }: ComponentPropsWithoutRef<"h3">) => (
     <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
   ),
-  p: ({ children }: ComponentPropsWithoutRef<"p">) => (
-    <p className={`type-article text-foreground ${styles.paragraph}`}>{children}</p>
-  ),
+  p: ({ children }: ComponentPropsWithoutRef<"p">) => {
+    if (hasBlockContent(children)) {
+      return (
+        <div className={`type-article text-foreground ${styles.paragraph}`}>
+          {children}
+        </div>
+      )
+    }
+    return (
+      <p className={`type-article text-foreground ${styles.paragraph}`}>
+        {children}
+      </p>
+    )
+  },
   a: ({ href, children, className, ...props }: ComponentPropsWithoutRef<"a">) => {
     const isFootnoteRef = "data-footnote-ref" in props
     const isFootnoteBackref = "data-footnote-backref" in props
@@ -61,6 +85,14 @@ export const caseArticleMdxComponents: MDXComponents = {
   },
   strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
     <strong>{children}</strong>
+  ),
+  img: ({ src, alt }: ComponentPropsWithoutRef<"img">) => (
+    <div className={styles.mediaBlock}>
+      <ArticleImage
+        src={typeof src === "string" ? withBasePath(src) : ""}
+        alt={alt ?? ""}
+      />
+    </div>
   ),
   section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {
     if (props["data-footnotes"] !== undefined) {

@@ -70,7 +70,7 @@ export function ScreencastCard({
           }}
         >
           <div className="flex h-full w-full items-center px-[44px] bg-[rgb(38_41_44_/0.02)]">
-            <div className="relative w-full aspect-[18/39] overflow-hidden rounded-[20px]">
+            <div className="relative w-full aspect-[18/39] overflow-hidden rounded-[42px] md:rounded-[20px]">
               <OptimizedVideoPlayer
                 src={src}
                 shouldAutoplay={shouldAutoplay}
@@ -79,7 +79,7 @@ export function ScreencastCard({
               />
             </div>
           </div>
-          <div className="pointer-events-none absolute inset-0 p-[18px]">
+          <div className="pointer-events-none absolute inset-0 p-[12px] md:p-[18px]">
             <img
               src={withBasePath("/videos/iPhone17_frame.webp")}
               alt=""
