@@ -112,24 +112,29 @@
 }
 
 .videoCard {
-  margin-top: 32px;
+  display: block;
+  margin-top: 28px;
   margin-bottom: 0;
   line-height: 0;
 }
 
-.mediaBlock + .paragraph {
+.mediaBlock + .paragraph,
+.videoCard + .paragraph {
   margin-top: 28px;
 }
 
-.mediaBlock + .sectionTitle {
+.mediaBlock + .sectionTitle,
+.videoCard + .sectionTitle {
   margin-top: calc(var(--article-paragraph-gap) + 6px);
 }
 
-.mediaBlock + .cardTitle {
+.mediaBlock + .cardTitle,
+.videoCard + .cardTitle {
   margin-top: calc(var(--article-paragraph-gap) + 6px);
 }
 
-.mediaBlock:last-child {
+.mediaBlock:last-child,
+.videoCard:last-child {
   margin-bottom: 6px;
 }
 

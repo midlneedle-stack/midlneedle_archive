@@ -122,6 +122,20 @@ function useFootnoteScroll(
       if (!link) return
 
       onHaptic?.()
+
+      if (!link.hasAttribute('data-footnote-ref')) {
+        return
+      }
+
+      const href = link.getAttribute('href')
+      if (!href || !href.startsWith('#')) return
+
+      const destination = document.querySelector<HTMLElement>(href)
+      if (!destination) return
+
+      destination.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      window.history.pushState(null, '', href)
+      event.preventDefault()
     }
 
     const handleFootnoteClick = (event: MouseEvent) => {
