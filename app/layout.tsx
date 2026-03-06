@@ -5,7 +5,6 @@ import cn from 'clsx'
 import { withBasePath } from '@/lib/base-path'
 import './globals.css'
 import { ScrollGradientOverlay } from '@/components/scroll-gradient-overlay'
-import { AgentationProvider } from '@/components/agentation-provider'
 
 export const dynamic = 'error'
 
@@ -82,7 +81,6 @@ export default function RootLayout({
         <ScrollGradientOverlay />
         {children}
         <Analytics />
-        <AgentationProvider />
       </body>
     </html>
   )
