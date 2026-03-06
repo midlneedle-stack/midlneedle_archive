@@ -185,7 +185,7 @@ export function ArticleIphoneVideo({
         }}
       >
         <div
-          className="flex h-full w-full flex-col items-stretch justify-center bg-[rgb(38_41_44_/0.02)] py-0 gap-[10px] md:flex-row md:items-center md:justify-center md:gap-[30px] md:px-[40px] md:py-[var(--iphone-padding-y)]"
+          className="flex h-full w-full flex-col items-stretch justify-center bg-[rgb(38_41_44_/0.02)] py-0 gap-[10px] md:flex-row md:items-center md:justify-center md:gap-[15px] md:px-[20px] md:py-[var(--iphone-padding-y)]"
           style={{ "--iphone-padding-y": `${paddingY}px` } as CSSProperties}
         >
           {normalizedSrcs.map((videoSrc, index) => (
