@@ -38,8 +38,6 @@
 
 <IphoneVideo
   src="/cases/pebble_case/launch_animation.mp4"
-  variant="square"
-  paddingY={120}
 />
 
 # Вибропаттерн
@@ -54,7 +52,7 @@ Pebble SDK позволяет кастомизировать почти любо
 
 Отдельно поработал над видом страницы настроек. Вместо голого HTML, который обычно встречается в конфигурациях вотчфейсов, я постарался привести все к более привычному современному пользователю интерфейсу.
 
-<IphoneVideo src="/cases/pebble_case/settings.mp4" variant="screenrecord" />
+<IphoneVideo src="/cases/pebble_case/settings.mp4" />
 
 # Выпуск в свет
 

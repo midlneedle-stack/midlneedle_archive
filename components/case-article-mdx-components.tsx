@@ -86,42 +86,17 @@ export const caseArticleMdxComponents: MDXComponents = {
     src2,
     src3,
     srcs,
-    variant,
-    variants,
-    paddingY,
-    paddingYByVariant,
-    framePadding,
-    framePaddingByVariant,
-    showFrame,
   }: {
     src?: string
     src2?: string
     src3?: string
     srcs?: string[] | string
-    variant?: "square" | "iphonevideo" | "screenrecord"
-    variants?: Array<"square" | "iphonevideo" | "screenrecord">
-    paddingY?: number
-    paddingYByVariant?: Partial<
-      Record<"square" | "iphonevideo" | "screenrecord", number>
-    >
-    framePadding?: number
-    framePaddingByVariant?: Partial<
-      Record<"square" | "iphonevideo" | "screenrecord", number>
-    >
-    showFrame?: boolean
   }) => (
     <IphoneVideoBlock
       src={src}
       src2={src2}
       src3={src3}
       srcs={srcs}
-      variant={variant}
-      variants={variants}
-      paddingY={paddingY}
-      paddingYByVariant={paddingYByVariant}
-      framePadding={framePadding}
-      framePaddingByVariant={framePaddingByVariant}
-      showFrame={showFrame}
     />
   ),
 }

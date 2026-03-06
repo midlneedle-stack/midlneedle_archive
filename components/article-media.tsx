@@ -6,7 +6,6 @@ import { useMedia } from "./media-context"
 import { MorphingMedia } from "./morphing-media"
 import { useVideoAutoplay } from "@/hooks/use-video-autoplay"
 import { OptimizedVideoPlayer } from "./optimized-video-player"
-import { withBasePath } from "@/lib/base-path"
 import { VIDEO_PLACEHOLDER_COLOR } from "@/lib/video-placeholders"
 
 interface ArticleImageProps {
@@ -102,20 +101,11 @@ export function ArticleVideo({ src }: ArticleVideoProps) {
   )
 }
 
-export type IphoneVideoVariant = "square" | "iphonevideo" | "screenrecord"
-
 interface ArticleIphoneVideoProps {
   src?: string
   src2?: string
   src3?: string
   srcs?: string[] | string
-  variant?: IphoneVideoVariant
-  variants?: IphoneVideoVariant[]
-  paddingY?: number
-  paddingYByVariant?: Partial<Record<IphoneVideoVariant, number>>
-  framePadding?: number
-  framePaddingByVariant?: Partial<Record<IphoneVideoVariant, number>>
-  showFrame?: boolean
 }
 
 export function ArticleIphoneVideo({
@@ -123,13 +113,6 @@ export function ArticleIphoneVideo({
   src2,
   src3,
   srcs,
-  variant,
-  variants,
-  paddingY = 120,
-  paddingYByVariant,
-  framePadding = 20,
-  framePaddingByVariant,
-  showFrame,
 }: ArticleIphoneVideoProps) {
   const id = useId()
   const { expandedId, isClosing, setExpandedId } = useMedia()
@@ -139,12 +122,6 @@ export function ArticleIphoneVideo({
   const shouldAutoplay =
     isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
-  const resolvedVariants = Array.isArray(variants) ? variants : []
-  const fallbackVariant: IphoneVideoVariant = variant ?? "square"
-  const primaryVariant: IphoneVideoVariant = resolvedVariants[0] ?? fallbackVariant
-  const resolvedPaddingY =
-    paddingYByVariant?.[primaryVariant] ?? paddingY
-
   const resolvedSrcs: string[] = []
 
   if (srcs) {
@@ -214,36 +191,21 @@ export function ArticleIphoneVideo({
           className="flex h-full w-full flex-col items-stretch justify-center bg-[rgb(38_41_44_/0.02)] py-0 gap-[10px] md:flex-row md:items-center md:justify-center md:[gap:var(--desktop-gap)] md:px-[20px]"
           style={
             {
-              "--iphone-padding-y": `${resolvedPaddingY}px`,
               "--desktop-item-width": `${desktopItemWidth}px`,
               "--desktop-gap": `${desktopGap}px`,
             } as CSSProperties
           }
         >
           {normalizedSrcs.map((videoSrc, index) => {
-            const itemVariant =
-              resolvedVariants[index] ?? fallbackVariant
-            const aspectClass =
-              itemVariant === "screenrecord"
-                ? "aspect-[18/39]"
-                : itemVariant === "iphonevideo"
-                  ? "aspect-[9/18]"
-                  : "aspect-square"
-            const shouldShowFrame =
-              showFrame ?? (itemVariant === "screenrecord")
-            const effectiveFramePadding = shouldShowFrame
-              ? framePaddingByVariant?.[itemVariant] ?? framePadding
-              : 0
-
             return (
             <div
               key={`${videoSrc}-${index}`}
               className={cn(
                 "relative overflow-hidden rounded-[10px] mx-auto w-[120px] md:w-[var(--desktop-item-width)] md:flex-none",
-                aspectClass
+                "aspect-square"
               )}
             >
-              <div className="absolute inset-0" style={{ padding: effectiveFramePadding }}>
+              <div className="absolute inset-0">
                 <div className="stroke relative h-full w-full overflow-hidden rounded-[10px]">
                   <OptimizedVideoPlayer
                     src={videoSrc}
@@ -253,15 +215,6 @@ export function ArticleIphoneVideo({
                   />
                 </div>
               </div>
-              {shouldShowFrame ? (
-                <div className="pointer-events-none absolute inset-0">
-                  <img
-                    src={withBasePath("/videos/iPhone17_frame.webp")}
-                    alt=""
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-              ) : null}
             </div>
             )
           })}
