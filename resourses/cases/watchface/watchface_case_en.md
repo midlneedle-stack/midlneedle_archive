@@ -36,7 +36,11 @@ But just porting the design over would've been boring. I wanted to make somethin
 
 I wanted pixels to randomly light up across the grid when the watchface launches, and for the digits to gradually emerge from the noise. After a lot of iterations, it finally came together – worth noting that most of my time went into optimizing and polishing this animation.
 
-<MediaPlaceholder label="Video · Launch animation" aspect="aspect-video" />
+<IphoneVideo
+  src="/cases/pebble_case/launch_animation.mp4"
+  variant="square"
+  paddingY={120}
+/>
 
 # Vibration pattern
 
@@ -50,7 +54,7 @@ After some research, I noticed users were missing hourly chime vibrations – a 
 
 I also put some work into the settings page itself. Instead of the bare HTML you usually see in watchface configs, I tried to make it feel more like a modern interface.
 
-<MediaPlaceholder label="Photo · Settings screen" aspect="aspect-video" />
+<IphoneVideo src="/cases/pebble_case/settings.mp4" variant="screenrecord" />
 
 # Shipping it
 

@@ -1,7 +1,7 @@
 "use client"
 
 import styles from "./case-article.module.css"
-import { ArticleIphoneVideo } from "@/components/article-media"
+import { ArticleIphoneVideo, type IphoneVideoVariant } from "@/components/article-media"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { withBasePath } from "@/lib/base-path"
 
@@ -10,8 +10,12 @@ interface IphoneVideoBlockProps {
   src2?: string
   src3?: string
   srcs?: string[] | string
+  variant?: IphoneVideoVariant
+  variants?: IphoneVideoVariant[]
   paddingY?: number
+  paddingYByVariant?: Partial<Record<IphoneVideoVariant, number>>
   framePadding?: number
+  framePaddingByVariant?: Partial<Record<IphoneVideoVariant, number>>
   showFrame?: boolean
 }
 
@@ -50,10 +54,40 @@ function normalizeSources({
     .slice(0, 3)
 }
 
+function normalizeVariants(
+  variants: IphoneVideoBlockProps["variants"],
+  variant: IphoneVideoBlockProps["variant"],
+  count: number
+): IphoneVideoVariant[] {
+  const normalized = Array.isArray(variants) ? variants : []
+  const fallback: IphoneVideoVariant = variant ?? "square"
+
+  return Array.from({ length: count }, (_, index) => {
+    const value = normalized[index]
+    if (value === "screenrecord" || value === "iphonevideo" || value === "square") {
+      return value
+    }
+    return fallback
+  })
+}
+
 export function IphoneVideoBlock(props: IphoneVideoBlockProps) {
-  const { paddingY, framePadding, showFrame } = props
+  const {
+    paddingY,
+    paddingYByVariant,
+    framePadding,
+    framePaddingByVariant,
+    showFrame,
+    variant,
+    variants,
+  } = props
   const isMobile = useIsMobile()
   const normalizedSrcs = normalizeSources(props)
+  const normalizedVariants = normalizeVariants(
+    variants,
+    variant,
+    normalizedSrcs.length
+  )
 
   if (normalizedSrcs.length === 0) {
     return null
@@ -66,8 +100,13 @@ export function IphoneVideoBlock(props: IphoneVideoBlockProps) {
           <div key={`${videoSrc}-${index}`} className={styles.mediaBlock}>
             <ArticleIphoneVideo
               src={videoSrc}
-              paddingY={paddingY}
-              framePadding={framePadding}
+              variant={normalizedVariants[index]}
+              paddingY={
+                paddingYByVariant?.[normalizedVariants[index]] ?? paddingY
+              }
+              framePadding={
+                framePaddingByVariant?.[normalizedVariants[index]] ?? framePadding
+              }
               showFrame={showFrame}
             />
           </div>
@@ -80,8 +119,11 @@ export function IphoneVideoBlock(props: IphoneVideoBlockProps) {
     <div className={styles.mediaBlock}>
       <ArticleIphoneVideo
         srcs={normalizedSrcs}
+        variants={normalizedVariants}
         paddingY={paddingY}
+        paddingYByVariant={paddingYByVariant}
         framePadding={framePadding}
+        framePaddingByVariant={framePaddingByVariant}
         showFrame={showFrame}
       />
     </div>

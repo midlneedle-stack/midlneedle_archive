@@ -102,13 +102,19 @@ export function ArticleVideo({ src }: ArticleVideoProps) {
   )
 }
 
+export type IphoneVideoVariant = "square" | "iphonevideo" | "screenrecord"
+
 interface ArticleIphoneVideoProps {
   src?: string
   src2?: string
   src3?: string
   srcs?: string[] | string
+  variant?: IphoneVideoVariant
+  variants?: IphoneVideoVariant[]
   paddingY?: number
+  paddingYByVariant?: Partial<Record<IphoneVideoVariant, number>>
   framePadding?: number
+  framePaddingByVariant?: Partial<Record<IphoneVideoVariant, number>>
   showFrame?: boolean
 }
 
@@ -117,9 +123,13 @@ export function ArticleIphoneVideo({
   src2,
   src3,
   srcs,
+  variant,
+  variants,
   paddingY = 120,
+  paddingYByVariant,
   framePadding = 20,
-  showFrame = false,
+  framePaddingByVariant,
+  showFrame,
 }: ArticleIphoneVideoProps) {
   const id = useId()
   const { expandedId, isClosing, setExpandedId } = useMedia()
@@ -129,7 +139,11 @@ export function ArticleIphoneVideo({
   const shouldAutoplay =
     isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
-  const effectiveFramePadding = showFrame ? framePadding : 0
+  const resolvedVariants = Array.isArray(variants) ? variants : []
+  const fallbackVariant: IphoneVideoVariant = variant ?? "square"
+  const primaryVariant: IphoneVideoVariant = resolvedVariants[0] ?? fallbackVariant
+  const resolvedPaddingY =
+    paddingYByVariant?.[primaryVariant] ?? paddingY
 
   const resolvedSrcs: string[] = []
 
@@ -161,6 +175,18 @@ export function ArticleIphoneVideo({
   if (normalizedSrcs.length === 0) {
     return null
   }
+  const desktopItemWidth =
+    normalizedSrcs.length >= 3
+      ? 200
+      : normalizedSrcs.length === 2
+        ? 260
+        : 320
+  const desktopGap =
+    normalizedSrcs.length >= 3
+      ? 10
+      : normalizedSrcs.length === 2
+        ? 12
+        : 16
 
   return (
     <MorphingMedia
@@ -185,13 +211,37 @@ export function ArticleIphoneVideo({
         }}
       >
         <div
-          className="flex h-full w-full flex-col items-stretch justify-center bg-[rgb(38_41_44_/0.02)] py-0 gap-[10px] md:flex-row md:items-center md:justify-center md:gap-[15px] md:px-[20px] md:py-[var(--iphone-padding-y)]"
-          style={{ "--iphone-padding-y": `${paddingY}px` } as CSSProperties}
+          className="flex h-full w-full flex-col items-stretch justify-center bg-[rgb(38_41_44_/0.02)] py-0 gap-[10px] md:flex-row md:items-center md:justify-center md:[gap:var(--desktop-gap)] md:px-[20px]"
+          style={
+            {
+              "--iphone-padding-y": `${resolvedPaddingY}px`,
+              "--desktop-item-width": `${desktopItemWidth}px`,
+              "--desktop-gap": `${desktopGap}px`,
+            } as CSSProperties
+          }
         >
-          {normalizedSrcs.map((videoSrc, index) => (
+          {normalizedSrcs.map((videoSrc, index) => {
+            const itemVariant =
+              resolvedVariants[index] ?? fallbackVariant
+            const aspectClass =
+              itemVariant === "screenrecord"
+                ? "aspect-[18/39]"
+                : itemVariant === "iphonevideo"
+                  ? "aspect-[9/18]"
+                  : "aspect-square"
+            const shouldShowFrame =
+              showFrame ?? (itemVariant === "screenrecord")
+            const effectiveFramePadding = shouldShowFrame
+              ? framePaddingByVariant?.[itemVariant] ?? framePadding
+              : 0
+
+            return (
             <div
               key={`${videoSrc}-${index}`}
-              className="relative aspect-square overflow-hidden rounded-[10px] mx-auto w-[120px] md:w-auto md:flex-1 md:basis-0 md:min-w-0 md:max-w-none"
+              className={cn(
+                "relative overflow-hidden rounded-[10px] mx-auto w-[120px] md:w-[var(--desktop-item-width)] md:flex-none",
+                aspectClass
+              )}
             >
               <div className="absolute inset-0" style={{ padding: effectiveFramePadding }}>
                 <div className="stroke relative h-full w-full overflow-hidden rounded-[10px]">
@@ -203,7 +253,7 @@ export function ArticleIphoneVideo({
                   />
                 </div>
               </div>
-              {showFrame ? (
+              {shouldShowFrame ? (
                 <div className="pointer-events-none absolute inset-0">
                   <img
                     src={withBasePath("/videos/iPhone17_frame.webp")}
@@ -213,7 +263,8 @@ export function ArticleIphoneVideo({
                 </div>
               ) : null}
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </MorphingMedia>
