@@ -53,12 +53,12 @@ const videoMeta: Record<
   general_magic: {
     title: "Watchface for Pebble",
     description:
-      "Full case study — How I Built a Pebble Watchface That Caught the Founder's Attention",
+      "Full case study – How I Built a Pebble Watchface That Caught the Founder's Attention",
     descriptionHref: "/cases/watchface",
   },
   film_segment: {
     title: "Letterboxd Redesign",
-    description: "Read the full case study",
+    description: "Full case study – Letterboxd Case Study",
     descriptionHref: "/cases/letterboxd",
   },
   fofocus: {
@@ -71,11 +71,11 @@ const videoMeta: Record<
   },
   skeuo: {
     title: "Classic iOS Player",
-    description: "Classic iOS music player design adapted for Dynamic Island",
+    description: "iOS 6-like music player design adapted for Dynamic Island",
   },
   cummera: {
     title: "Camera Control Scroll",
-    description: "Feed scrolling using Camera Control Button",
+    description: "Feed scrolling using Camera Button",
   },
   wheeel: {
     title: "Scroll Wheel Navigation",
@@ -93,9 +93,9 @@ const videoMeta: Record<
 }
 
 const verticalOrder: VideoKey[] = [
-  "general_magic",
   "film_segment",
   "fofocus",
+  "general_magic",
   "gestures",
   "skeuo",
   "cummera",
