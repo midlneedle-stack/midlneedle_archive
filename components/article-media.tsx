@@ -1,6 +1,6 @@
 "use client"
 
-import { useId } from "react"
+import { useId, type CSSProperties } from "react"
 import { cn } from "@/lib/utils"
 import { useMedia } from "./media-context"
 import { MorphingMedia } from "./morphing-media"
@@ -117,8 +117,8 @@ export function ArticleIphoneVideo({
   src2,
   src3,
   srcs,
-  paddingY = 20,
-  framePadding = 18,
+  paddingY = 120,
+  framePadding = 20,
   showFrame = false,
 }: ArticleIphoneVideoProps) {
   const id = useId()
@@ -129,6 +129,7 @@ export function ArticleIphoneVideo({
   const shouldAutoplay =
     isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
+  const effectiveFramePadding = showFrame ? framePadding : 0
 
   const resolvedSrcs: string[] = []
 
@@ -184,15 +185,15 @@ export function ArticleIphoneVideo({
         }}
       >
         <div
-          className="flex h-full w-full items-center justify-center gap-[2px] bg-[rgb(38_41_44_/0.02)]"
-          style={{ paddingTop: paddingY, paddingBottom: paddingY }}
+          className="flex h-full w-full flex-col items-stretch justify-center bg-[rgb(38_41_44_/0.02)] py-0 gap-[10px] md:flex-row md:items-center md:justify-center md:gap-[30px] md:px-[40px] md:py-[var(--iphone-padding-y)]"
+          style={{ "--iphone-padding-y": `${paddingY}px` } as CSSProperties}
         >
           {normalizedSrcs.map((videoSrc, index) => (
             <div
               key={`${videoSrc}-${index}`}
-              className="relative h-full flex-shrink-0 aspect-[9/16] overflow-hidden rounded-[10px]"
+              className="relative aspect-square overflow-hidden rounded-[10px] mx-auto w-[120px] md:w-auto md:flex-1 md:basis-0 md:min-w-0 md:max-w-none"
             >
-              <div className="absolute inset-0" style={{ padding: framePadding }}>
+              <div className="absolute inset-0" style={{ padding: effectiveFramePadding }}>
                 <div className="stroke relative h-full w-full overflow-hidden rounded-[10px]">
                   <OptimizedVideoPlayer
                     src={videoSrc}

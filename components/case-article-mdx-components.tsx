@@ -3,7 +3,8 @@ import type { ComponentPropsWithoutRef } from "react"
 import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
 import { HapticLink } from "@/components/haptic-link"
-import { ArticleIphoneVideo, ArticleVideo } from "@/components/article-media"
+import { ArticleVideo } from "@/components/article-media"
+import { IphoneVideoBlock } from "@/components/iphone-video-block"
 import { withBasePath } from "@/lib/base-path"
 
 export const caseArticleMdxComponents: MDXComponents = {
@@ -97,22 +98,14 @@ export const caseArticleMdxComponents: MDXComponents = {
     framePadding?: number
     showFrame?: boolean
   }) => (
-    <div className={styles.mediaBlock}>
-      <ArticleIphoneVideo
-        src={src ? withBasePath(src) : undefined}
-        src2={src2 ? withBasePath(src2) : undefined}
-        src3={src3 ? withBasePath(src3) : undefined}
-        srcs={
-          Array.isArray(srcs)
-            ? srcs.map((item) => withBasePath(item))
-            : typeof srcs === "string"
-              ? withBasePath(srcs)
-              : undefined
-        }
-        paddingY={paddingY}
-        framePadding={framePadding}
-        showFrame={showFrame}
-      />
-    </div>
+    <IphoneVideoBlock
+      src={src}
+      src2={src2}
+      src3={src3}
+      srcs={srcs}
+      paddingY={paddingY}
+      framePadding={framePadding}
+      showFrame={showFrame}
+    />
   ),
 }
