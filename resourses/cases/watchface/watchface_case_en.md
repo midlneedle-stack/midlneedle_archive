@@ -52,7 +52,7 @@ After some research, I noticed users were missing hourly chime vibrations – a 
 
 I also put some work into the settings page itself. Instead of the bare HTML you usually see in watchface configs, I tried to make it feel more like a modern interface.
 
-<IphoneVideo src="/cases/pebble_case/settings.mp4" />
+<VideoPlayer src="/cases/pebble_case/settings.mp4" />
 
 # Shipping it
 

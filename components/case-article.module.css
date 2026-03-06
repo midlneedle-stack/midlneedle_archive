@@ -111,6 +111,12 @@
   margin-bottom: 0;
 }
 
+.videoCard {
+  margin-top: 32px;
+  margin-bottom: 0;
+  line-height: 0;
+}
+
 .mediaBlock + .paragraph {
   margin-top: 28px;
 }

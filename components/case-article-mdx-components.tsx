@@ -109,7 +109,7 @@ export const caseArticleMdxComponents: MDXComponents = {
   },
   MediaPlaceholder: CaseMediaPlaceholder,
   VideoPlayer: ({ src }: { src: string }) => (
-    <div className={styles.mediaBlock}>
+    <div className={styles.videoCard}>
       <ArticleVideo src={withBasePath(src)} />
     </div>
   ),

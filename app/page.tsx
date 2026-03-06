@@ -3,16 +3,13 @@ import { SectionHeader } from "@/components/section-header"
 import { CasesGrid } from "@/components/cases-grid"
 import { MediaProvider } from "@/components/media-context"
 import { VideoCard } from "@/components/video-card"
-import { ScreencastCard } from "@/components/screencast-card"
 import { withBasePath } from "@/lib/base-path"
 import { videoPlaceholders } from "@/lib/video-placeholders"
 
 const videos = {
   general_magic: withBasePath("/videos/General_magic.mp4"),
   film_segment: withBasePath("/videos/film_segment.mp4"),
-  fcn_awesome: withBasePath("/videos/fcn_awesome.mp4"),
   fofocus: withBasePath("/videos/fofocus.mp4"),
-  fp_fd_transitionn: withBasePath("/videos/fp_fd_transitionn.mp4"),
   gestures: withBasePath("/videos/gestures.mp4"),
   skeuo: withBasePath("/videos/skeuo.mp4"),
   cummera: withBasePath("/videos/cummera.mp4"),
@@ -57,12 +54,10 @@ const videoMeta: Record<
     title: "Film Segment",
     description: "Cinematic UI transitions",
   },
-  fcn_awesome: defaultMeta("fcn_awesome"),
   fofocus: {
     title: "Focus Animation",
     description: "Smooth focus state transitions",
   },
-  fp_fd_transitionn: defaultMeta("fp_fd_transitionn"),
   gestures: defaultMeta("gestures"),
   skeuo: defaultMeta("skeuo"),
   cummera: {
@@ -87,9 +82,7 @@ const videoMeta: Record<
 const verticalOrder: VideoKey[] = [
   "general_magic",
   "film_segment",
-  "fcn_awesome",
   "fofocus",
-  "fp_fd_transitionn",
   "gestures",
   "skeuo",
   "cummera",
@@ -115,8 +108,7 @@ const playgroundGroups: PlaygroundGroup[] = [
   ...verticalPairs.slice(1).map((items) => makePair(items)),
 ]
 
-const isScreencast = (key: VideoKey) =>
-  key === "fp_fd_transitionn" || key === "fcn_awesome"
+const CardComponent = VideoCard
 
 export default function Home() {
   return (
@@ -146,9 +138,6 @@ export default function Home() {
 
                 if (group.type === "full") {
                   const meta = videoMeta[group.item]
-                  const CardComponent = isScreencast(group.item)
-                    ? ScreencastCard
-                    : VideoCard
                   return (
                     <div key={group.item} className={groupSpacing}>
                       <CardComponent
@@ -171,9 +160,6 @@ export default function Home() {
                     {group.items.map((key) => {
                       const meta = videoMeta[key]
                       const isSolo = group.items.length === 1
-                      const CardComponent = isScreencast(key)
-                        ? ScreencastCard
-                        : VideoCard
                       return (
                         <CardComponent
                           key={key}
