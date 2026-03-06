@@ -76,24 +76,43 @@ export const caseArticleMdxComponents: MDXComponents = {
   },
   MediaPlaceholder: CaseMediaPlaceholder,
   VideoPlayer: ({ src }: { src: string }) => (
-    <ArticleVideo src={withBasePath(src)} />
+    <div className={styles.mediaBlock}>
+      <ArticleVideo src={withBasePath(src)} />
+    </div>
   ),
   IphoneVideo: ({
     src,
+    src2,
+    src3,
+    srcs,
     paddingY,
     framePadding,
     showFrame,
   }: {
-    src: string
+    src?: string
+    src2?: string
+    src3?: string
+    srcs?: string[] | string
     paddingY?: number
     framePadding?: number
     showFrame?: boolean
   }) => (
-    <ArticleIphoneVideo
-      src={withBasePath(src)}
-      paddingY={paddingY}
-      framePadding={framePadding}
-      showFrame={showFrame}
-    />
+    <div className={styles.mediaBlock}>
+      <ArticleIphoneVideo
+        src={src ? withBasePath(src) : undefined}
+        src2={src2 ? withBasePath(src2) : undefined}
+        src3={src3 ? withBasePath(src3) : undefined}
+        srcs={
+          Array.isArray(srcs)
+            ? srcs.map((item) => withBasePath(item))
+            : typeof srcs === "string"
+              ? withBasePath(srcs)
+              : undefined
+        }
+        paddingY={paddingY}
+        framePadding={framePadding}
+        showFrame={showFrame}
+      />
+    </div>
   ),
 }

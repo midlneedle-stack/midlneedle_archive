@@ -103,7 +103,10 @@ export function ArticleVideo({ src }: ArticleVideoProps) {
 }
 
 interface ArticleIphoneVideoProps {
-  src: string
+  src?: string
+  src2?: string
+  src3?: string
+  srcs?: string[] | string
   paddingY?: number
   framePadding?: number
   showFrame?: boolean
@@ -111,6 +114,9 @@ interface ArticleIphoneVideoProps {
 
 export function ArticleIphoneVideo({
   src,
+  src2,
+  src3,
+  srcs,
   paddingY = 20,
   framePadding = 18,
   showFrame = false,
@@ -123,6 +129,37 @@ export function ArticleIphoneVideo({
   const shouldAutoplay =
     isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
+
+  const resolvedSrcs: string[] = []
+
+  if (srcs) {
+    if (Array.isArray(srcs)) {
+      resolvedSrcs.push(...srcs)
+    } else if (typeof srcs === "string") {
+      resolvedSrcs.push(srcs)
+    } else if (typeof srcs === "object") {
+      resolvedSrcs.push(
+        ...Object.values(srcs).filter(
+          (value): value is string =>
+            typeof value === "string" && value.length > 0
+        )
+      )
+    }
+  }
+
+  if (resolvedSrcs.length === 0) {
+    if (src) resolvedSrcs.push(src)
+    if (src2) resolvedSrcs.push(src2)
+    if (src3) resolvedSrcs.push(src3)
+  }
+
+  const normalizedSrcs = resolvedSrcs
+    .filter((item): item is string => typeof item === "string" && item.length > 0)
+    .slice(0, 3)
+
+  if (normalizedSrcs.length === 0) {
+    return null
+  }
 
   return (
     <MorphingMedia
@@ -147,30 +184,35 @@ export function ArticleIphoneVideo({
         }}
       >
         <div
-          className="flex h-full w-full items-center justify-center bg-[rgb(38_41_44_/0.02)]"
+          className="flex h-full w-full items-center justify-center gap-[2px] bg-[rgb(38_41_44_/0.02)]"
           style={{ paddingTop: paddingY, paddingBottom: paddingY }}
         >
-          <div className="relative h-full aspect-[9/16] overflow-hidden rounded-[20px]">
-            <div className="absolute inset-0" style={{ padding: framePadding }}>
-              <div className="relative h-full w-full overflow-hidden rounded-[20px]">
-                <OptimizedVideoPlayer
-                  src={src}
-                  shouldAutoplay={shouldAutoplay}
-                  keepMounted={isExpanded || isClosing}
-                  className="relative h-full w-full"
-                />
+          {normalizedSrcs.map((videoSrc, index) => (
+            <div
+              key={`${videoSrc}-${index}`}
+              className="relative h-full flex-shrink-0 aspect-[9/16] overflow-hidden rounded-[10px]"
+            >
+              <div className="absolute inset-0" style={{ padding: framePadding }}>
+                <div className="stroke relative h-full w-full overflow-hidden rounded-[10px]">
+                  <OptimizedVideoPlayer
+                    src={videoSrc}
+                    shouldAutoplay={shouldAutoplay}
+                    keepMounted={isExpanded || isClosing}
+                    className="relative h-full w-full"
+                  />
+                </div>
               </div>
+              {showFrame ? (
+                <div className="pointer-events-none absolute inset-0">
+                  <img
+                    src={withBasePath("/videos/iPhone17_frame.webp")}
+                    alt=""
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              ) : null}
             </div>
-            {showFrame ? (
-              <div className="pointer-events-none absolute inset-0">
-                <img
-                  src={withBasePath("/videos/iPhone17_frame.webp")}
-                  alt=""
-                  className="h-full w-full object-contain"
-                />
-              </div>
-            ) : null}
-          </div>
+          ))}
         </div>
       </div>
     </MorphingMedia>

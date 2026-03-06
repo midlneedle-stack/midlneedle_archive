@@ -18,7 +18,11 @@ That whole comeback energy and the excitement in the community got me wanting to
 
 While figuring out how everything worked, I ended up making a few watchfaces. With each one, I got a better feel for the workflow – figured out my stack, got comfortable with the emulator, and finally started using GitHub properly. With all that behind me, I took on my latest watchface.
 
-<IphoneVideo src="/cases/pebble_case/first_watchface.mp4" paddingY={40} />
+<IphoneVideo
+  src="/cases/pebble_case/first_watchface.mp4"
+  src2="/cases/pebble_case/first_watchface_2.mp4"
+  src3="/cases/pebble_case/first_watchface_3.mp4"
+/>
 
 # Details
 

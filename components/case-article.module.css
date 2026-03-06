@@ -105,6 +105,28 @@
   margin-bottom: 6px;
 }
 
+.mediaBlock {
+  display: block;
+  margin-top: 28px;
+  margin-bottom: 0;
+}
+
+.mediaBlock + .paragraph {
+  margin-top: 28px;
+}
+
+.mediaBlock + .sectionTitle {
+  margin-top: calc(var(--article-paragraph-gap) + 6px);
+}
+
+.mediaBlock + .cardTitle {
+  margin-top: calc(var(--article-paragraph-gap) + 6px);
+}
+
+.mediaBlock:last-child {
+  margin-bottom: 6px;
+}
+
 .placeholder {
   display: flex;
   align-items: center;
