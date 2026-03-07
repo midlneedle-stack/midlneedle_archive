@@ -58,7 +58,7 @@ const videoMeta: Record<
   },
   film_segment: {
     title: "Letterboxd Redesign",
-    description: "Full case study – Letterboxd Case Study",
+    description: "Full case study — Redesigning Letterboxd, a social platform for film lovers",
     descriptionHref: "/cases/letterboxd",
   },
   fofocus: {
@@ -70,7 +70,7 @@ const videoMeta: Record<
     description: "Gesture-driven interface based on wave engine by Janum Trivedi",
   },
   skeuo: {
-    title: "Classic iOS Player",
+    title: "Now Playing",
     description: "iOS 6-like music player for Dynamic Island",
   },
   cummera: {
@@ -83,7 +83,7 @@ const videoMeta: Record<
   },
   wiki25: {
     title: "Wikipedia 25th",
-    description: "Tribute to my favorite website using SceneKit and Blender",
+    description: "Anniversary tribute to my favorite website using SceneKit and Blender",
   },
   xmbb: {
     title: "PSP Menu Waves",
@@ -117,8 +117,10 @@ const makeFull = (item: VideoKey): PlaygroundGroup => ({ type: "full", item })
 
 const playgroundGroups: PlaygroundGroup[] = [
   ...(verticalPairs[0] ? [makePair(verticalPairs[0])] : []),
+  ...(verticalPairs[1] ? [makePair(verticalPairs[1])] : []),
+  ...(verticalPairs[2] ? [makePair(verticalPairs[2])] : []),
   makeFull("xmbb"),
-  ...verticalPairs.slice(1).map((items) => makePair(items)),
+  ...verticalPairs.slice(3).map((items) => makePair(items)),
 ]
 
 const CardComponent = VideoCard
