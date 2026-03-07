@@ -75,11 +75,11 @@ const videoMeta: Record<
   },
   cummera: {
     title: "Camera Control Scroll",
-    description: "Feed scrolling using Camera Button",
+    description: "A playful \"what if\" concept",
   },
   wheeel: {
     title: "Scroll Wheel Navigation",
-    description: "iPod-style scroll wheel reimagined for modern iOS",
+    description: "Bringing classic iPod interaction to iOS",
   },
   wiki25: {
     title: "Wikipedia 25th",
@@ -93,8 +93,8 @@ const videoMeta: Record<
 }
 
 const verticalOrder: VideoKey[] = [
-  "film_segment",
   "fofocus",
+  "film_segment",
   "general_magic",
   "gestures",
   "skeuo",
