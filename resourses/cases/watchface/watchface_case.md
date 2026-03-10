@@ -18,11 +18,9 @@
 
 Пока я разбирался, как всё устроено, успел сделать несколько вотчфейсов. С каждым новым проектом приходило лучшее понимание воркфлоу – определился со стеком, разобрался, как эффективнее работать с эмулятором, и наконец подружился с GitHub. С этими знаниями я подошёл к созданию своего последнего, на момент написания статьи, вотчфейса.
 
-<IphoneVideo
-  src="/cases/pebble_case/first_watchface.mp4"
-  src2="/cases/pebble_case/first_watchface_2.mp4"
-  src3="/cases/pebble_case/first_watchface_3.mp4"
-/>
+<IphoneVideo src="/cases/pebble_case/first_watchface.mp4" />
+<IphoneVideo src="/cases/pebble_case/first_watchface_2.mp4" />
+<IphoneVideo src="/cases/pebble_case/first_watchface_3.mp4" />
 
 # Детали
 
@@ -36,9 +34,7 @@
 
 Хотелось добиться эффекта, когда при включении вотчфейса по всей сетке в рандомных местах начинают загораться пиксели, и из этого хаоса постепенно проявляются цифры – спустя множество итераций идея все же воплотилась – стоит сказать, что большая часть времени была потрачена именно в попытках оптимизировать и отполировать анимацию.
 
-<IphoneVideo
-  src="/cases/pebble_case/launch_animation.mp4"
-/>
+<IphoneVideo src="/cases/pebble_case/launch_animation.mp4" />
 
 # Вибропаттерн
 

@@ -4,8 +4,7 @@ import { Children, isValidElement } from "react"
 import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
 import { HapticLink } from "@/components/haptic-link"
-import { ArticleImage, ArticleVideo } from "@/components/article-media"
-import { IphoneVideoBlock } from "@/components/iphone-video-block"
+import { ArticleImage, ArticleIphoneVideo, ArticleVideo } from "@/components/article-media"
 import { withBasePath } from "@/lib/base-path"
 
 const BLOCK_TYPES = new Set(["img", "div", "figure", "table", "video", "audio"])
@@ -96,7 +95,12 @@ export const caseArticleMdxComponents: MDXComponents = {
   ),
   SquareImage: ({ src, alt }: { src: string; alt?: string }) => (
     <div className={styles.mediaBlock}>
-      <ArticleImage src={withBasePath(src)} alt={alt ?? ""} aspect="square" />
+      <ArticleImage
+        src={withBasePath(src)}
+        alt={alt ?? ""}
+        aspect="square"
+        interactive={false}
+      />
     </div>
   ),
   section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {
@@ -120,20 +124,11 @@ export const caseArticleMdxComponents: MDXComponents = {
   ),
   IphoneVideo: ({
     src,
-    src2,
-    src3,
-    srcs,
   }: {
-    src?: string
-    src2?: string
-    src3?: string
-    srcs?: string[] | string
+    src: string
   }) => (
-    <IphoneVideoBlock
-      src={src}
-      src2={src2}
-      src3={src3}
-      srcs={srcs}
-    />
+    <div className={styles.mediaBlock}>
+      <ArticleIphoneVideo src={withBasePath(src)} />
+    </div>
   ),
 }
