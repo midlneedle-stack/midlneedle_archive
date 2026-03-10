@@ -7,6 +7,7 @@ import { MorphingMedia } from "./morphing-media"
 import { useVideoAutoplay } from "@/hooks/use-video-autoplay"
 import { OptimizedVideoPlayer } from "./optimized-video-player"
 import { VIDEO_PLACEHOLDER_COLOR } from "@/lib/video-placeholders"
+import { ScreencastFrame } from "./screencast-frame"
 
 interface ArticleImageProps {
   src: string
@@ -98,31 +99,17 @@ export function ArticleVideo({
   const layoutId = `media-${id}`
 
   if (variant === "screencast" || variant === "iphone") {
-    const inset = variant === "screencast" ? "20px" : "80px"
-    const innerFrameClassName =
-      variant === "screencast"
-        ? "relative h-full w-full overflow-hidden rounded-[10px]"
-        : "stroke relative h-full w-full overflow-hidden rounded-[10px]"
-
     return (
-      <div
-        className="stroke relative h-full w-full overflow-hidden aspect-square"
-        style={{
-          borderRadius: "var(--radius-card)",
-          backgroundColor: VIDEO_PLACEHOLDER_COLOR,
-        }}
+      <ScreencastFrame
+        inset={variant === "screencast" ? 20 : 80}
+        innerStroke={variant === "iphone"}
       >
-        <div className="absolute inset-0 bg-[rgb(38_41_44_/0.02)]" />
-        <div className="absolute overflow-hidden rounded-[10px]" style={{ inset }}>
-          <div className={innerFrameClassName}>
-            <OptimizedVideoPlayer
-              src={src}
-              shouldAutoplay={shouldAutoplay}
-              className="relative h-full w-full"
-            />
-          </div>
-        </div>
-      </div>
+        <OptimizedVideoPlayer
+          src={src}
+          shouldAutoplay={shouldAutoplay}
+          className="relative h-full w-full"
+        />
+      </ScreencastFrame>
     )
   }
 

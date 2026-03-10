@@ -7,6 +7,7 @@ import { MorphingMedia } from "./morphing-media"
 import { useVideoAutoplay } from "@/hooks/use-video-autoplay"
 import { OptimizedVideoPlayer } from "./optimized-video-player"
 import { HapticLink } from "@/components/haptic-link"
+import { ScreencastFrame } from "./screencast-frame"
 
 interface VideoCardProps {
   src: string
@@ -14,6 +15,7 @@ interface VideoCardProps {
   description?: string
   descriptionHref?: string
   orientation?: "vertical" | "horizontal"
+  cardVariant?: "standard" | "screencast"
   showTitle?: boolean
   showDescription?: boolean
   className?: string
@@ -26,6 +28,7 @@ export function VideoCard({
   description,
   descriptionHref,
   orientation = "vertical",
+  cardVariant = "standard",
   showTitle = true,
   showDescription = true,
   className,
@@ -40,6 +43,7 @@ export function VideoCard({
   const shouldAutoplay =
     isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
+  const isScreencast = cardVariant === "screencast"
 
   const handleOpen = () => {
     setExpandedId(id)
@@ -66,26 +70,41 @@ export function VideoCard({
             !expandedId &&
               !isClosing &&
               "transition-transform duration-200 ease-out hover:scale-[1.01]",
-            orientation === "vertical" ? "aspect-[9/16]" : "aspect-video"
+            isScreencast
+              ? "aspect-square"
+              : orientation === "vertical"
+                ? "aspect-[9/16]"
+                : "aspect-video"
           )}
-          expandedVariant={orientation}
+          expandedVariant={isScreencast ? "vertical" : orientation}
         >
-          <div
-            className={cn(
-              "stroke relative h-full w-full overflow-hidden"
-            )}
-            style={{
-              backgroundColor: blurDataURL || "#000",
-              borderRadius: "var(--radius-card)",
-            }}
-          >
-            <OptimizedVideoPlayer
-              src={src}
-              shouldAutoplay={shouldAutoplay}
-              keepMounted={isExpanded || isClosing}
-              className="relative h-full w-full"
-            />
-          </div>
+          {isScreencast ? (
+            <ScreencastFrame>
+              <OptimizedVideoPlayer
+                src={src}
+                shouldAutoplay={shouldAutoplay}
+                keepMounted={isExpanded || isClosing}
+                className="relative h-full w-full"
+              />
+            </ScreencastFrame>
+          ) : (
+            <div
+              className={cn(
+                "stroke relative h-full w-full overflow-hidden"
+              )}
+              style={{
+                backgroundColor: blurDataURL || "#000",
+                borderRadius: "var(--radius-card)",
+              }}
+            >
+              <OptimizedVideoPlayer
+                src={src}
+                shouldAutoplay={shouldAutoplay}
+                keepMounted={isExpanded || isClosing}
+                className="relative h-full w-full"
+              />
+            </div>
+          )}
         </MorphingMedia>
         <div>
           {showTitle && (

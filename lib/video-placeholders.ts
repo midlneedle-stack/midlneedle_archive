@@ -5,6 +5,7 @@ export const VIDEO_PLACEHOLDER_COLOR = "rgba(53, 59, 66, 0.05)"
 export const videoPlaceholders = {
   general_magic: VIDEO_PLACEHOLDER_COLOR,
   cummera: VIDEO_PLACEHOLDER_COLOR,
+  fp_fd_transition: VIDEO_PLACEHOLDER_COLOR,
   film_segment: VIDEO_PLACEHOLDER_COLOR,
   fofocus: VIDEO_PLACEHOLDER_COLOR,
   gestures: VIDEO_PLACEHOLDER_COLOR,

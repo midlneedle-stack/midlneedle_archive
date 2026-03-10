@@ -9,6 +9,7 @@ import { videoPlaceholders } from "@/lib/video-placeholders"
 const videos = {
   general_magic: withBasePath("/videos/General_magic.mp4"),
   film_segment: withBasePath("/videos/film_segment.mp4"),
+  fp_fd_transition: withBasePath("/videos/fp_fd_transition.mp4"),
   fofocus: withBasePath("/videos/fofocus.mp4"),
   gestures: withBasePath("/videos/gestures.mp4"),
   skeuo: withBasePath("/videos/skeuo.mp4"),
@@ -48,6 +49,7 @@ const videoMeta: Record<
     description: string
     descriptionHref?: string
     orientation?: "vertical" | "horizontal"
+    cardVariant?: "standard" | "screencast"
   }
 > = {
   general_magic: {
@@ -60,6 +62,12 @@ const videoMeta: Record<
     title: "Letterboxd Redesign",
     description: "Full case study — Redesigning Letterboxd, a social platform for film lovers",
     descriptionHref: "/cases/letterboxd",
+  },
+  fp_fd_transition: {
+    title: "Letterboxd Redesign",
+    description: "Full case study — Redesigning Letterboxd, a social platform for film lovers",
+    descriptionHref: "/cases/letterboxd",
+    cardVariant: "screencast",
   },
   fofocus: {
     title: "Year in Review Animation",
@@ -121,6 +129,7 @@ const playgroundGroups: PlaygroundGroup[] = [
   ...(verticalPairs[2] ? [makePair(verticalPairs[2])] : []),
   makeFull("xmbb"),
   ...verticalPairs.slice(3).map((items) => makePair(items)),
+  makeFull("fp_fd_transition"),
 ]
 
 const CardComponent = VideoCard
@@ -161,6 +170,7 @@ export default function Home() {
                         description={meta.description}
                         descriptionHref={meta.descriptionHref}
                         orientation={meta.orientation ?? "horizontal"}
+                        cardVariant={meta.cardVariant ?? "standard"}
                         showTitle={true}
                         blurDataURL={videoPlaceholders[group.item]}
                       />
@@ -184,6 +194,7 @@ export default function Home() {
                           description={meta.description}
                           descriptionHref={meta.descriptionHref}
                           orientation={meta.orientation ?? "vertical"}
+                          cardVariant={meta.cardVariant ?? "standard"}
                           showTitle={true}
                           blurDataURL={videoPlaceholders[key]}
                           className={isSolo ? "sm:col-span-2" : undefined}
