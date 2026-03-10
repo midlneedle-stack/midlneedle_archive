@@ -79,17 +79,46 @@ export function ArticleImage({
 
 interface ArticleVideoProps {
   src: string
+  variant?: "just_video" | "screencast"
 }
 
-export function ArticleVideo({ src }: ArticleVideoProps) {
+export function ArticleVideo({
+  src,
+  variant = "just_video",
+}: ArticleVideoProps) {
   const id = useId()
   const { expandedId, isClosing, setExpandedId } = useMedia()
   const allowAutoplay = useVideoAutoplay()
   const isExpanded = expandedId === id
   const hasExpandedMedia = expandedId !== null
   const shouldAutoplay =
-    isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
+    variant === "screencast"
+      ? allowAutoplay && !hasExpandedMedia && !isClosing
+      : isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
+
+  if (variant === "screencast") {
+    return (
+      <div
+        className="stroke relative h-full w-full overflow-hidden aspect-square"
+        style={{
+          borderRadius: "var(--radius-card)",
+          backgroundColor: VIDEO_PLACEHOLDER_COLOR,
+        }}
+      >
+        <div className="absolute inset-0 bg-[rgb(38_41_44_/0.02)]" />
+        <div className="absolute inset-[20px] overflow-hidden rounded-[10px]">
+          <div className="relative h-full w-full overflow-hidden rounded-[10px]">
+            <OptimizedVideoPlayer
+              src={src}
+              shouldAutoplay={shouldAutoplay}
+              className="relative h-full w-full"
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <MorphingMedia
@@ -121,36 +150,5 @@ export function ArticleVideo({ src }: ArticleVideoProps) {
         />
       </div>
     </MorphingMedia>
-  )
-}
-
-interface ArticleIphoneVideoProps {
-  src: string
-}
-
-export function ArticleIphoneVideo({ src }: ArticleIphoneVideoProps) {
-  const allowAutoplay = useVideoAutoplay()
-  const { expandedId, isClosing } = useMedia()
-  const shouldAutoplay = allowAutoplay && expandedId === null && !isClosing
-
-  return (
-    <div
-      className="stroke relative h-full w-full overflow-hidden aspect-square"
-      style={{
-        borderRadius: "var(--radius-card)",
-        backgroundColor: VIDEO_PLACEHOLDER_COLOR,
-      }}
-    >
-      <div className="absolute inset-0 bg-[rgb(38_41_44_/0.02)]" />
-      <div className="absolute inset-[80px] overflow-hidden rounded-[10px]">
-        <div className="stroke relative h-full w-full overflow-hidden rounded-[10px]">
-          <OptimizedVideoPlayer
-            src={src}
-            shouldAutoplay={shouldAutoplay}
-            className="relative h-full w-full"
-          />
-        </div>
-      </div>
-    </div>
   )
 }

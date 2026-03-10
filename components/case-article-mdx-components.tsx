@@ -4,7 +4,7 @@ import { Children, isValidElement } from "react"
 import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
 import { HapticLink } from "@/components/haptic-link"
-import { ArticleImage, ArticleIphoneVideo, ArticleVideo } from "@/components/article-media"
+import { ArticleImage, ArticleVideo } from "@/components/article-media"
 import { withBasePath } from "@/lib/base-path"
 
 const BLOCK_TYPES = new Set(["img", "div", "figure", "table", "video", "audio"])
@@ -119,16 +119,16 @@ export const caseArticleMdxComponents: MDXComponents = {
   MediaPlaceholder: CaseMediaPlaceholder,
   VideoPlayer: ({ src }: { src: string }) => (
     <div className={styles.videoCard}>
-      <ArticleVideo src={withBasePath(src)} />
+      <ArticleVideo src={withBasePath(src)} variant="just_video" />
     </div>
   ),
-  IphoneVideo: ({
+  Screencast: ({
     src,
   }: {
     src: string
   }) => (
     <div className={styles.mediaBlock}>
-      <ArticleIphoneVideo src={withBasePath(src)} />
+      <ArticleVideo src={withBasePath(src)} variant="screencast" />
     </div>
   ),
 }
