@@ -18,9 +18,9 @@ That whole comeback energy and the excitement in the community got me wanting to
 
 While figuring out how everything worked, I ended up making a few watchfaces. With each one, I got a better feel for the workflow – figured out my stack, got comfortable with the emulator, and finally started using GitHub properly. With all that behind me, I took on my latest watchface.
 
-<Screencast src="/cases/pebble_case/first_watchface.mp4" />
-<Screencast src="/cases/pebble_case/first_watchface_2.mp4" />
-<Screencast src="/cases/pebble_case/first_watchface_3.mp4" />
+<IphoneVideo src="/cases/pebble_case/first_watchface.mp4" />
+<IphoneVideo src="/cases/pebble_case/first_watchface_2.mp4" />
+<IphoneVideo src="/cases/pebble_case/first_watchface_3.mp4" />
 
 # Details
 
@@ -34,7 +34,7 @@ But just porting the design over would've been boring. I wanted to make somethin
 
 I wanted pixels to randomly light up across the grid when the watchface launches, and for the digits to gradually emerge from the noise. After a lot of iterations, it finally came together – worth noting that most of my time went into optimizing and polishing this animation.
 
-<Screencast src="/cases/pebble_case/launch_animation.mp4" />
+<IphoneVideo src="/cases/pebble_case/launch_animation.mp4" />
 
 # Vibration pattern
 

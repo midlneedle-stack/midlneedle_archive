@@ -79,7 +79,7 @@ export function ArticleImage({
 
 interface ArticleVideoProps {
   src: string
-  variant?: "just_video" | "screencast"
+  variant?: "just_video" | "iphone" | "screencast"
 }
 
 export function ArticleVideo({
@@ -92,12 +92,18 @@ export function ArticleVideo({
   const isExpanded = expandedId === id
   const hasExpandedMedia = expandedId !== null
   const shouldAutoplay =
-    variant === "screencast"
+    variant === "screencast" || variant === "iphone"
       ? allowAutoplay && !hasExpandedMedia && !isClosing
       : isExpanded || (allowAutoplay && !hasExpandedMedia && !isClosing)
   const layoutId = `media-${id}`
 
-  if (variant === "screencast") {
+  if (variant === "screencast" || variant === "iphone") {
+    const inset = variant === "screencast" ? "20px" : "80px"
+    const innerFrameClassName =
+      variant === "screencast"
+        ? "relative h-full w-full overflow-hidden rounded-[10px]"
+        : "stroke relative h-full w-full overflow-hidden rounded-[10px]"
+
     return (
       <div
         className="stroke relative h-full w-full overflow-hidden aspect-square"
@@ -107,8 +113,8 @@ export function ArticleVideo({
         }}
       >
         <div className="absolute inset-0 bg-[rgb(38_41_44_/0.02)]" />
-        <div className="absolute inset-[20px] overflow-hidden rounded-[10px]">
-          <div className="relative h-full w-full overflow-hidden rounded-[10px]">
+        <div className="absolute overflow-hidden rounded-[10px]" style={{ inset }}>
+          <div className={innerFrameClassName}>
             <OptimizedVideoPlayer
               src={src}
               shouldAutoplay={shouldAutoplay}

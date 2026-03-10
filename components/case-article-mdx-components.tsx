@@ -122,6 +122,15 @@ export const caseArticleMdxComponents: MDXComponents = {
       <ArticleVideo src={withBasePath(src)} variant="just_video" />
     </div>
   ),
+  IphoneVideo: ({
+    src,
+  }: {
+    src: string
+  }) => (
+    <div className={styles.mediaBlock}>
+      <ArticleVideo src={withBasePath(src)} variant="iphone" />
+    </div>
+  ),
   Screencast: ({
     src,
   }: {
