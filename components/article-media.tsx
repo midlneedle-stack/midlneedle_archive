@@ -101,7 +101,7 @@ export function ArticleVideo({
   if (variant === "screencast" || variant === "iphone") {
     return (
       <ScreencastFrame
-        inset={variant === "screencast" ? 20 : 80}
+        inset={variant === "screencast" ? 0 : 80}
         innerStroke={variant === "iphone"}
       >
         <OptimizedVideoPlayer

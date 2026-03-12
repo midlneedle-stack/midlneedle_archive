@@ -14,7 +14,7 @@ interface ScreencastFrameProps {
 
 export function ScreencastFrame({
   children,
-  inset = 20,
+  inset = 0,
   innerStroke = false,
   className,
   innerClassName,
