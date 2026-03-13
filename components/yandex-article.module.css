@@ -250,7 +250,7 @@
   word-spacing: 0em;
 }
 
-.footnotesReset :global(.type-article) {
+.footnotesReset :global(.type-body) {
   font-weight: inherit;
   font-variation-settings: inherit;
   letter-spacing: inherit;
