@@ -436,7 +436,7 @@ html {
 
   .type-title {
     font-size: 1.2em;
-    line-height: 1.52em;
+    line-height: 1.54em;
     font-weight: 482;
     font-variation-settings: 'wght' 482, var(--sans-variation);
     letter-spacing: 0em;
@@ -448,7 +448,7 @@ html {
 
   .type-body {
     font-size: 1.1em;
-    line-height: 1.52em;
+    line-height: 1.54em;
     font-weight: 422;
     font-variation-settings: 'wght' 422, var(--sans-variation);
     letter-spacing: 0em;
@@ -457,7 +457,7 @@ html {
 
   .type-card-title {
     font-size: 1.1em;
-    line-height: 1.52em;
+    line-height: 1.54em;
     font-weight: 482;
     font-variation-settings: 'wght' 482, var(--sans-variation);
     letter-spacing: 0em;
