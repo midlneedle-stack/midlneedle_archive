@@ -1,6 +1,6 @@
 This is a story about launching a small product for a niche device. But everyone has to start somewhere, right?
 
-<SquareImage src="/cases/pebble_case/coverr.webp" alt="Case cover" />
+<PebbleWatchface />
 
 # Why Pebble
 

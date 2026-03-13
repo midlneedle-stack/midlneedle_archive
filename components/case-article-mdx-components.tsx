@@ -5,6 +5,7 @@ import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
 import { HapticLink } from "@/components/haptic-link"
 import { ArticleImage, ArticleVideo } from "@/components/article-media"
+import { PebbleWatchface } from "@/components/pebble-watchface"
 import { withBasePath } from "@/lib/base-path"
 
 const BLOCK_TYPES = new Set(["img", "div", "figure", "table", "video", "audio"])
@@ -116,6 +117,11 @@ export const caseArticleMdxComponents: MDXComponents = {
     }
     return <section {...props}>{children}</section>
   },
+  PebbleWatchface: () => (
+    <div className={styles.mediaBlock}>
+      <PebbleWatchface />
+    </div>
+  ),
   MediaPlaceholder: CaseMediaPlaceholder,
   VideoPlayer: ({ src }: { src: string }) => (
     <div className={styles.videoCard}>
