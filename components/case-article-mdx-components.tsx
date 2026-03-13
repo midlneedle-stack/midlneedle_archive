@@ -32,13 +32,13 @@ export const caseArticleMdxComponents: MDXComponents = {
   p: ({ children }: ComponentPropsWithoutRef<"p">) => {
     if (hasBlockContent(children)) {
       return (
-        <div className={`type-body text-foreground ${styles.paragraph}`}>
+        <div className={`type-body ${styles.paragraph}`}>
           {children}
         </div>
       )
     }
     return (
-      <p className={`type-body text-foreground ${styles.paragraph}`}>
+      <p className={`type-body ${styles.paragraph}`}>
         {children}
       </p>
     )

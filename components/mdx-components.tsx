@@ -32,9 +32,9 @@ export const mdxComponents: MDXComponents = {
   ),
   p: ({ children }: ComponentPropsWithoutRef<"p">) => {
     if (hasBlockContent(children)) {
-      return <div className={`type-body text-foreground ${styles.paragraph}`}>{children}</div>
+      return <div className={`type-body ${styles.paragraph}`}>{children}</div>
     }
-    return <p className={`type-body text-foreground ${styles.paragraph}`}>{children}</p>
+    return <p className={`type-body ${styles.paragraph}`}>{children}</p>
   },
   ul: ({ children, className, ...props }: ComponentPropsWithoutRef<"ul">) => (
     <ul
@@ -150,7 +150,7 @@ export const mdxComponents: MDXComponents = {
   HypothesisCard: ({ title, body }: { title: string; body: string }) => (
     <div className={styles.hypothesisCard}>
       <div className={`type-body text-balance text-foreground ${styles.hypothesisTitle}`}>{title}</div>
-      <div className={`type-body text-foreground ${styles.hypothesisBody}`}>{body}</div>
+      <div className={`type-body ${styles.hypothesisBody}`}>{body}</div>
     </div>
   ),
   section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {
