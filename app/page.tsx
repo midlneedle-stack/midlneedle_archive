@@ -161,7 +161,7 @@ export default function Home() {
           <section className="mb-[var(--space-section)] group">
             <SectionHeader title="Playground" pixelVariant="playground" />
 
-            <div className="flex flex-col gap-[var(--space-grid)] sm:gap-0">
+            <div className="flex flex-col gap-[28px] sm:gap-0">
               {playgroundGroups.map((group, index) => {
                 const isLast = index === playgroundGroups.length - 1
                 const groupSpacing = isLast ? "" : "sm:mb-[var(--space-stack)]"
@@ -199,7 +199,7 @@ export default function Home() {
                 return (
                   <div
                     key={group.items.join("-")}
-                    className={`grid grid-cols-1 gap-[var(--space-grid)] sm:grid-cols-2 ${groupSpacing}`}
+                    className={`grid grid-cols-1 gap-[28px] sm:grid-cols-2 sm:gap-[var(--space-grid)] ${groupSpacing}`}
                   >
                     {group.items.map((key) => {
                       const meta = videoMeta[key]
