@@ -3,6 +3,8 @@ import { SectionHeader } from "@/components/section-header"
 import { CasesGrid } from "@/components/cases-grid"
 import { MediaProvider } from "@/components/media-context"
 import { VideoCard } from "@/components/video-card"
+import { ArticleImage } from "@/components/article-media"
+import { PlaygroundCard } from "@/components/playground-card"
 import { withBasePath } from "@/lib/base-path"
 import { videoPlaceholders } from "@/lib/video-placeholders"
 
@@ -20,6 +22,10 @@ const videos = {
 }
 
 type VideoKey = keyof typeof videos
+
+const imageOverrides: Partial<Record<VideoKey, string>> = {
+  fp_fd_transition: withBasePath("/videos/leterboxxxddd.webp"),
+}
 
 const toTitle = (value: string) =>
   value
@@ -162,18 +168,30 @@ export default function Home() {
 
                 if (group.type === "full") {
                   const meta = videoMeta[group.item]
+                  const imageSrc = imageOverrides[group.item]
                   return (
                     <div key={group.item} className={groupSpacing}>
-                      <CardComponent
-                        src={videos[group.item]}
-                        title={meta.title}
-                        description={meta.description}
-                        descriptionHref={meta.descriptionHref}
-                        orientation={meta.orientation ?? "horizontal"}
-                        cardVariant={meta.cardVariant ?? "standard"}
-                        showTitle={true}
-                        blurDataURL={videoPlaceholders[group.item]}
-                      />
+                      {imageSrc ? (
+                        <PlaygroundCard
+                          title={meta.title}
+                          description={meta.description}
+                          descriptionHref={meta.descriptionHref}
+                          showTitle={true}
+                        >
+                          <ArticleImage src={imageSrc} aspect="square" />
+                        </PlaygroundCard>
+                      ) : (
+                        <CardComponent
+                          src={videos[group.item]}
+                          title={meta.title}
+                          description={meta.description}
+                          descriptionHref={meta.descriptionHref}
+                          orientation={meta.orientation ?? "horizontal"}
+                          cardVariant={meta.cardVariant ?? "standard"}
+                          showTitle={true}
+                          blurDataURL={videoPlaceholders[group.item]}
+                        />
+                      )}
                     </div>
                   )
                 }

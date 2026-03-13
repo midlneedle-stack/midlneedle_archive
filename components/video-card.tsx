@@ -6,8 +6,8 @@ import { useMedia } from "./media-context"
 import { MorphingMedia } from "./morphing-media"
 import { useVideoAutoplay } from "@/hooks/use-video-autoplay"
 import { OptimizedVideoPlayer } from "./optimized-video-player"
-import { HapticLink } from "@/components/haptic-link"
 import { ScreencastFrame } from "./screencast-frame"
+import { PlaygroundCard } from "./playground-card"
 
 interface VideoCardProps {
   src: string
@@ -53,20 +53,21 @@ export function VideoCard({
   }
 
   return (
-    <>
-      <div
-        className={cn(
-          "relative flex flex-col origin-center",
-          className
-        )}
-      >
+    <PlaygroundCard
+      title={title}
+      description={description}
+      descriptionHref={descriptionHref}
+      showTitle={showTitle}
+      showDescription={showDescription}
+      className={className}
+    >
         <MorphingMedia
           layoutId={layoutId}
           isOpen={isExpanded}
           onOpen={handleOpen}
           onClose={handleClose}
           triggerClassName={cn(
-            "cursor-zoom-in mb-[var(--space-inset)]",
+            "cursor-zoom-in",
             !expandedId &&
               !isClosing &&
               "transition-transform duration-200 ease-out hover:scale-[1.01]",
@@ -106,30 +107,6 @@ export function VideoCard({
             </div>
           )}
         </MorphingMedia>
-        <div className="flex flex-col gap-[var(--space-card-text)]">
-          {showTitle && (
-            <h3 className="type-body m-0 text-balance text-foreground">
-              {title}
-            </h3>
-          )}
-          {showDescription && description && (
-            descriptionHref ? (
-              <p className="type-body m-0 text-balance text-faint-foreground">
-                <HapticLink
-                  href={descriptionHref}
-                  className="underline decoration-[var(--link-underline)] underline-offset-[0.16em] decoration-1 hover:decoration-foreground"
-                >
-                  {description}
-                </HapticLink>
-              </p>
-            ) : (
-              <p className="type-body m-0 text-balance text-faint-foreground">
-                {description}
-              </p>
-            )
-          )}
-        </div>
-      </div>
-    </>
+    </PlaygroundCard>
   )
 }
