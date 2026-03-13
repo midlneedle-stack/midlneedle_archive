@@ -27,20 +27,18 @@
 .subsectionTitle + .list,
 .sectionTitle + .hypothesisCard,
 .subsectionTitle + .hypothesisCard,
-.sectionTitle + .imageWrapper,
-.subsectionTitle + .imageWrapper,
-.sectionTitle + .videoCard,
-.subsectionTitle + .videoCard,
+.sectionTitle + :is(.imageWrapper, .videoCard),
+.subsectionTitle + :is(.imageWrapper, .videoCard),
 .sectionTitle + .tableWrapper,
 .subsectionTitle + .tableWrapper,
-/* When image is wrapped in paragraph after title, collapse both margins */
-.sectionTitle + .paragraph:has(> .imageWrapper),
-.subsectionTitle + .paragraph:has(> .imageWrapper) {
+/* When media is wrapped in paragraph after title, collapse both margins */
+.sectionTitle + .paragraph:has(> :is(.imageWrapper, .videoCard)),
+.subsectionTitle + .paragraph:has(> :is(.imageWrapper, .videoCard)) {
   margin-top: 0;
 }
 
-.sectionTitle + .paragraph > .imageWrapper,
-.subsectionTitle + .paragraph > .imageWrapper {
+.sectionTitle + .paragraph > :is(.imageWrapper, .videoCard),
+.subsectionTitle + .paragraph > :is(.imageWrapper, .videoCard) {
   margin-top: 0;
 }
 
@@ -76,25 +74,24 @@
   margin-top: var(--article-inner-gap);
 }
 
-/* Paragraph wrapping an image — collapse its own spacing */
-.paragraph:has(> .imageWrapper) {
+/* Paragraph wrapping media — collapse its own spacing */
+.paragraph:has(> :is(.imageWrapper, .videoCard)) {
   margin: 0;
 }
 
-/* After a wrapped image paragraph, next paragraph gets media gap */
-.paragraph:has(> .imageWrapper) + .paragraph {
+/* After a wrapped media paragraph, next paragraph gets media gap */
+.paragraph:has(> :is(.imageWrapper, .videoCard)) + .paragraph {
   margin-top: 32px;
 }
 
-/* Before a wrapped image paragraph */
-.paragraph + .paragraph:has(> .imageWrapper) {
+/* Before a wrapped media paragraph */
+.paragraph + .paragraph:has(> :is(.imageWrapper, .videoCard)) {
   margin-top: 32px;
 }
 
 /* After block elements, a paragraph gets matching media gap */
 .list + .paragraph,
-.imageWrapper + .paragraph,
-.videoCard + .paragraph,
+:is(.imageWrapper, .videoCard) + .paragraph,
 .tableWrapper + .paragraph,
 .hypothesisCard + .paragraph {
   margin-top: 32px;
@@ -102,33 +99,28 @@
 
 /* After block elements, a subsection title gets full section gap + buffer */
 .list + .sectionTitle,
-.imageWrapper + .sectionTitle,
-.videoCard + .sectionTitle,
+:is(.imageWrapper, .videoCard) + .sectionTitle,
 .tableWrapper + .sectionTitle,
 .hypothesisCard + .sectionTitle {
   margin-top: calc(var(--article-paragraph-gap) + 6px);
 }
 
-.imageWrapper + .subsectionTitle,
-.videoCard + .subsectionTitle,
+:is(.imageWrapper, .videoCard) + .subsectionTitle,
 .tableWrapper + .subsectionTitle,
 .hypothesisCard + .subsectionTitle {
   margin-top: calc(var(--article-paragraph-gap) + 6px);
 }
 
-/* Tighten gap between consecutive cards of the same type */
-/* Tighten gap between consecutive cards of the same type */
-.imageWrapper + .imageWrapper,
-.imageWrapper + .paragraph:has(> .imageWrapper),
-.paragraph:has(> .imageWrapper) + .imageWrapper,
-.paragraph:has(> .imageWrapper) + .paragraph:has(> .imageWrapper),
-.videoCard + .videoCard {
+/* Tighten gap between consecutive media cards regardless of exact type */
+:is(.imageWrapper, .videoCard) + :is(.imageWrapper, .videoCard),
+:is(.imageWrapper, .videoCard) + .paragraph:has(> :is(.imageWrapper, .videoCard)),
+.paragraph:has(> :is(.imageWrapper, .videoCard)) + :is(.imageWrapper, .videoCard),
+.paragraph:has(> :is(.imageWrapper, .videoCard)) + .paragraph:has(> :is(.imageWrapper, .videoCard)) {
   margin-top: 16px;
 }
 
 /* Last block element in article gets bottom buffer */
-.imageWrapper:last-child,
-.videoCard:last-child,
+:is(.imageWrapper, .videoCard):last-child,
 .tableWrapper:last-child,
 .hypothesisCard:last-child,
 .list:last-child {
@@ -241,13 +233,7 @@
   background: rgb(53 59 66 / 0.02);
 }
 
-.imageWrapper {
-  margin-top: 32px;
-  margin-bottom: 0;
-  line-height: 0;
-}
-
-.videoCard {
+:is(.imageWrapper, .videoCard) {
   margin-top: 32px;
   margin-bottom: 0;
   line-height: 0;

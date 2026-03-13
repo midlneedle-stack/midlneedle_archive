@@ -106,15 +106,15 @@ export function VideoCard({
             </div>
           )}
         </MorphingMedia>
-        <div>
+        <div className="flex flex-col gap-[var(--space-card-text)]">
           {showTitle && (
-            <h3 className="type-body mb-0 text-foreground">
+            <h3 className="type-body m-0 text-foreground">
               {title}
             </h3>
           )}
           {showDescription && description && (
             descriptionHref ? (
-              <p className="type-body mt-[var(--space-card-text)] text-faint-foreground">
+              <p className="type-body m-0 text-faint-foreground">
                 <HapticLink
                   href={descriptionHref}
                   className="underline decoration-[var(--link-underline)] underline-offset-[0.16em] decoration-1 hover:decoration-foreground"
@@ -123,7 +123,7 @@ export function VideoCard({
                 </HapticLink>
               </p>
             ) : (
-              <p className="type-body mt-[var(--space-card-text)] text-faint-foreground">
+              <p className="type-body m-0 text-faint-foreground">
                 {description}
               </p>
             )
