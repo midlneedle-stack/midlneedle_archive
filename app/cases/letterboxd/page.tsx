@@ -23,7 +23,7 @@ const ARTICLE_PATH_EN = path.join(
 )
 
 const TITLE_EN = "Letterboxd — Case Study"
-const TITLE_RU = "Letterboxd — Case Study"
+const TITLE_RU = "Редизайн Letterboxd: социальной сети для любителей кино"
 
 export default async function LetterboxdCasePage() {
   const [rawRu, rawEn] = await Promise.all([

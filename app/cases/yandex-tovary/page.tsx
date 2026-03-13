@@ -24,7 +24,7 @@ const ARTICLE_PATH_EN = path.join(
 )
 
 const TITLE_EN = "Yandex Tovary — Onboarding"
-const TITLE_RU = "Yandex Tovary — Onboarding"
+const TITLE_RU = "Онбординг в «Яндекс Товары»"
 
 export const metadata: Metadata = {
   title: "Yandex Tovary — Onboarding",
