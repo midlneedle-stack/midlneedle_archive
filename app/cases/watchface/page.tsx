@@ -23,7 +23,7 @@ const ARTICLE_PATH_EN = path.join(
 )
 
 const TITLE_EN = "How I built a Pebble watchface and got noticed by the company's founder"
-const TITLE_RU = "Как я сделал вотчфейс для Pebble и получил признание от фаундера компании"
+const TITLE_RU = "Как я сделал вотчфейс для Pebble и привлек внимание фаундера компании"
 
 export default async function WatchfaceCasePage() {
   const [rawRu, rawEn] = await Promise.all([

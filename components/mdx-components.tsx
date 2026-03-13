@@ -149,7 +149,7 @@ export const mdxComponents: MDXComponents = {
   ),
   HypothesisCard: ({ title, body }: { title: string; body: string }) => (
     <div className={styles.hypothesisCard}>
-      <div className={`type-article text-foreground ${styles.hypothesisTitle}`}>{title}</div>
+      <div className={`type-article text-balance text-foreground ${styles.hypothesisTitle}`}>{title}</div>
       <div className={`type-article text-foreground ${styles.hypothesisBody}`}>{body}</div>
     </div>
   ),

@@ -13,7 +13,7 @@ interface CasesGridProps {
 function CaseCard({ title, date, href }: CaseItem) {
   const content = (
     <div className="flex w-full items-center gap-[calc(var(--space-text)*0.5)] py-[8px] transition-[padding] duration-100 ease-out group-hover/item:pr-[4px]">
-      <span className="cases-item-title type-body min-w-0">
+      <span className="cases-item-title type-body min-w-0 text-balance">
         {title}
       </span>
       <span aria-hidden="true" className="h-px flex-1 min-w-[12px] bg-[var(--stroke)] transition-colors duration-100 ease-out group-hover/item:bg-foreground" />
