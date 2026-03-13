@@ -62,7 +62,7 @@ The response was positive, so I figured why not tweet about it. Right before bed
 
 <SquareImage src="/cases/pebble_case/twitter_post.webp" alt="Twitter post" />
 
-Next morning, the tweet had way more engagement than I expected – especially for an account with zero followers. Turns out Eric Migicovsky had retweeted it. Getting a nod from Pebble's founder was a nice feeling :)
+Next morning, the tweet had way more engagement than I expected – especially for an account with zero followers. Turns out Eric Migicovsky [had retweeted it](https://x.com/ericmigi/status/1988761152256655776). Getting a nod from Pebble's founder was a nice feeling :)
 
 # What's next
 
