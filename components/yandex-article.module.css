@@ -111,12 +111,12 @@
   margin-top: calc(var(--article-paragraph-gap) + 6px);
 }
 
-/* Tighten gap between consecutive media cards regardless of exact type */
+/* Match the same media-to-media rhythm used in the other case studies */
 :is(.imageWrapper, .videoCard) + :is(.imageWrapper, .videoCard),
 :is(.imageWrapper, .videoCard) + .paragraph:has(> :is(.imageWrapper, .videoCard)),
 .paragraph:has(> :is(.imageWrapper, .videoCard)) + :is(.imageWrapper, .videoCard),
 .paragraph:has(> :is(.imageWrapper, .videoCard)) + .paragraph:has(> :is(.imageWrapper, .videoCard)) {
-  margin-top: 16px;
+  margin-top: 28px;
 }
 
 /* Last block element in article gets bottom buffer */

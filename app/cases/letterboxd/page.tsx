@@ -14,29 +14,57 @@ const ARTICLE_PATH_RU = path.join(
   "Letterboxd_case_study.md"
 )
 
+const ARTICLE_PATH_EN = path.join(
+  process.cwd(),
+  "resourses",
+  "cases",
+  "letterboxd",
+  "Letterboxd_case_study_en.md"
+)
+
+const TITLE_EN = "Letterboxd — Case Study"
 const TITLE_RU = "Letterboxd — Case Study"
 
 export default async function LetterboxdCasePage() {
-  const rawRu = await readFile(ARTICLE_PATH_RU, "utf8")
+  const [rawRu, rawEn] = await Promise.all([
+    readFile(ARTICLE_PATH_RU, "utf8"),
+    readFile(ARTICLE_PATH_EN, "utf8"),
+  ])
 
-  const { content: ruContent } = await compileMDX({
-    source: rawRu,
-    components: caseArticleMdxComponents,
-    options: {
-      mdxOptions: {
-        remarkPlugins: [remarkGfm],
+  const [{ content: ruContent }, { content: engContent }] = await Promise.all([
+    compileMDX({
+      source: rawRu,
+      components: caseArticleMdxComponents,
+      options: {
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+        },
       },
-    },
-  })
+    }),
+    compileMDX({
+      source: rawEn,
+      components: caseArticleMdxComponents,
+      options: {
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+        },
+      },
+    }),
+  ])
 
   return (
     <MediaProvider>
       <CaseArticle
         content={{
+          eng: {
+            title: TITLE_EN,
+            body: engContent,
+            publishedAt: "February 28, 2026",
+          },
           ru: {
             title: TITLE_RU,
             body: ruContent,
-          publishedAt: "28 февраля 2026",
+            publishedAt: "28 февраля 2026",
           },
         }}
       />

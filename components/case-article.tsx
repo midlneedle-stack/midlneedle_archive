@@ -20,7 +20,7 @@ interface CaseArticleProps {
 
 export function CaseArticle({ content }: CaseArticleProps) {
   const hasEnglish = Boolean(content.eng)
-  const [language, setLanguage] = useState<'eng' | 'ru'>(hasEnglish ? 'eng' : 'ru')
+  const [language, setLanguage] = useState<'eng' | 'ru'>('ru')
   const currentContent = language === 'eng' && content.eng ? content.eng : content.ru
   const { title, body, publishedAt } = currentContent
   const articleRef = useRef<HTMLElement | null>(null)
@@ -75,27 +75,6 @@ export function CaseArticle({ content }: CaseArticleProps) {
         </section>
       </div>
     </main>
-  )
-}
-
-export function FootnoteArticle({ className, children }: { className?: string; children: ReactNode }) {
-  const articleRef = useRef<HTMLElement | null>(null)
-  const { trigger } = useWebHaptics()
-
-  const triggerFootnoteHaptic = () => {
-    trigger(HAPTIC_TRANSITION, HAPTIC_TRANSITION_OPTIONS)
-  }
-
-  useFootnoteScroll(articleRef, [], triggerFootnoteHaptic)
-
-  return (
-    <article
-      ref={articleRef}
-      data-article-content
-      className={className}
-    >
-      {children}
-    </article>
   )
 }
 
