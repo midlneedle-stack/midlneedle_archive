@@ -26,16 +26,13 @@ export function ArticleImage({
   const { expandedId, isClosing, setExpandedId } = useMedia()
   const isExpanded = expandedId === id
   const layoutId = `media-${id}`
-  const isTall = src.includes("1920_1360")
   const aspectClass = aspect
     ? aspect === "square"
       ? "aspect-square"
       : aspect === "tall"
         ? "aspect-[24/17]"
         : "aspect-video"
-    : isTall
-      ? "aspect-[24/17]"
-      : "aspect-video"
+    : "aspect-video"
 
   const imageFrame = (
     <div

@@ -122,6 +122,16 @@ export const mdxComponents: MDXComponents = {
       />
     </div>
   ),
+  SquareImage: ({ src, alt }: { src: string; alt?: string }) => (
+    <div className={styles.imageWrapper}>
+      <ArticleImage
+        src={withBasePath(src)}
+        alt={alt ?? ""}
+        aspect="square"
+        interactive={false}
+      />
+    </div>
+  ),
   AudioPlayer: ({ src }: { src: string }) => (
     <AudioPlayer src={src} />
   ),
