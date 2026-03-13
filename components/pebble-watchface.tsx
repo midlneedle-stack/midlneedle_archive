@@ -1,11 +1,13 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { useWebHaptics } from "web-haptics/react"
 import { withBasePath } from "@/lib/base-path"
 import {
   createPebbleWatchfaceEngine,
   type PebbleWatchfaceEngine,
 } from "./pebble-watchface-engine"
+import { HAPTIC_PEBBLE_INTRO } from "@/lib/haptics"
 import { ScreencastFrame } from "./screencast-frame"
 
 const FRAME_WIDTH = 984
@@ -23,6 +25,7 @@ export function PebbleWatchface() {
   const screenRef = useRef<HTMLButtonElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const engineRef = useRef<PebbleWatchfaceEngine | null>(null)
+  const { trigger } = useWebHaptics()
 
   useEffect(() => {
     const viewport = viewportRef.current
@@ -50,6 +53,7 @@ export function PebbleWatchface() {
           }
 
           engine.start()
+          trigger(HAPTIC_PEBBLE_INTRO)
           observer?.disconnect()
           observer = null
         },
@@ -68,7 +72,7 @@ export function PebbleWatchface() {
       engineRef.current = null
       engine.destroy()
     }
-  }, [])
+  }, [trigger])
 
   return (
     <ScreencastFrame inset={0}>
@@ -90,7 +94,10 @@ export function PebbleWatchface() {
           <button
             type="button"
             ref={screenRef}
-            onClick={() => engineRef.current?.restart()}
+            onClick={() => {
+              engineRef.current?.restart()
+              trigger(HAPTIC_PEBBLE_INTRO)
+            }}
             onPointerMove={(event) => {
               if (event.pointerType !== "mouse") {
                 return
