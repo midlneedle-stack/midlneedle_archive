@@ -23,6 +23,9 @@ const TILT_MAX_DEGREES = 20
 const TILT_PERSPECTIVE = 900
 const TILT_RADIUS_MULTIPLIER = 2
 const TILT_LERP = 0.16
+const UNDERLAY_DEPTH = 6
+const UNDERLAY_MAX_OFFSET = 8
+const UNDERLAY_SCALE = 0.84
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
@@ -31,6 +34,7 @@ function clamp(value: number, min: number, max: number) {
 export function PebbleWatchface() {
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const watchRef = useRef<HTMLDivElement | null>(null)
+  const underlayRef = useRef<HTMLDivElement | null>(null)
   const screenRef = useRef<HTMLButtonElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const engineRef = useRef<PebbleWatchfaceEngine | null>(null)
@@ -86,7 +90,8 @@ export function PebbleWatchface() {
   useEffect(() => {
     const viewport = viewportRef.current
     const watch = watchRef.current
-    if (!viewport || !watch) {
+    const underlay = underlayRef.current
+    if (!viewport || !watch || !underlay) {
       return
     }
 
@@ -96,11 +101,19 @@ export function PebbleWatchface() {
     let targetX = 0
     let targetY = 0
 
+    const applyTilt = (rotateX: number, rotateY: number) => {
+      watch.style.transform = `perspective(${TILT_PERSPECTIVE}px) rotateX(${rotateX.toFixed(3)}deg) rotateY(${rotateY.toFixed(3)}deg)`
+
+      const offsetX = (-rotateY / TILT_MAX_DEGREES) * UNDERLAY_MAX_OFFSET
+      const offsetY = (rotateX / TILT_MAX_DEGREES) * UNDERLAY_MAX_OFFSET
+      underlay.style.transform = `translateZ(-${UNDERLAY_DEPTH}px) translateX(${offsetX.toFixed(3)}px) translateY(${offsetY.toFixed(3)}px) scale(${UNDERLAY_SCALE})`
+    }
+
     const renderTilt = () => {
       currentX += (targetX - currentX) * TILT_LERP
       currentY += (targetY - currentY) * TILT_LERP
 
-      watch.style.transform = `perspective(${TILT_PERSPECTIVE}px) rotateX(${currentX.toFixed(3)}deg) rotateY(${currentY.toFixed(3)}deg)`
+      applyTilt(currentX, currentY)
 
       if (
         Math.abs(currentX - targetX) > 0.01 ||
@@ -168,7 +181,7 @@ export function PebbleWatchface() {
       if (rafId !== null) {
         window.cancelAnimationFrame(rafId)
       }
-      watch.style.transform = `perspective(${TILT_PERSPECTIVE}px) rotateX(0deg) rotateY(0deg)`
+      applyTilt(0, 0)
     }
   }, [])
 
@@ -189,6 +202,32 @@ export function PebbleWatchface() {
             willChange: "transform",
           }}
         >
+          <div
+            ref={underlayRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              transform: `translateZ(-${UNDERLAY_DEPTH}px) translateX(0px) translateY(0px) scale(${UNDERLAY_SCALE})`,
+              transformOrigin: "center center",
+              willChange: "transform",
+            }}
+          >
+            <img
+              src={FRAME_SRC}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="block h-auto w-full select-none"
+            />
+            <img
+              src={FRAME_SRC}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="absolute inset-0 block h-auto w-full select-none [filter:brightness(0)]"
+              style={{ opacity: 0.1 }}
+            />
+          </div>
           <img
             src={FRAME_SRC}
             alt=""
