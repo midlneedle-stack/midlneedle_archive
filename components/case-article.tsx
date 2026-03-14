@@ -113,7 +113,7 @@ function useFootnoteScroll(
       if (!destination) return
 
       destination.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      window.history.pushState(null, '', href)
+      window.history.replaceState(null, '', href)
       event.preventDefault()
     }
 
@@ -142,7 +142,7 @@ function useFootnoteScroll(
 
       onHaptic?.()
       destination.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      window.history.pushState(null, '', href)
+      window.history.replaceState(null, '', href)
       event.preventDefault()
     }
 
