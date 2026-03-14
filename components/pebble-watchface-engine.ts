@@ -26,7 +26,7 @@ const REFERENCE_ROWS = 28
 
 const DIGIT_COMPACT_THRESHOLD = 0.15
 const DIGIT_FULL_THRESHOLD = 0.45
-const TRAIL_FADE_MS = 320
+const TRAIL_FADE_MS = 640
 const GRID_COLS = Math.max(DIGIT_SPAN_COLS, Math.floor(SCREEN_WIDTH / CELL_SIZE))
 const GRID_ROWS = Math.max(DIGIT_HEIGHT, Math.floor(SCREEN_HEIGHT / CELL_SIZE))
 
@@ -751,10 +751,12 @@ function drawTrail(
       continue
     }
 
-    ctx.globalAlpha = 1 - age / TRAIL_FADE_MS
-    drawCellShape(ctx, col, row, 0)
+    const progress = ease(age / TRAIL_FADE_MS)
+    const sizeLevel = shapeLevelForProgress(progress)
+
+    ctx.fillStyle = colorForProgress(progress, false)
+    drawCellShape(ctx, col, row, sizeLevel < 0 ? 0 : sizeLevel)
   }
-  ctx.globalAlpha = 1
 }
 
 function drawDigits(ctx: CanvasRenderingContext2D, state: DigitState) {

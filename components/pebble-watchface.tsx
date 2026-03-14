@@ -18,7 +18,7 @@ const SCREEN_WIDTH = (576 / FRAME_WIDTH) * 100
 const SCREEN_HEIGHT = (672 / FRAME_HEIGHT) * 100
 const LOGICAL_SCREEN_WIDTH = 144
 const LOGICAL_SCREEN_HEIGHT = 168
-const FRAME_SRC = withBasePath("/cases/pebble_case/frame_pebble.png")
+const FRAME_SRC = withBasePath("/cases/pebble_case/frame_pebble.webp")
 
 export function PebbleWatchface() {
   const viewportRef = useRef<HTMLDivElement | null>(null)
