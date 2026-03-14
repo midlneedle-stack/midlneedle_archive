@@ -661,6 +661,103 @@ function setDigitsFromDate(state: DigitState, date: Date) {
   return changed
 }
 
+function digitCellLevelAt(state: DigitState, cellCol: number, cellRow: number) {
+  const relRow = cellRow - LAYOUT.digitStartRow
+  if (relRow < 0 || relRow >= DIGIT_HEIGHT) {
+    return null
+  }
+
+  let slotCol = LAYOUT.digitStartCol
+  for (let slot = 0; slot < TOTAL_GLYPHS; slot += 1) {
+    const width = slot === 2 ? DIGIT_COLON_WIDTH : DIGIT_WIDTH
+    if (cellCol >= slotCol && cellCol < slotCol + width) {
+      const relCol = cellCol - slotCol
+      const level = state.cellLevel[slot][relRow][relCol]
+      return level >= 0 ? level : null
+    }
+
+    slotCol += width
+    if (slot < TOTAL_GLYPHS - 1) {
+      slotCol += DIGIT_GAP
+    }
+  }
+
+  return null
+}
+
+function currentTrailSizeLevel(
+  state: EngineState,
+  col: number,
+  row: number
+) {
+  if (!state.background) {
+    return 0
+  }
+
+  const cell = state.background.cells[cellIndex(col, row)]
+  if (cell.isDigit) {
+    return digitCellLevelAt(state.digits, col, row) ?? 0
+  }
+
+  const progress = backgroundProgressValue(state.background, cell)
+  if (progress === null) {
+    return 0
+  }
+
+  const sizeLevel = shapeLevelForProgress(progress)
+  return sizeLevel < 0 ? 0 : sizeLevel
+}
+
+function animatedActiveTrailSizeLevel(baseLevel: number, inverseProgress: number) {
+  const shrink = 1 - inverseProgress
+
+  if (baseLevel >= 2) {
+    if (shrink < 0.2) {
+      return 2
+    }
+    if (shrink < 0.55) {
+      return 1
+    }
+    return 0
+  }
+
+  if (baseLevel === 1) {
+    return shrink < 0.5 ? 1 : 0
+  }
+
+  return shrink < 0.45 ? 0 : -1
+}
+
+function trailProgressAt(
+  state: EngineState,
+  col: number,
+  row: number,
+  now: number
+) {
+  const index = cellIndex(col, row)
+  const startedAt = state.trailStartedAt[index]
+  if (startedAt <= 0) {
+    return null
+  }
+
+  const age = now - startedAt
+  if (age >= TRAIL_FADE_MS) {
+    state.trailStartedAt[index] = 0
+    return null
+  }
+
+  return ease(age / TRAIL_FADE_MS)
+}
+
+function shouldOverrideBaseCell(
+  state: EngineState,
+  col: number,
+  row: number,
+  now: number
+) {
+  return trailProgressAt(state, col, row, now) !== null
+}
+
 function drawCellShape(
   ctx: CanvasRenderingContext2D,
   cellCol: number,
@@ -687,10 +784,12 @@ function drawCellShape(
   ctx.fillRect(x + 2, y + 2, 2, 2)
 }
 
-function drawBackground(
-  ctx: CanvasRenderingContext2D,
-  background: BackgroundState
-) {
+function drawBackground(ctx: CanvasRenderingContext2D, state: EngineState, now: number) {
+  const { background } = state
+  if (!background) {
+    return
+  }
+
   ctx.fillStyle = COLORS.backgroundFill
   ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -706,6 +805,9 @@ function drawBackground(
       const cell = background.cells[cellIndex(col, row)]
       const progress = backgroundProgressValue(background, cell)
       if (progress === null) {
+        continue
+      }
+      if (shouldOverrideBaseCell(state, col, row, now)) {
         continue
       }
 
@@ -733,39 +835,39 @@ function drawTrail(
     return
   }
 
-  ctx.fillStyle = COLORS.digitStroke
   for (let index = 0; index < state.trailStartedAt.length; index += 1) {
-    const startedAt = state.trailStartedAt[index]
-    if (startedAt <= 0) {
-      continue
-    }
-
-    const age = now - startedAt
-    if (age >= TRAIL_FADE_MS) {
-      state.trailStartedAt[index] = 0
-      continue
-    }
-
     const { col, row } = cellCoordinates(index)
-    if (!isDormantTrailCell(state.background, col, row)) {
+    const progress = trailProgressAt(state, col, row, now)
+    if (progress === null) {
+      continue
+    }
+    if (isDormantTrailCell(state.background, col, row)) {
+      const sizeLevel = shapeLevelForProgress(progress)
+      ctx.fillStyle = colorForProgress(progress, false)
+      drawCellShape(ctx, col, row, sizeLevel < 0 ? 0 : sizeLevel)
       continue
     }
 
-    const progress = ease(age / TRAIL_FADE_MS)
-    const sizeLevel = shapeLevelForProgress(progress)
-
-    ctx.fillStyle = colorForProgress(progress, false)
-    drawCellShape(ctx, col, row, sizeLevel < 0 ? 0 : sizeLevel)
+    const inverseProgress = Math.abs(progress * 2 - 1)
+    const baseLevel = currentTrailSizeLevel(state, col, row)
+    ctx.fillStyle = colorForProgress(inverseProgress, true)
+    drawCellShape(
+      ctx,
+      col,
+      row,
+      animatedActiveTrailSizeLevel(baseLevel, inverseProgress)
+    )
   }
 }
 
-function drawDigits(ctx: CanvasRenderingContext2D, state: DigitState) {
+function drawDigits(ctx: CanvasRenderingContext2D, state: EngineState, now: number) {
   ctx.fillStyle = COLORS.digitStroke
   let baseCol = LAYOUT.digitStartCol
+  const digits = state.digits
 
   for (let slot = 0; slot < TOTAL_GLYPHS; slot += 1) {
-    if (digitPresent(state, slot)) {
-      const glyph = GLYPHS[glyphForSlot(state, slot)]
+    if (digitPresent(digits, slot)) {
+      const glyph = GLYPHS[glyphForSlot(digits, slot)]
       for (let row = 0; row < DIGIT_HEIGHT; row += 1) {
         const mask = glyph.rows[row]
         if (!mask) {
@@ -776,7 +878,15 @@ function drawDigits(ctx: CanvasRenderingContext2D, state: DigitState) {
           if ((mask & bit) === 0) {
             continue
           }
-          drawCellShape(ctx, baseCol + col, LAYOUT.digitStartRow + row, state.cellLevel[slot][row][col])
+          if (shouldOverrideBaseCell(state, baseCol + col, LAYOUT.digitStartRow + row, now)) {
+            continue
+          }
+          drawCellShape(
+            ctx,
+            baseCol + col,
+            LAYOUT.digitStartRow + row,
+            digits.cellLevel[slot][row][col]
+          )
         }
       }
     }
@@ -798,9 +908,9 @@ function drawFrame(state: EngineState, now: number) {
     ctx.fillStyle = COLORS.backgroundFill
     ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
   } else {
-    drawBackground(ctx, state.background)
+    drawBackground(ctx, state, now)
+    drawDigits(ctx, state, now)
     drawTrail(ctx, state, now)
-    drawDigits(ctx, state.digits)
   }
 }
 
@@ -912,8 +1022,7 @@ export function createPebbleWatchfaceEngine(
       col < 0 ||
       col >= LAYOUT.gridCols ||
       row < 0 ||
-      row >= LAYOUT.gridRows ||
-      !isDormantTrailCell(state.background, col, row)
+      row >= LAYOUT.gridRows
     ) {
       return
     }
