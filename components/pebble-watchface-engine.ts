@@ -26,6 +26,8 @@ const REFERENCE_ROWS = 28
 
 const DIGIT_COMPACT_THRESHOLD = 0.15
 const DIGIT_FULL_THRESHOLD = 0.45
+const POWER_DOWN_DURATION_MS = 876
+const POWER_DOWN_STAGGER_MS = 804
 const TRAIL_FADE_MS = 640
 const GRID_COLS = Math.max(DIGIT_SPAN_COLS, Math.floor(SCREEN_WIDTH / CELL_SIZE))
 const GRID_ROWS = Math.max(DIGIT_HEIGHT, Math.floor(SCREEN_HEIGHT / CELL_SIZE))
@@ -85,11 +87,21 @@ type DigitState = {
   cellLevel: number[][][]
 }
 
+type PowerDownState = {
+  active: boolean
+  elapsedMs: number
+  durationMs: number
+  originX: number
+  originY: number
+  maxDistance: number
+}
+
 type EngineState = {
   started: boolean
   destroyed: boolean
   background: BackgroundState | null
   digits: DigitState
+  powerDown: PowerDownState
   trailStartedAt: number[]
   lastTrailCell: { col: number; row: number } | null
   pendingTime: Date | null
@@ -168,7 +180,7 @@ const LAYOUT = {
 export interface PebbleWatchfaceEngine {
   resize: () => void
   start: () => void
-  restart: () => void
+  restart: (x?: number, y?: number) => void
   setPointer: (x: number, y: number) => void
   clearPointer: () => void
   destroy: () => void
@@ -560,6 +572,24 @@ function fillFinalLevels(state: DigitState) {
   state.revealComplete = true
 }
 
+function settleBackground(state: BackgroundState) {
+  state.introComplete = true
+  state.introElapsedMs = state.timing.introDelayMs
+  state.activationRatio = 1
+  state.activationWindowMs = state.timing.cellStaggerMaxMs
+  state.animationEnabled = false
+  state.animationComplete = true
+
+  for (const cell of state.cells) {
+    if (!cell.active) {
+      continue
+    }
+
+    cell.elapsedMs = cell.startDelayMs + state.timing.cellAnimMs
+    cell.complete = true
+  }
+}
+
 function digitLevelFromProgress(progress: number) {
   if (progress < DIGIT_COMPACT_THRESHOLD) {
     return 0
@@ -758,6 +788,68 @@ function shouldOverrideBaseCell(
   return trailProgressAt(state, col, row, now) !== null
 }
 
+function powerDownCellProgress(
+  state: EngineState,
+  cellCol: number,
+  cellRow: number
+) {
+  const cellCenterX = (cellCol + 0.5) * CELL_SIZE
+  const cellCenterY = (cellRow + 0.5) * CELL_SIZE
+  const distance = Math.hypot(
+    cellCenterX - state.powerDown.originX,
+    cellCenterY - state.powerDown.originY
+  )
+  const normalizedDistance =
+    state.powerDown.maxDistance > 0
+      ? clamp01(distance / state.powerDown.maxDistance)
+      : 1
+  const delayMs = (1 - normalizedDistance) * POWER_DOWN_STAGGER_MS
+  const activeDurationMs = Math.max(
+    BG_FRAME_MS,
+    state.powerDown.durationMs - POWER_DOWN_STAGGER_MS
+  )
+
+  return clamp01((state.powerDown.elapsedMs - delayMs) / activeDurationMs)
+}
+
+function maxDigitCellDistance(state: DigitState, originX: number, originY: number) {
+  let maxDistance = 1
+  let baseCol = LAYOUT.digitStartCol
+
+  for (let slot = 0; slot < TOTAL_GLYPHS; slot += 1) {
+    if (digitPresent(state, slot)) {
+      const glyph = GLYPHS[glyphForSlot(state, slot)]
+      for (let row = 0; row < DIGIT_HEIGHT; row += 1) {
+        const mask = glyph.rows[row]
+        if (!mask) {
+          continue
+        }
+
+        for (let col = 0; col < glyph.width; col += 1) {
+          const bit = 1 << (glyph.width - 1 - col)
+          if ((mask & bit) === 0) {
+            continue
+          }
+
+          const cellCenterX = (baseCol + col + 0.5) * CELL_SIZE
+          const cellCenterY = (LAYOUT.digitStartRow + row + 0.5) * CELL_SIZE
+          maxDistance = Math.max(
+            maxDistance,
+            Math.hypot(cellCenterX - originX, cellCenterY - originY)
+          )
+        }
+      }
+    }
+
+    baseCol += slot === 2 ? DIGIT_COLON_WIDTH : DIGIT_WIDTH
+    if (slot < TOTAL_GLYPHS - 1) {
+      baseCol += DIGIT_GAP
+    }
+  }
+
+  return maxDistance
+}
+
 function drawCellShape(
   ctx: CanvasRenderingContext2D,
   cellCol: number,
@@ -898,6 +990,69 @@ function drawDigits(ctx: CanvasRenderingContext2D, state: EngineState, now: numb
   }
 }
 
+function drawPowerDownDigits(ctx: CanvasRenderingContext2D, state: EngineState) {
+  let baseCol = LAYOUT.digitStartCol
+  const digits = state.digits
+
+  for (let slot = 0; slot < TOTAL_GLYPHS; slot += 1) {
+    if (digitPresent(digits, slot)) {
+      const glyph = GLYPHS[glyphForSlot(digits, slot)]
+      for (let row = 0; row < DIGIT_HEIGHT; row += 1) {
+        const mask = glyph.rows[row]
+        if (!mask) {
+          continue
+        }
+        for (let col = 0; col < glyph.width; col += 1) {
+          const bit = 1 << (glyph.width - 1 - col)
+          if ((mask & bit) === 0) {
+            continue
+          }
+
+          const baseLevel = digits.cellLevel[slot][row][col]
+          if (baseLevel < 0) {
+            continue
+          }
+
+          const progress = powerDownCellProgress(
+            state,
+            baseCol + col,
+            LAYOUT.digitStartRow + row
+          )
+
+          if (progress <= 0) {
+            ctx.fillStyle = COLORS.stage2
+            drawCellShape(
+              ctx,
+              baseCol + col,
+              LAYOUT.digitStartRow + row,
+              baseLevel
+            )
+            continue
+          }
+
+          const remaining = 1 - ease(progress)
+          if (remaining <= 0) {
+            continue
+          }
+
+          ctx.fillStyle = colorForProgress(remaining, true)
+          drawCellShape(
+            ctx,
+            baseCol + col,
+            LAYOUT.digitStartRow + row,
+            0
+          )
+        }
+      }
+    }
+
+    baseCol += slot === 2 ? DIGIT_COLON_WIDTH : DIGIT_WIDTH
+    if (slot < TOTAL_GLYPHS - 1) {
+      baseCol += DIGIT_GAP
+    }
+  }
+}
+
 function drawFrame(state: EngineState, now: number) {
   const ctx = state.visibleCtx
   ctx.setTransform(1, 0, 0, 1, 0, 0)
@@ -907,6 +1062,9 @@ function drawFrame(state: EngineState, now: number) {
   if (!state.started || !state.background) {
     ctx.fillStyle = COLORS.backgroundFill
     ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+  } else if (state.powerDown.active) {
+    drawBackground(ctx, state, now)
+    drawPowerDownDigits(ctx, state)
   } else {
     drawBackground(ctx, state, now)
     drawDigits(ctx, state, now)
@@ -927,6 +1085,14 @@ export function createPebbleWatchfaceEngine(
     destroyed: false,
     background: null,
     digits: createDigitState(),
+    powerDown: {
+      active: false,
+      elapsedMs: 0,
+      durationMs: 0,
+      originX: SCREEN_WIDTH / 2,
+      originY: SCREEN_HEIGHT / 2,
+      maxDistance: 1,
+    },
     trailStartedAt: Array.from(
       { length: LAYOUT.gridCols * LAYOUT.gridRows },
       () => 0
@@ -950,6 +1116,12 @@ export function createPebbleWatchfaceEngine(
     state.started = true
     state.background = createBackgroundState()
     state.digits = createDigitState()
+    state.powerDown.active = false
+    state.powerDown.elapsedMs = 0
+    state.powerDown.durationMs = 0
+    state.powerDown.originX = SCREEN_WIDTH / 2
+    state.powerDown.originY = SCREEN_HEIGHT / 2
+    state.powerDown.maxDistance = 1
     state.lastTrailCell = null
     state.trailStartedAt.fill(0)
     state.pendingTime = null
@@ -1072,6 +1244,26 @@ export function createPebbleWatchfaceEngine(
     state.accumulator += Math.min(64, now - state.lastFrameTime)
     state.lastFrameTime = now
 
+    if (state.powerDown.active) {
+      while (state.accumulator >= BG_FRAME_MS) {
+        state.powerDown.elapsedMs += BG_FRAME_MS
+        state.accumulator -= BG_FRAME_MS
+      }
+
+      if (state.powerDown.elapsedMs >= state.powerDown.durationMs) {
+        resetAnimation(false)
+        state.lastFrameTime = null
+        state.accumulator = 0
+        draw(now)
+        state.rafId = window.requestAnimationFrame(tick)
+        return
+      }
+
+      draw(now)
+      state.rafId = window.requestAnimationFrame(tick)
+      return
+    }
+
     while (state.accumulator >= BG_FRAME_MS) {
       stepBackground(state.background)
       if (!state.digits.revealComplete) {
@@ -1127,14 +1319,37 @@ export function createPebbleWatchfaceEngine(
       }
       resetAnimation(true)
     },
-    restart() {
+    restart(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2) {
       if (state.destroyed) {
         return
       }
-      resetAnimation(!state.started)
+
+      if (!state.started || state.background === null) {
+        resetAnimation(!state.started)
+        return
+      }
+
+      settleBackground(state.background)
+      fillFinalLevels(state.digits)
+      state.powerDown.active = true
+      state.powerDown.elapsedMs = 0
+      state.powerDown.durationMs = POWER_DOWN_DURATION_MS
+      state.powerDown.originX = x
+      state.powerDown.originY = y
+      state.powerDown.maxDistance = maxDigitCellDistance(state.digits, x, y)
+      state.lastTrailCell = null
+      state.trailStartedAt.fill(0)
+      state.pendingTime = null
+      draw()
+      startLoop()
     },
     setPointer(x, y) {
-      if (state.destroyed || !state.started || !state.background) {
+      if (
+        state.destroyed ||
+        !state.started ||
+        !state.background ||
+        state.powerDown.active
+      ) {
         return
       }
 

@@ -24,8 +24,8 @@ const TILT_PERSPECTIVE = 900
 const TILT_RADIUS_MULTIPLIER = 2
 const TILT_LERP = 0.16
 const UNDERLAY_DEPTH = 6
-const UNDERLAY_MAX_OFFSET = 8
-const UNDERLAY_SCALE = 0.84
+const UNDERLAY_MAX_OFFSET = 4
+const UNDERLAY_SCALE = 1
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
@@ -33,9 +33,9 @@ function clamp(value: number, min: number, max: number) {
 
 export function PebbleWatchface() {
   const viewportRef = useRef<HTMLDivElement | null>(null)
-  const watchRef = useRef<HTMLDivElement | null>(null)
-  const underlayRef = useRef<HTMLDivElement | null>(null)
-  const screenRef = useRef<HTMLButtonElement | null>(null)
+  const watchRef = useRef<HTMLButtonElement | null>(null)
+  const underlayRef = useRef<HTMLSpanElement | null>(null)
+  const screenRef = useRef<HTMLSpanElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const engineRef = useRef<PebbleWatchfaceEngine | null>(null)
   const { trigger } = useWebHaptics()
@@ -153,10 +153,11 @@ export function PebbleWatchface() {
       const distance = Math.hypot(dx, dy)
       const activationRadius =
         Math.max(rect.width, rect.height) * TILT_RADIUS_MULTIPLIER
-      const proximity = clamp(1 - distance / activationRadius, 0, 1) ** 2
+      const rawProximity = clamp(1 - distance / activationRadius, 0, 1)
+      const proximity = rawProximity * (1 - 0.4 * rawProximity * rawProximity)
 
-      const normalizedX = clamp(dx / (rect.width * 0.8), -1, 1)
-      const normalizedY = clamp(dy / (rect.height * 0.8), -1, 1)
+      const normalizedX = clamp(dx / (rect.width * 0.36), -1, 1)
+      const normalizedY = clamp(dy / (rect.height * 0.36), -1, 1)
 
       setTiltTarget(
         -normalizedY * TILT_MAX_DEGREES * proximity,
@@ -191,9 +192,56 @@ export function PebbleWatchface() {
         ref={viewportRef}
         className="flex h-full w-full items-center justify-center"
       >
-        <div
+        <button
+          type="button"
           ref={watchRef}
-          className="relative w-[42%] max-w-[252px] min-w-[132px] sm:w-[29%] sm:max-w-[178px] sm:min-w-[94px]"
+          onClick={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect()
+            const clickX =
+              event.detail === 0
+                ? SCREEN_LEFT + SCREEN_WIDTH / 2
+                : ((event.clientX - rect.left) / rect.width) * 100
+            const clickY =
+              event.detail === 0
+                ? SCREEN_TOP + SCREEN_HEIGHT / 2
+                : ((event.clientY - rect.top) / rect.height) * 100
+            const clampedX = clamp(clickX, SCREEN_LEFT, SCREEN_LEFT + SCREEN_WIDTH)
+            const clampedY = clamp(clickY, SCREEN_TOP, SCREEN_TOP + SCREEN_HEIGHT)
+
+            engineRef.current?.restart(
+              ((clampedX - SCREEN_LEFT) / SCREEN_WIDTH) * LOGICAL_SCREEN_WIDTH,
+              ((clampedY - SCREEN_TOP) / SCREEN_HEIGHT) * LOGICAL_SCREEN_HEIGHT
+            )
+            trigger(HAPTIC_PEBBLE_INTRO)
+          }}
+          onPointerMove={(event) => {
+            if (event.pointerType !== "mouse") {
+              return
+            }
+
+            const rect = event.currentTarget.getBoundingClientRect()
+            const localX = ((event.clientX - rect.left) / rect.width) * 100
+            const localY = ((event.clientY - rect.top) / rect.height) * 100
+
+            if (
+              localX < SCREEN_LEFT ||
+              localX > SCREEN_LEFT + SCREEN_WIDTH ||
+              localY < SCREEN_TOP ||
+              localY > SCREEN_TOP + SCREEN_HEIGHT
+            ) {
+              engineRef.current?.clearPointer()
+              return
+            }
+
+            engineRef.current?.setPointer(
+              ((localX - SCREEN_LEFT) / SCREEN_WIDTH) * LOGICAL_SCREEN_WIDTH,
+              ((localY - SCREEN_TOP) / SCREEN_HEIGHT) * LOGICAL_SCREEN_HEIGHT
+            )
+          }}
+          onPointerLeave={() => engineRef.current?.clearPointer()}
+          onPointerCancel={() => engineRef.current?.clearPointer()}
+          className="relative w-[42%] max-w-[252px] min-w-[132px] cursor-pointer border-0 bg-transparent p-0 sm:w-[29%] sm:max-w-[178px] sm:min-w-[94px]"
+          aria-label="Replay Pebble watchface animation"
           style={{
             aspectRatio: `${FRAME_WIDTH} / ${FRAME_HEIGHT}`,
             transformStyle: "preserve-3d",
@@ -202,7 +250,7 @@ export function PebbleWatchface() {
             willChange: "transform",
           }}
         >
-          <div
+          <span
             ref={underlayRef}
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
@@ -227,7 +275,7 @@ export function PebbleWatchface() {
               className="absolute inset-0 block h-auto w-full select-none [filter:brightness(0)]"
               style={{ opacity: 0.1 }}
             />
-          </div>
+          </span>
           <img
             src={FRAME_SRC}
             alt=""
@@ -235,28 +283,10 @@ export function PebbleWatchface() {
             draggable={false}
             className="block h-auto w-full select-none"
           />
-          <button
-            type="button"
+          <span
             ref={screenRef}
-            onClick={() => {
-              engineRef.current?.restart()
-              trigger(HAPTIC_PEBBLE_INTRO)
-            }}
-            onPointerMove={(event) => {
-              if (event.pointerType !== "mouse") {
-                return
-              }
-
-              const rect = event.currentTarget.getBoundingClientRect()
-              engineRef.current?.setPointer(
-                ((event.clientX - rect.left) / rect.width) * LOGICAL_SCREEN_WIDTH,
-                ((event.clientY - rect.top) / rect.height) * LOGICAL_SCREEN_HEIGHT
-              )
-            }}
-            onPointerLeave={() => engineRef.current?.clearPointer()}
-            onPointerCancel={() => engineRef.current?.clearPointer()}
-            className="absolute flex cursor-pointer items-center justify-center overflow-hidden rounded-[6px] border-0 bg-black p-0 sm:rounded-[12px]"
-            aria-label="Replay Pebble watchface animation"
+            aria-hidden="true"
+            className="pointer-events-none absolute flex items-center justify-center overflow-hidden rounded-[6px] bg-black sm:rounded-[12px]"
             style={{
               left: `${SCREEN_LEFT}%`,
               top: `${SCREEN_TOP}%`,
@@ -268,8 +298,8 @@ export function PebbleWatchface() {
               ref={canvasRef}
               className="block bg-black [image-rendering:pixelated]"
             />
-          </button>
-        </div>
+          </span>
+        </button>
       </div>
     </ScreencastFrame>
   )
