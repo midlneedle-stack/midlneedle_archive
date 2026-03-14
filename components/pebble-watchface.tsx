@@ -19,9 +19,18 @@ const SCREEN_HEIGHT = (672 / FRAME_HEIGHT) * 100
 const LOGICAL_SCREEN_WIDTH = 144
 const LOGICAL_SCREEN_HEIGHT = 168
 const FRAME_SRC = withBasePath("/cases/pebble_case/frame_pebble.webp")
+const TILT_MAX_DEGREES = 20
+const TILT_PERSPECTIVE = 900
+const TILT_RADIUS_MULTIPLIER = 2
+const TILT_LERP = 0.16
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value))
+}
 
 export function PebbleWatchface() {
   const viewportRef = useRef<HTMLDivElement | null>(null)
+  const watchRef = useRef<HTMLDivElement | null>(null)
   const screenRef = useRef<HTMLButtonElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const engineRef = useRef<PebbleWatchfaceEngine | null>(null)
@@ -74,6 +83,95 @@ export function PebbleWatchface() {
     }
   }, [trigger])
 
+  useEffect(() => {
+    const viewport = viewportRef.current
+    const watch = watchRef.current
+    if (!viewport || !watch) {
+      return
+    }
+
+    let rafId: number | null = null
+    let currentX = 0
+    let currentY = 0
+    let targetX = 0
+    let targetY = 0
+
+    const renderTilt = () => {
+      currentX += (targetX - currentX) * TILT_LERP
+      currentY += (targetY - currentY) * TILT_LERP
+
+      watch.style.transform = `perspective(${TILT_PERSPECTIVE}px) rotateX(${currentX.toFixed(3)}deg) rotateY(${currentY.toFixed(3)}deg)`
+
+      if (
+        Math.abs(currentX - targetX) > 0.01 ||
+        Math.abs(currentY - targetY) > 0.01
+      ) {
+        rafId = window.requestAnimationFrame(renderTilt)
+        return
+      }
+
+      currentX = targetX
+      currentY = targetY
+      rafId = null
+    }
+
+    const scheduleTilt = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(renderTilt)
+      }
+    }
+
+    const setTiltTarget = (rotateX: number, rotateY: number) => {
+      targetX = rotateX
+      targetY = rotateY
+      scheduleTilt()
+    }
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") {
+        return
+      }
+
+      const rect = watch.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      const dx = event.clientX - centerX
+      const dy = event.clientY - centerY
+      const distance = Math.hypot(dx, dy)
+      const activationRadius =
+        Math.max(rect.width, rect.height) * TILT_RADIUS_MULTIPLIER
+      const proximity = clamp(1 - distance / activationRadius, 0, 1) ** 2
+
+      const normalizedX = clamp(dx / (rect.width * 0.8), -1, 1)
+      const normalizedY = clamp(dy / (rect.height * 0.8), -1, 1)
+
+      setTiltTarget(
+        -normalizedY * TILT_MAX_DEGREES * proximity,
+        normalizedX * TILT_MAX_DEGREES * proximity
+      )
+    }
+
+    const resetTilt = () => {
+      setTiltTarget(0, 0)
+    }
+
+    window.addEventListener("pointermove", handlePointerMove)
+    window.addEventListener("pointerleave", resetTilt)
+    window.addEventListener("pointercancel", resetTilt)
+    window.addEventListener("blur", resetTilt)
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove)
+      window.removeEventListener("pointerleave", resetTilt)
+      window.removeEventListener("pointercancel", resetTilt)
+      window.removeEventListener("blur", resetTilt)
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId)
+      }
+      watch.style.transform = `perspective(${TILT_PERSPECTIVE}px) rotateX(0deg) rotateY(0deg)`
+    }
+  }, [])
+
   return (
     <ScreencastFrame inset={0}>
       <div
@@ -81,8 +179,15 @@ export function PebbleWatchface() {
         className="flex h-full w-full items-center justify-center"
       >
         <div
+          ref={watchRef}
           className="relative w-[42%] max-w-[252px] min-w-[132px] sm:w-[29%] sm:max-w-[178px] sm:min-w-[94px]"
-          style={{ aspectRatio: `${FRAME_WIDTH} / ${FRAME_HEIGHT}` }}
+          style={{
+            aspectRatio: `${FRAME_WIDTH} / ${FRAME_HEIGHT}`,
+            transformStyle: "preserve-3d",
+            transformOrigin: "center center",
+            transform: `perspective(${TILT_PERSPECTIVE}px) rotateX(0deg) rotateY(0deg)`,
+            willChange: "transform",
+          }}
         >
           <img
             src={FRAME_SRC}
