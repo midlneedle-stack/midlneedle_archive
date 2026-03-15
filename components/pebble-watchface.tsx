@@ -112,6 +112,8 @@ export function PebbleWatchface() {
     let targetX = 0
     let targetY = 0
     let orientationBaseline: { beta: number; gamma: number } | null = null
+    let ignore = false
+    const screenOrientation = window.screen.orientation
 
     const getTiltTarget = (clientX: number, clientY: number) => {
       const rect = watch.getBoundingClientRect()
@@ -177,6 +179,13 @@ export function PebbleWatchface() {
       setTiltTarget(rotateX, rotateY)
     }
 
+    const resetMotionBaseline = () => {
+      orientationBaseline = null
+      if (motionTiltEnabledRef.current) {
+        setTiltTarget(0, 0)
+      }
+    }
+
     const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
       if (typeof event.beta !== "number" || typeof event.gamma !== "number") {
         return
@@ -201,8 +210,8 @@ export function PebbleWatchface() {
       )
 
       setTiltTarget(
-        -normalizedBeta * TILT_MAX_DEGREES,
-        normalizedGamma * TILT_MAX_DEGREES
+        normalizedBeta * TILT_MAX_DEGREES,
+        -normalizedGamma * TILT_MAX_DEGREES
       )
     }
 
@@ -229,7 +238,11 @@ export function PebbleWatchface() {
         }
       }
 
-      orientationBaseline = null
+      if (ignore) {
+        return
+      }
+
+      resetMotionBaseline()
       motionTiltEnabledRef.current = true
       window.addEventListener("deviceorientation", handleDeviceOrientation)
     }
@@ -311,17 +324,22 @@ export function PebbleWatchface() {
     window.addEventListener("pointerleave", resetTilt)
     window.addEventListener("pointercancel", resetTilt)
     window.addEventListener("blur", resetTilt)
+    screenOrientation?.addEventListener?.("change", resetMotionBaseline)
+    window.addEventListener("orientationchange", resetMotionBaseline)
     watch.addEventListener("pointerdown", handleTouchPointerDown)
     watch.addEventListener("pointermove", handleTouchPointerMove)
     watch.addEventListener("pointerup", handleTouchPointerEnd)
     watch.addEventListener("pointercancel", handleTouchPointerEnd)
 
     return () => {
+      ignore = true
       window.removeEventListener("pointermove", handlePointerMove)
       window.removeEventListener("pointerleave", resetTilt)
       window.removeEventListener("pointercancel", resetTilt)
       window.removeEventListener("blur", resetTilt)
       window.removeEventListener("deviceorientation", handleDeviceOrientation)
+      screenOrientation?.removeEventListener?.("change", resetMotionBaseline)
+      window.removeEventListener("orientationchange", resetMotionBaseline)
       watch.removeEventListener("pointerdown", handleTouchPointerDown)
       watch.removeEventListener("pointermove", handleTouchPointerMove)
       watch.removeEventListener("pointerup", handleTouchPointerEnd)
