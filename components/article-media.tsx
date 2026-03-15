@@ -14,6 +14,9 @@ interface ArticleImageProps {
   alt?: string
   aspect?: "video" | "square" | "tall"
   interactive?: boolean
+  loading?: "eager" | "lazy"
+  fetchPriority?: "high" | "low" | "auto"
+  decoding?: "sync" | "async" | "auto"
 }
 
 export function ArticleImage({
@@ -21,6 +24,9 @@ export function ArticleImage({
   alt = "",
   aspect,
   interactive = true,
+  loading = "lazy",
+  fetchPriority,
+  decoding,
 }: ArticleImageProps) {
   const id = useId()
   const { expandedId, isClosing, setExpandedId } = useMedia()
@@ -45,7 +51,9 @@ export function ArticleImage({
       <img
         src={src}
         alt={alt}
-        loading="lazy"
+        loading={loading}
+        fetchPriority={fetchPriority}
+        decoding={decoding}
         className="absolute inset-0 h-full w-full object-cover"
       />
     </div>

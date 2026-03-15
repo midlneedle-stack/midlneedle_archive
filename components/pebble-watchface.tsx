@@ -28,6 +28,10 @@ const UNDERLAY_DEPTH = 6
 const UNDERLAY_MAX_OFFSET = 4
 const UNDERLAY_SCALE = 1
 
+type DeviceOrientationEventWithPermission = typeof DeviceOrientationEvent & {
+  requestPermission?: () => Promise<"granted" | "denied">
+}
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
@@ -42,6 +46,9 @@ export function PebbleWatchface() {
   const touchTiltPointerIdRef = useRef<number | null>(null)
   const touchTiltStartRef = useRef<{ x: number; y: number } | null>(null)
   const suppressTouchClickRef = useRef(false)
+  const lastPointerTypeRef = useRef<string | null>(null)
+  const motionTiltEnabledRef = useRef(false)
+  const enableMotionTiltRef = useRef<null | (() => Promise<void>)>(null)
   const { trigger } = useWebHaptics()
 
   useEffect(() => {
@@ -104,6 +111,7 @@ export function PebbleWatchface() {
     let currentY = 0
     let targetX = 0
     let targetY = 0
+    let orientationBaseline: { beta: number; gamma: number } | null = null
 
     const getTiltTarget = (clientX: number, clientY: number) => {
       const rect = watch.getBoundingClientRect()
@@ -169,6 +177,65 @@ export function PebbleWatchface() {
       setTiltTarget(rotateX, rotateY)
     }
 
+    const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
+      if (typeof event.beta !== "number" || typeof event.gamma !== "number") {
+        return
+      }
+
+      if (!orientationBaseline) {
+        orientationBaseline = {
+          beta: event.beta,
+          gamma: event.gamma,
+        }
+      }
+
+      const normalizedBeta = clamp(
+        (event.beta - orientationBaseline.beta) / 24,
+        -1,
+        1
+      )
+      const normalizedGamma = clamp(
+        (event.gamma - orientationBaseline.gamma) / 24,
+        -1,
+        1
+      )
+
+      setTiltTarget(
+        -normalizedBeta * TILT_MAX_DEGREES,
+        normalizedGamma * TILT_MAX_DEGREES
+      )
+    }
+
+    const enableMotionTilt = async () => {
+      if (
+        motionTiltEnabledRef.current ||
+        typeof window === "undefined" ||
+        typeof window.DeviceOrientationEvent === "undefined"
+      ) {
+        return
+      }
+
+      const orientationEvent =
+        window.DeviceOrientationEvent as DeviceOrientationEventWithPermission
+
+      if (typeof orientationEvent.requestPermission === "function") {
+        try {
+          const permission = await orientationEvent.requestPermission()
+          if (permission !== "granted") {
+            return
+          }
+        } catch {
+          return
+        }
+      }
+
+      orientationBaseline = null
+      motionTiltEnabledRef.current = true
+      window.addEventListener("deviceorientation", handleDeviceOrientation)
+    }
+
+    enableMotionTiltRef.current = enableMotionTilt
+
     const handlePointerMove = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") {
         return
@@ -194,6 +261,10 @@ export function PebbleWatchface() {
         return
       }
 
+      if (motionTiltEnabledRef.current) {
+        return
+      }
+
       touchTiltPointerIdRef.current = event.pointerId
       touchTiltStartRef.current = { x: event.clientX, y: event.clientY }
       suppressTouchClickRef.current = false
@@ -206,6 +277,10 @@ export function PebbleWatchface() {
         event.pointerType !== "touch" ||
         event.pointerId !== touchTiltPointerIdRef.current
       ) {
+        return
+      }
+
+      if (motionTiltEnabledRef.current) {
         return
       }
 
@@ -246,10 +321,13 @@ export function PebbleWatchface() {
       window.removeEventListener("pointerleave", resetTilt)
       window.removeEventListener("pointercancel", resetTilt)
       window.removeEventListener("blur", resetTilt)
+      window.removeEventListener("deviceorientation", handleDeviceOrientation)
       watch.removeEventListener("pointerdown", handleTouchPointerDown)
       watch.removeEventListener("pointermove", handleTouchPointerMove)
       watch.removeEventListener("pointerup", handleTouchPointerEnd)
       watch.removeEventListener("pointercancel", handleTouchPointerEnd)
+      enableMotionTiltRef.current = null
+      motionTiltEnabledRef.current = false
       if (rafId !== null) {
         window.cancelAnimationFrame(rafId)
       }
@@ -266,21 +344,38 @@ export function PebbleWatchface() {
         <button
           type="button"
           ref={watchRef}
-          onClick={(event) => {
+          onPointerDown={(event) => {
+            lastPointerTypeRef.current = event.pointerType
+          }}
+          onClick={async (event) => {
             if (suppressTouchClickRef.current) {
               suppressTouchClickRef.current = false
               return
             }
 
-            const rect = event.currentTarget.getBoundingClientRect()
+            const watch = watchRef.current
+            if (!watch) {
+              return
+            }
+
+            const { detail, clientX, clientY } = event
+
+            if (
+              lastPointerTypeRef.current === "touch" &&
+              !motionTiltEnabledRef.current
+            ) {
+              await enableMotionTiltRef.current?.()
+            }
+
+            const rect = watch.getBoundingClientRect()
             const clickX =
-              event.detail === 0
+              detail === 0
                 ? SCREEN_LEFT + SCREEN_WIDTH / 2
-                : ((event.clientX - rect.left) / rect.width) * 100
+                : ((clientX - rect.left) / rect.width) * 100
             const clickY =
-              event.detail === 0
+              detail === 0
                 ? SCREEN_TOP + SCREEN_HEIGHT / 2
-                : ((event.clientY - rect.top) / rect.height) * 100
+                : ((clientY - rect.top) / rect.height) * 100
             const clampedX = clamp(clickX, SCREEN_LEFT, SCREEN_LEFT + SCREEN_WIDTH)
             const clampedY = clamp(clickY, SCREEN_TOP, SCREEN_TOP + SCREEN_HEIGHT)
 

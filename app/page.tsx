@@ -178,7 +178,14 @@ export default function Home() {
                           descriptionHref={meta.descriptionHref}
                           showTitle={true}
                         >
-                          <ArticleImage src={imageSrc} aspect="square" interactive={false} />
+                          <ArticleImage
+                            src={imageSrc}
+                            aspect="square"
+                            interactive={false}
+                            loading="eager"
+                            fetchPriority="high"
+                            decoding="async"
+                          />
                         </PlaygroundCard>
                       ) : (
                         <CardComponent
