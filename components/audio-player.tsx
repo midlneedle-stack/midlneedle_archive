@@ -65,16 +65,17 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
         className="size-7 shrink-0 rounded-full border-[var(--stroke)] bg-[rgb(53_59_66_/0.02)] text-foreground shadow-none transition-colors duration-150 ease-out hover:bg-[rgb(53_59_66_/0.06)] hover:text-foreground"
       >
         <span className="relative flex size-3.5 items-center justify-center">
-          <AnimatePresence mode="popLayout" initial={false}>
+          <AnimatePresence mode="sync" initial={false}>
             <motion.span
               key={playing ? "pause" : "play"}
-              initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
               transition={{
                 type: "spring",
-                duration: 0.3,
-                bounce: 0,
+                stiffness: 420,
+                damping: 28,
+                mass: 0.7,
               }}
               className="absolute inset-0 flex items-center justify-center"
             >
