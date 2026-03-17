@@ -58,6 +58,8 @@ It feels like a missed opportunity that at least some of that content doesn't ma
 
 To me, one of the app's most important actions — rating a film — gets lost. The button is small and hides too many actions behind it.
 
+<SquareImage src="/cases/letterboxd/letterbxd_button_exp.webp" alt="Rating button on the film page" />
+
 <Screencast src="/cases/letterboxd/filmpage_filmapp(1).mp4" />
 
 I moved like and watchlist to either side of it to remove a few unnecessary barriers from the most basic interaction, and made the rating button itself more visible and more prominent.
