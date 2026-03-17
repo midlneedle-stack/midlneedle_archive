@@ -670,9 +670,9 @@ export function PebbleWatchface({
       clearTouchTilt(event.pointerId)
     }
 
-    window.addEventListener("pointermove", handlePointerMove)
-    window.addEventListener("pointerleave", resetTilt)
-    window.addEventListener("pointercancel", resetTilt)
+    viewport.addEventListener("pointermove", handlePointerMove)
+    viewport.addEventListener("pointerleave", resetTilt)
+    viewport.addEventListener("pointercancel", resetTilt)
     window.addEventListener("blur", resetTilt)
     screenOrientation?.addEventListener?.("change", resetMotionBaseline)
     window.addEventListener("orientationchange", resetMotionBaseline)
@@ -683,9 +683,9 @@ export function PebbleWatchface({
 
     return () => {
       ignore = true
-      window.removeEventListener("pointermove", handlePointerMove)
-      window.removeEventListener("pointerleave", resetTilt)
-      window.removeEventListener("pointercancel", resetTilt)
+      viewport.removeEventListener("pointermove", handlePointerMove)
+      viewport.removeEventListener("pointerleave", resetTilt)
+      viewport.removeEventListener("pointercancel", resetTilt)
       window.removeEventListener("blur", resetTilt)
       window.removeEventListener("deviceorientation", handleDeviceOrientation)
       screenOrientation?.removeEventListener?.("change", resetMotionBaseline)
