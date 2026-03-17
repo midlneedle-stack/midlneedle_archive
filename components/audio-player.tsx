@@ -1,7 +1,10 @@
 "use client"
 
-import { useRef, useState, useEffect, useCallback } from "react"
+import { useRef, useState, useEffect, useCallback, useId } from "react"
+import { PauseIcon, PlayIcon } from "lucide-react"
+import { AnimatePresence, motion } from "motion/react"
 import { withBasePath } from "@/lib/base-path"
+import { Button } from "@/components/ui/button"
 
 interface AudioPlayerProps {
   src: string
@@ -11,15 +14,15 @@ const PAUSE_EVENT = "audio-player:pause-others"
 
 export function AudioPlayer({ src }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
-  const idRef = useRef(Math.random().toString(36).slice(2))
+  const playerId = useId()
   const [playing, setPlaying] = useState(false)
 
   const handlePauseOthers = useCallback((e: Event) => {
     const detail = (e as CustomEvent).detail
-    if (detail !== idRef.current) {
+    if (detail !== playerId) {
       audioRef.current?.pause()
     }
-  }, [])
+  }, [playerId])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -45,7 +48,7 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
     if (playing) {
       audio.pause()
     } else {
-      window.dispatchEvent(new CustomEvent(PAUSE_EVENT, { detail: idRef.current }))
+      window.dispatchEvent(new CustomEvent(PAUSE_EVENT, { detail: playerId }))
       audio.play()
     }
   }
@@ -53,48 +56,37 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
   return (
     <>
       <audio ref={audioRef} src={withBasePath(src)} preload="metadata" />
-      <button
+      <Button
+        type="button"
         onClick={toggle}
+        variant="outline"
+        size="icon-sm"
         aria-label={playing ? "Pause" : "Play"}
-        style={{
-          width: 28,
-          height: 28,
-          borderRadius: "50%",
-          border: "1px solid var(--stroke)",
-          background: "rgb(53 59 66 / 0.02)",
-          color: "var(--foreground)",
-          cursor: "pointer",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 0,
-          flexShrink: 0,
-          transition: "background 0.15s ease",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = "rgb(53 59 66 / 0.06)"
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = "rgb(53 59 66 / 0.02)"
-        }}
+        className="size-7 shrink-0 rounded-full border-[var(--stroke)] bg-[rgb(53_59_66_/0.02)] text-foreground shadow-none transition-colors duration-150 ease-out hover:bg-[rgb(53_59_66_/0.06)] hover:text-foreground"
       >
-        {playing ? (
-          <svg width="8" height="10" viewBox="0 0 10 12" fill="currentColor">
-            <rect x="1" y="0" width="3" height="12" rx="0.5" />
-            <rect x="6" y="0" width="3" height="12" rx="0.5" />
-          </svg>
-        ) : (
-          <svg
-            width="8"
-            height="10"
-            viewBox="0 0 10 12"
-            fill="currentColor"
-            style={{ marginLeft: 1 }}
-          >
-            <path d="M1 0.5L9.5 6L1 11.5V0.5Z" />
-          </svg>
-        )}
-      </button>
+        <span className="relative flex size-3.5 items-center justify-center">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={playing ? "pause" : "play"}
+              initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
+              transition={{
+                type: "spring",
+                duration: 0.3,
+                bounce: 0,
+              }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              {playing ? (
+                <PauseIcon className="size-3.5 fill-current stroke-[2.2]" />
+              ) : (
+                <PlayIcon className="size-3.5 translate-x-[0.5px] fill-current stroke-[2.2]" />
+              )}
+            </motion.span>
+          </AnimatePresence>
+        </span>
+      </Button>
     </>
   )
 }
