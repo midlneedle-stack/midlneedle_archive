@@ -20,46 +20,62 @@ function hasBlockContent(children: ReactNode): boolean {
   )
 }
 
-export const caseArticleMdxComponents: MDXComponents = {
-  h1: ({ children }: ComponentPropsWithoutRef<"h1">) => (
-    <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
-  ),
-  h2: ({ children }: ComponentPropsWithoutRef<"h2">) => (
-    <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
-  ),
-  h3: ({ children }: ComponentPropsWithoutRef<"h3">) => (
-    <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
-  ),
-  p: ({ children }: ComponentPropsWithoutRef<"p">) => {
-    if (hasBlockContent(children)) {
+export function getCaseArticleMdxComponents(
+  language: "ru" | "eng" = "ru"
+): MDXComponents {
+  return {
+    h1: ({ children }: ComponentPropsWithoutRef<"h1">) => (
+      <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
+    ),
+    h2: ({ children }: ComponentPropsWithoutRef<"h2">) => (
+      <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
+    ),
+    h3: ({ children }: ComponentPropsWithoutRef<"h3">) => (
+      <h2 className={`type-title text-foreground ${styles.sectionTitle}`}>{children}</h2>
+    ),
+    p: ({ children }: ComponentPropsWithoutRef<"p">) => {
+      if (hasBlockContent(children)) {
+        return (
+          <div className={`type-body ${styles.paragraph}`}>
+            {children}
+          </div>
+        )
+      }
       return (
-        <div className={`type-body ${styles.paragraph}`}>
+        <p className={`type-body ${styles.paragraph}`}>
           {children}
-        </div>
+        </p>
       )
-    }
-    return (
-      <p className={`type-body ${styles.paragraph}`}>
-        {children}
-      </p>
-    )
-  },
-  a: ({ href, children, className, ...props }: ComponentPropsWithoutRef<"a">) => {
-    const isFootnoteRef = "data-footnote-ref" in props
-    const isFootnoteBackref = "data-footnote-backref" in props
-    const renderedChildren = isFootnoteBackref ? null : children
-    const isExternal =
-      typeof href === "string" && /^https?:\/\//.test(href)
-    const resolvedClassName = [
-      className,
-      !isFootnoteRef && !isFootnoteBackref ? styles.inlineLink : null,
-    ]
-      .filter(Boolean)
-      .join(" ")
+    },
+    a: ({ href, children, className, ...props }: ComponentPropsWithoutRef<"a">) => {
+      const isFootnoteRef = "data-footnote-ref" in props
+      const isFootnoteBackref = "data-footnote-backref" in props
+      const renderedChildren = isFootnoteBackref ? null : children
+      const isExternal =
+        typeof href === "string" && /^https?:\/\//.test(href)
+      const resolvedClassName = [
+        className,
+        !isFootnoteRef && !isFootnoteBackref ? styles.inlineLink : null,
+      ]
+        .filter(Boolean)
+        .join(" ")
 
-    if (isFootnoteRef || isFootnoteBackref) {
+      if (isFootnoteRef || isFootnoteBackref) {
+        return (
+          <a
+            href={href}
+            className={resolvedClassName || undefined}
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+            {...props}
+          >
+            {renderedChildren}
+          </a>
+        )
+      }
+
       return (
-        <a
+        <HapticLink
           href={href}
           className={resolvedClassName || undefined}
           target={isExternal ? "_blank" : undefined}
@@ -67,83 +83,73 @@ export const caseArticleMdxComponents: MDXComponents = {
           {...props}
         >
           {renderedChildren}
-        </a>
+        </HapticLink>
       )
-    }
-
-    return (
-      <HapticLink
-        href={href}
-        className={resolvedClassName || undefined}
-        target={isExternal ? "_blank" : undefined}
-        rel={isExternal ? "noopener noreferrer" : undefined}
-        {...props}
-      >
-        {renderedChildren}
-      </HapticLink>
-    )
-  },
-  strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
-    <strong>{children}</strong>
-  ),
-  img: ({ src, alt }: ComponentPropsWithoutRef<"img">) => (
-    <div className={styles.mediaBlock}>
-      <ArticleImage
-        src={typeof src === "string" ? withBasePath(src) : ""}
-        alt={alt ?? ""}
-      />
-    </div>
-  ),
-  SquareImage: ({ src, alt }: { src: string; alt?: string }) => (
-    <div className={styles.mediaBlock}>
-      <ArticleImage
-        src={withBasePath(src)}
-        alt={alt ?? ""}
-        aspect="square"
-        interactive={false}
-      />
-    </div>
-  ),
-  section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {
-    if (props["data-footnotes"] !== undefined) {
-      const className = props.className
-        ? `${styles.footnotes} ${props.className}`
-        : styles.footnotes
-      return (
-        <section {...props} className={className}>
-          {children}
-        </section>
-      )
-    }
-    return <section {...props}>{children}</section>
-  },
-  PebbleWatchface: () => (
-    <div className={styles.mediaBlock}>
-      <PebbleWatchface />
-    </div>
-  ),
-  MediaPlaceholder: CaseMediaPlaceholder,
-  VideoPlayer: ({ src }: { src: string }) => (
-    <div className={styles.videoCard}>
-      <ArticleVideo src={withBasePath(src)} variant="just_video" />
-    </div>
-  ),
-  IphoneVideo: ({
-    src,
-  }: {
-    src: string
-  }) => (
-    <div className={styles.mediaBlock}>
-      <ArticleVideo src={withBasePath(src)} variant="iphone" />
-    </div>
-  ),
-  Screencast: ({
-    src,
-  }: {
-    src: string
-  }) => (
-    <div className={styles.mediaBlock}>
-      <ArticleVideo src={withBasePath(src)} variant="screencast" />
-    </div>
-  ),
+    },
+    strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
+      <strong>{children}</strong>
+    ),
+    img: ({ src, alt }: ComponentPropsWithoutRef<"img">) => (
+      <div className={styles.mediaBlock}>
+        <ArticleImage
+          src={typeof src === "string" ? withBasePath(src) : ""}
+          alt={alt ?? ""}
+        />
+      </div>
+    ),
+    SquareImage: ({ src, alt }: { src: string; alt?: string }) => (
+      <div className={styles.mediaBlock}>
+        <ArticleImage
+          src={withBasePath(src)}
+          alt={alt ?? ""}
+          aspect="square"
+          interactive={false}
+        />
+      </div>
+    ),
+    section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {
+      if (props["data-footnotes"] !== undefined) {
+        const className = props.className
+          ? `${styles.footnotes} ${props.className}`
+          : styles.footnotes
+        return (
+          <section {...props} className={className}>
+            {children}
+          </section>
+        )
+      }
+      return <section {...props}>{children}</section>
+    },
+    PebbleWatchface: () => (
+      <div className={styles.mediaBlock}>
+        <PebbleWatchface language={language} />
+      </div>
+    ),
+    MediaPlaceholder: CaseMediaPlaceholder,
+    VideoPlayer: ({ src }: { src: string }) => (
+      <div className={styles.videoCard}>
+        <ArticleVideo src={withBasePath(src)} variant="just_video" />
+      </div>
+    ),
+    IphoneVideo: ({
+      src,
+    }: {
+      src: string
+    }) => (
+      <div className={styles.mediaBlock}>
+        <ArticleVideo src={withBasePath(src)} variant="iphone" />
+      </div>
+    ),
+    Screencast: ({
+      src,
+    }: {
+      src: string
+    }) => (
+      <div className={styles.mediaBlock}>
+        <ArticleVideo src={withBasePath(src)} variant="screencast" />
+      </div>
+    ),
+  }
 }
+
+export const caseArticleMdxComponents = getCaseArticleMdxComponents()

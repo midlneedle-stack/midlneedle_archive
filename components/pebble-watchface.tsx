@@ -1,6 +1,8 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useEffectEvent, useRef } from "react"
+import { animate } from "motion"
+import { useReducedMotion } from "motion/react"
 import { useWebHaptics } from "web-haptics/react"
 import { withBasePath } from "@/lib/base-path"
 import {
@@ -27,29 +29,308 @@ const TILT_TOUCH_DRAG_THRESHOLD = 8
 const UNDERLAY_DEPTH = 6
 const UNDERLAY_MAX_OFFSET = 4
 const UNDERLAY_SCALE = 1
+const HINT_DELAY_MS = 2200
+const HINT_RETURN_DELAY_MS = 900
+const HINT_LOOP_DURATION_MS = 6800
+const HINT_TILT_LERP = 0.06
+const HINT_TILT_FADE_PORTION = 0.14
 
 type DeviceOrientationEventWithPermission = typeof DeviceOrientationEvent & {
   requestPermission?: () => Promise<"granted" | "denied">
+}
+
+type Point = {
+  x: number
+  y: number
+}
+
+interface PebbleWatchfaceProps {
+  language?: "ru" | "eng"
 }
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
-export function PebbleWatchface() {
+function smoothstep(edge0: number, edge1: number, value: number) {
+  if (edge0 === edge1) {
+    return value < edge0 ? 0 : 1
+  }
+
+  const t = clamp((value - edge0) / (edge1 - edge0), 0, 1)
+  return t * t * (3 - 2 * t)
+}
+
+function pointOnCubicBezier(
+  start: Point,
+  controlA: Point,
+  controlB: Point,
+  end: Point,
+  progress: number
+): Point {
+  const t = clamp(progress, 0, 1)
+  const inverse = 1 - t
+  const inverseSquared = inverse * inverse
+  const inverseCubed = inverseSquared * inverse
+  const tSquared = t * t
+  const tCubed = tSquared * t
+
+  return {
+    x:
+      inverseCubed * start.x +
+      3 * inverseSquared * t * controlA.x +
+      3 * inverse * tSquared * controlB.x +
+      tCubed * end.x,
+    y:
+      inverseCubed * start.y +
+      3 * inverseSquared * t * controlA.y +
+      3 * inverse * tSquared * controlB.y +
+      tCubed * end.y,
+  }
+}
+
+export function PebbleWatchface({
+  language: _language = "ru",
+}: PebbleWatchfaceProps) {
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const watchRef = useRef<HTMLButtonElement | null>(null)
   const underlayRef = useRef<HTMLSpanElement | null>(null)
   const screenRef = useRef<HTMLSpanElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const engineRef = useRef<PebbleWatchfaceEngine | null>(null)
+  const setHintTiltLocalRef = useRef<null | ((x: number, y: number) => void)>(
+    null
+  )
+  const clearHintTiltRef = useRef<null | (() => void)>(null)
   const touchTiltPointerIdRef = useRef<number | null>(null)
   const touchTiltStartRef = useRef<{ x: number; y: number } | null>(null)
   const suppressTouchClickRef = useRef(false)
   const lastPointerTypeRef = useRef<string | null>(null)
   const motionTiltEnabledRef = useRef(false)
   const enableMotionTiltRef = useRef<null | (() => Promise<void>)>(null)
+  const hintStartTimeoutRef = useRef<number | null>(null)
+  const hintLoopAnimationRef = useRef<null | { stop: () => void }>(null)
+  const hintRunningRef = useRef(false)
+  const hintHoveredRef = useRef(false)
+  const hintInViewRef = useRef(false)
+  const engineStartedRef = useRef(false)
+  const shouldReduceMotion = useReducedMotion()
   const { trigger } = useWebHaptics()
+
+  const clearHintStartTimeout = () => {
+    if (hintStartTimeoutRef.current !== null) {
+      window.clearTimeout(hintStartTimeoutRef.current)
+      hintStartTimeoutRef.current = null
+    }
+  }
+
+  const stopHintLoop = useEffectEvent(() => {
+    hintRunningRef.current = false
+    clearHintStartTimeout()
+    hintLoopAnimationRef.current?.stop()
+    hintLoopAnimationRef.current = null
+    engineRef.current?.clearPointer()
+    clearHintTiltRef.current?.()
+  })
+
+  const startHintLoop = useEffectEvent(() => {
+    if (
+      shouldReduceMotion ||
+      hintRunningRef.current ||
+      hintHoveredRef.current ||
+      !hintInViewRef.current
+    ) {
+      return
+    }
+
+    const viewport = viewportRef.current
+    const watch = watchRef.current
+    const engine = engineRef.current
+
+    if (!viewport || !watch || !engine) {
+      return
+    }
+
+    const supportsTutorialHint = window.matchMedia(
+      "(hover: hover) and (pointer: fine)"
+    ).matches
+
+    if (!supportsTutorialHint) {
+      return
+    }
+
+    const viewportWidth = viewport.clientWidth
+    const viewportHeight = viewport.clientHeight
+    const watchRect = watch.getBoundingClientRect()
+    const viewportRect = viewport.getBoundingClientRect()
+    const watchLocalLeft = watchRect.left - viewportRect.left
+    const watchLocalTop = watchRect.top - viewportRect.top
+    const watchWidth = watch.clientWidth
+    const watchHeight = watch.clientHeight
+    const screenLeft = watchLocalLeft + (watchWidth * SCREEN_LEFT) / 100
+    const screenTop = watchLocalTop + (watchHeight * SCREEN_TOP) / 100
+    const screenWidth = (watchWidth * SCREEN_WIDTH) / 100
+    const screenHeight = (watchHeight * SCREEN_HEIGHT) / 100
+
+    const startPoint = {
+      x: watchLocalLeft + watchWidth * 0.04,
+      y: watchLocalTop + watchHeight * 0.74,
+    }
+    const topLeftPoint = {
+      x: watchLocalLeft + watchWidth * 0.24,
+      y: watchLocalTop + watchHeight * 0.18,
+    }
+    const topRightPoint = {
+      x: watchLocalLeft + watchWidth * 0.78,
+      y: watchLocalTop + watchHeight * 0.18,
+    }
+    const screenExitPoint = {
+      x: screenLeft + screenWidth * 0.18,
+      y: screenTop + screenHeight * 0.64,
+    }
+
+    const pointForProgress = (progress: number): Point => {
+      const clampedProgress = clamp(progress, 0, 1)
+
+      if (clampedProgress < 0.28) {
+        return pointOnCubicBezier(
+          startPoint,
+          {
+            x: watchLocalLeft + watchWidth * 0.08,
+            y: watchLocalTop + watchHeight * 0.58,
+          },
+          {
+            x: watchLocalLeft + watchWidth * 0.16,
+            y: watchLocalTop + watchHeight * 0.24,
+          },
+          topLeftPoint,
+          clampedProgress / 0.28
+        )
+      }
+
+      if (clampedProgress < 0.56) {
+        return pointOnCubicBezier(
+          topLeftPoint,
+          {
+            x: watchLocalLeft + watchWidth * 0.38,
+            y: watchLocalTop + watchHeight * 0.04,
+          },
+          {
+            x: watchLocalLeft + watchWidth * 0.66,
+            y: watchLocalTop + watchHeight * 0.06,
+          },
+          topRightPoint,
+          (clampedProgress - 0.28) / 0.28
+        )
+      }
+
+      if (clampedProgress < 0.82) {
+        return pointOnCubicBezier(
+          topRightPoint,
+          {
+            x: screenLeft + screenWidth * 1.04,
+            y: screenTop + screenHeight * 0.18,
+          },
+          {
+            x: screenLeft + screenWidth * 0.76,
+            y: screenTop + screenHeight * 0.92,
+          },
+          screenExitPoint,
+          (clampedProgress - 0.56) / 0.26
+        )
+      }
+
+      return pointOnCubicBezier(
+        screenExitPoint,
+        {
+          x: watchLocalLeft + watchWidth * 0.18,
+          y: watchLocalTop + watchHeight * 0.9,
+        },
+        {
+          x: watchLocalLeft - Math.min(viewportWidth * 0.03, 16),
+          y: Math.min(
+            viewportHeight - 24,
+            watchLocalTop + watchHeight * 0.88
+          ),
+        },
+        startPoint,
+        (clampedProgress - 0.82) / 0.18
+      )
+    }
+
+    hintRunningRef.current = true
+    let smoothedTiltX = watchWidth / 2
+    let smoothedTiltY = watchHeight / 2
+    setHintTiltLocalRef.current?.(
+      smoothedTiltX,
+      smoothedTiltY
+    )
+
+    hintLoopAnimationRef.current = animate(0, 1, {
+      duration: HINT_LOOP_DURATION_MS / 1000,
+      ease: "linear",
+      repeat: Infinity,
+      onUpdate: (latest) => {
+        if (!hintRunningRef.current || hintHoveredRef.current) {
+          return
+        }
+
+        const point = pointForProgress(latest)
+        const localX = point.x - watchLocalLeft
+        const localY = point.y - watchLocalTop
+
+        smoothedTiltX += (localX - smoothedTiltX) * HINT_TILT_LERP
+        smoothedTiltY += (localY - smoothedTiltY) * HINT_TILT_LERP
+
+        const fadeIn =
+          latest < HINT_TILT_FADE_PORTION
+            ? smoothstep(0, HINT_TILT_FADE_PORTION, latest)
+            : 1
+        const fadeOut =
+          latest > 1 - HINT_TILT_FADE_PORTION
+            ? smoothstep(1, 1 - HINT_TILT_FADE_PORTION, latest)
+            : 1
+        const tiltInfluence = Math.min(fadeIn, fadeOut)
+        const tiltX =
+          watchWidth / 2 + (smoothedTiltX - watchWidth / 2) * tiltInfluence
+        const tiltY =
+          watchHeight / 2 + (smoothedTiltY - watchHeight / 2) * tiltInfluence
+
+        setHintTiltLocalRef.current?.(
+          tiltX,
+          tiltY
+        )
+
+        const insideScreen =
+          point.x >= screenLeft &&
+          point.x <= screenLeft + screenWidth &&
+          point.y >= screenTop &&
+          point.y <= screenTop + screenHeight
+
+        if (!insideScreen) {
+          engine.clearPointer()
+          return
+        }
+
+        engine.setPointer(
+          ((point.x - screenLeft) / screenWidth) * LOGICAL_SCREEN_WIDTH,
+          ((point.y - screenTop) / screenHeight) * LOGICAL_SCREEN_HEIGHT
+        )
+      },
+    })
+  })
+
+  const scheduleHintLoop = useEffectEvent((delay = HINT_DELAY_MS) => {
+    if (shouldReduceMotion || hintHoveredRef.current || !hintInViewRef.current) {
+      return
+    }
+
+    clearHintStartTimeout()
+    hintStartTimeoutRef.current = window.setTimeout(() => {
+      hintStartTimeoutRef.current = null
+      startHintLoop()
+    }, delay)
+  })
 
   useEffect(() => {
     const viewport = viewportRef.current
@@ -72,14 +353,21 @@ export function PebbleWatchface() {
     if (typeof IntersectionObserver === "function") {
       observer = new IntersectionObserver(
         (entries) => {
-          if (!entries.some((entry) => entry.isIntersecting)) {
+          const isIntersecting = entries.some((entry) => entry.isIntersecting)
+          hintInViewRef.current = isIntersecting
+
+          if (!isIntersecting) {
+            stopHintLoop()
             return
           }
 
-          engine.start()
-          trigger(HAPTIC_PEBBLE_INTRO)
-          observer?.disconnect()
-          observer = null
+          if (!engineStartedRef.current) {
+            engineStartedRef.current = true
+            engine.start()
+            trigger(HAPTIC_PEBBLE_INTRO)
+          }
+
+          scheduleHintLoop()
         },
         {
           threshold: 0.35,
@@ -87,16 +375,68 @@ export function PebbleWatchface() {
       )
       observer.observe(viewport)
     } else {
+      hintInViewRef.current = true
+      engineStartedRef.current = true
       engine.start()
+      scheduleHintLoop()
     }
 
     return () => {
       observer?.disconnect()
+      hintInViewRef.current = false
+      engineStartedRef.current = false
+      stopHintLoop()
       resizeObserver.disconnect()
       engineRef.current = null
       engine.destroy()
     }
   }, [trigger])
+
+  useEffect(() => {
+    const viewport = viewportRef.current
+    const watch = watchRef.current
+    if (!viewport || !watch) {
+      return
+    }
+
+    const handlePointerEnter = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") {
+        return
+      }
+      hintHoveredRef.current = true
+      stopHintLoop()
+    }
+
+    const handlePointerLeave = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") {
+        return
+      }
+      hintHoveredRef.current = false
+      scheduleHintLoop(HINT_RETURN_DELAY_MS)
+    }
+
+    const handleFocusIn = () => {
+      stopHintLoop()
+    }
+
+    viewport.addEventListener("pointerenter", handlePointerEnter)
+    viewport.addEventListener("pointerleave", handlePointerLeave)
+    watch.addEventListener("focusin", handleFocusIn)
+
+    return () => {
+      viewport.removeEventListener("pointerenter", handlePointerEnter)
+      viewport.removeEventListener("pointerleave", handlePointerLeave)
+      watch.removeEventListener("focusin", handleFocusIn)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!shouldReduceMotion) {
+      return
+    }
+
+    stopHintLoop()
+  }, [shouldReduceMotion])
 
   useEffect(() => {
     const viewport = viewportRef.current
@@ -179,6 +519,11 @@ export function PebbleWatchface() {
       setTiltTarget(rotateX, rotateY)
     }
 
+    const setTiltFromLocalPoint = (x: number, y: number) => {
+      const rect = watch.getBoundingClientRect()
+      setTiltFromPoint(rect.left + x, rect.top + y)
+    }
+
     const resetMotionBaseline = () => {
       orientationBaseline = null
       if (motionTiltEnabledRef.current) {
@@ -248,6 +593,7 @@ export function PebbleWatchface() {
     }
 
     enableMotionTiltRef.current = enableMotionTilt
+    setHintTiltLocalRef.current = setTiltFromLocalPoint
 
     const handlePointerMove = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") {
@@ -259,6 +605,8 @@ export function PebbleWatchface() {
     const resetTilt = () => {
       setTiltTarget(0, 0)
     }
+
+    clearHintTiltRef.current = resetTilt
 
     const clearTouchTilt = (pointerId: number) => {
       if (watch.hasPointerCapture(pointerId)) {
@@ -273,6 +621,8 @@ export function PebbleWatchface() {
       if (event.pointerType !== "touch") {
         return
       }
+
+      stopHintLoop()
 
       if (motionTiltEnabledRef.current) {
         return
@@ -345,6 +695,8 @@ export function PebbleWatchface() {
       watch.removeEventListener("pointerup", handleTouchPointerEnd)
       watch.removeEventListener("pointercancel", handleTouchPointerEnd)
       enableMotionTiltRef.current = null
+      setHintTiltLocalRef.current = null
+      clearHintTiltRef.current = null
       motionTiltEnabledRef.current = false
       if (rafId !== null) {
         window.cancelAnimationFrame(rafId)
@@ -357,7 +709,7 @@ export function PebbleWatchface() {
     <ScreencastFrame inset={0}>
       <div
         ref={viewportRef}
-        className="flex h-full w-full items-center justify-center"
+        className="relative flex h-full w-full items-center justify-center"
       >
         <button
           type="button"
@@ -394,8 +746,16 @@ export function PebbleWatchface() {
               detail === 0
                 ? SCREEN_TOP + SCREEN_HEIGHT / 2
                 : ((clientY - rect.top) / rect.height) * 100
-            const clampedX = clamp(clickX, SCREEN_LEFT, SCREEN_LEFT + SCREEN_WIDTH)
-            const clampedY = clamp(clickY, SCREEN_TOP, SCREEN_TOP + SCREEN_HEIGHT)
+            const clampedX = clamp(
+              clickX,
+              SCREEN_LEFT,
+              SCREEN_LEFT + SCREEN_WIDTH
+            )
+            const clampedY = clamp(
+              clickY,
+              SCREEN_TOP,
+              SCREEN_TOP + SCREEN_HEIGHT
+            )
 
             engineRef.current?.restart(
               ((clampedX - SCREEN_LEFT) / SCREEN_WIDTH) * LOGICAL_SCREEN_WIDTH,

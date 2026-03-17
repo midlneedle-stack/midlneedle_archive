@@ -3,7 +3,7 @@ import path from "node:path"
 import { compileMDX } from "next-mdx-remote/rsc"
 import remarkGfm from "remark-gfm"
 import { CaseArticle } from "@/components/case-article"
-import { caseArticleMdxComponents } from "@/components/case-article-mdx-components"
+import { getCaseArticleMdxComponents } from "@/components/case-article-mdx-components"
 import { MediaProvider } from "@/components/media-context"
 
 const ARTICLE_PATH_RU = path.join(
@@ -34,7 +34,7 @@ export default async function WatchfaceCasePage() {
   const [{ content: ruContent }, { content: engContent }] = await Promise.all([
     compileMDX({
       source: rawRu,
-      components: caseArticleMdxComponents,
+      components: getCaseArticleMdxComponents("ru"),
       options: {
         mdxOptions: {
           remarkPlugins: [remarkGfm],
@@ -43,7 +43,7 @@ export default async function WatchfaceCasePage() {
     }),
     compileMDX({
       source: rawEn,
-      components: caseArticleMdxComponents,
+      components: getCaseArticleMdxComponents("eng"),
       options: {
         mdxOptions: {
           remarkPlugins: [remarkGfm],
