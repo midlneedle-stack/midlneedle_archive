@@ -138,7 +138,8 @@ export function PebbleWatchface({
       shouldReduceMotion ||
       hintRunningRef.current ||
       hintHoveredRef.current ||
-      !hintInViewRef.current
+      !hintInViewRef.current ||
+      motionTiltEnabledRef.current
     ) {
       return
     }
@@ -148,14 +149,6 @@ export function PebbleWatchface({
     const engine = engineRef.current
 
     if (!viewport || !watch || !engine) {
-      return
-    }
-
-    const supportsTutorialHint = window.matchMedia(
-      "(hover: hover) and (pointer: fine)"
-    ).matches
-
-    if (!supportsTutorialHint) {
       return
     }
 
@@ -321,7 +314,12 @@ export function PebbleWatchface({
   })
 
   const scheduleHintLoop = useEffectEvent((delay = HINT_DELAY_MS) => {
-    if (shouldReduceMotion || hintHoveredRef.current || !hintInViewRef.current) {
+    if (
+      shouldReduceMotion ||
+      hintHoveredRef.current ||
+      !hintInViewRef.current ||
+      motionTiltEnabledRef.current
+    ) {
       return
     }
 
