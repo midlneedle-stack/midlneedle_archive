@@ -60,18 +60,17 @@ const videoMeta: Record<
 > = {
   general_magic: {
     title: "Watchface for Pebble",
-    description:
-      "Full case study – How I Built a Pebble Watchface That Caught the Founder's Attention",
+    description: "Read full case study",
     descriptionHref: "/cases/watchface",
   },
   film_segment: {
     title: "Letterboxd Redesign",
-    description: "Full case study — Redesigning Letterboxd, a social platform for film lovers",
+    description: "Read full case study",
     descriptionHref: "/cases/letterboxd",
   },
   fp_fd_transition: {
     title: "Letterboxd Redesign",
-    description: "Full case study — Redesigning Letterboxd, a social platform for film lovers",
+    description: "Read full case study",
     descriptionHref: "/cases/letterboxd",
     cardVariant: "screencast",
   },
