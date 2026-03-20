@@ -3,7 +3,7 @@ import { SectionHeader } from "@/components/section-header"
 import { CasesGrid } from "@/components/cases-grid"
 import { MediaProvider } from "@/components/media-context"
 import { VideoCard } from "@/components/video-card"
-import { ArticleImage } from "@/components/article-media"
+import { LetterboxdPhoneShowcase } from "@/components/letterboxd-phone-showcase"
 import { PlaygroundCard } from "@/components/playground-card"
 import { withBasePath } from "@/lib/base-path"
 import { videoPlaceholders } from "@/lib/video-placeholders"
@@ -22,10 +22,6 @@ const videos = {
 }
 
 type VideoKey = keyof typeof videos
-
-const imageOverrides: Partial<Record<VideoKey, string>> = {
-  fp_fd_transition: withBasePath("/videos/leterboxxxddd.webp"),
-}
 
 const toTitle = (value: string) =>
   value
@@ -168,24 +164,16 @@ export default function Home() {
 
                 if (group.type === "full") {
                   const meta = videoMeta[group.item]
-                  const imageSrc = imageOverrides[group.item]
                   return (
                     <div key={group.item} className={groupSpacing}>
-                      {imageSrc ? (
+                      {group.item === "fp_fd_transition" ? (
                         <PlaygroundCard
                           title={meta.title}
                           description={meta.description}
                           descriptionHref={meta.descriptionHref}
                           showTitle={true}
                         >
-                          <ArticleImage
-                            src={imageSrc}
-                            aspect="square"
-                            interactive={false}
-                            loading="eager"
-                            fetchPriority="high"
-                            decoding="async"
-                          />
+                          <LetterboxdPhoneShowcase />
                         </PlaygroundCard>
                       ) : (
                         <CardComponent
