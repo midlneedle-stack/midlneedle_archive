@@ -171,6 +171,7 @@ export default function Home() {
                           title={meta.title}
                           description={meta.description}
                           descriptionHref={meta.descriptionHref}
+                          mediaHref={meta.descriptionHref}
                           showTitle={true}
                         >
                           <LetterboxdPhoneShowcase />

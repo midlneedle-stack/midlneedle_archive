@@ -9,6 +9,7 @@ interface PlaygroundCardProps {
   title: string
   description?: string
   descriptionHref?: string
+  mediaHref?: string
   showTitle?: boolean
   showDescription?: boolean
   className?: string
@@ -19,13 +20,22 @@ export function PlaygroundCard({
   title,
   description,
   descriptionHref,
+  mediaHref,
   showTitle = true,
   showDescription = true,
   className,
 }: PlaygroundCardProps) {
+  const media = mediaHref ? (
+    <HapticLink href={mediaHref} aria-label={title} className="block">
+      {children}
+    </HapticLink>
+  ) : (
+    children
+  )
+
   return (
     <div className={cn("relative flex flex-col origin-center", className)}>
-      <div className="mb-[var(--space-inset)]">{children}</div>
+      <div className="mb-[var(--space-inset)]">{media}</div>
       <div className="flex flex-col gap-[var(--space-card-text)]">
         {showTitle && (
           <h3 className="type-body m-0 text-balance text-foreground">
