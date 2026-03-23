@@ -5,6 +5,7 @@ import styles from "./case-article.module.css"
 import { CaseMediaPlaceholder } from "@/components/case-media-placeholder"
 import { HapticLink } from "@/components/haptic-link"
 import { ArticleImage, ArticleVideo } from "@/components/article-media"
+import { LetterboxdCollectionPhoto } from "@/components/letterboxd-collection-photo"
 import { PebbleWatchface } from "@/components/pebble-watchface"
 import { withBasePath } from "@/lib/base-path"
 
@@ -105,6 +106,11 @@ export function getCaseArticleMdxComponents(
           aspect="square"
           interactive={false}
         />
+      </div>
+    ),
+    LetterboxdCollectionPhoto: ({ alt }: { alt?: string }) => (
+      <div className={styles.mediaBlock}>
+        <LetterboxdCollectionPhoto alt={alt ?? ""} />
       </div>
     ),
     section: ({ children, ...props }: ComponentPropsWithoutRef<"section"> & { "data-footnotes"?: string | boolean }) => {

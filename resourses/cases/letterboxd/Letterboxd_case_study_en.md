@@ -1,6 +1,6 @@
 I really love movies. So much so that I even spent some time interning at [A-One Films](https://a-onefilms.com/), one of the biggest independent film distributors in the country.
 
-<SquareImage src="/cases/letterboxd/i_like_movies.webp" alt="Me with films from my collection" />
+<LetterboxdCollectionPhoto alt="Me with films from my collection" />
 
 Like a lot of other movie nerds, I use [Letterboxd](https://letterboxd.com/midlneedle/) — I rate films, keep a watchlist, and follow what my friends are watching. I genuinely love the service, mostly because of its community. That said, I think the mobile app could be a little better.
 
