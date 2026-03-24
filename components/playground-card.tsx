@@ -44,14 +44,12 @@ export function PlaygroundCard({
         )}
         {showDescription && description && (
           descriptionHref ? (
-            <p className="type-body m-0 text-balance text-faint-foreground">
-              <HapticLink
-                href={descriptionHref}
-                className="underline decoration-[var(--link-underline)] underline-offset-[0.16em] decoration-1 hover:decoration-foreground"
-              >
-                {description}
-              </HapticLink>
-            </p>
+            <HapticLink
+              href={descriptionHref}
+              className="type-body m-0 block text-balance text-faint-foreground underline decoration-[var(--link-underline)] underline-offset-[0.16em] decoration-1 hover:decoration-foreground"
+            >
+              {description}
+            </HapticLink>
           ) : (
             <p className="type-body m-0 text-balance text-faint-foreground">
               {description}
