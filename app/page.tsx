@@ -16,7 +16,7 @@ const videos = {
   gestures: withBasePath("/videos/gestures.mp4"),
   skeuo: withBasePath("/videos/skeuo.mp4"),
   cummera: withBasePath("/videos/cummera.mp4"),
-  wheeel: withBasePath("/videos/wheeel.mp4"),
+  wheeel: withBasePath("/videos/spinboarding.mp4"),
   wiki25: withBasePath("/videos/wiki25.mp4"),
   xmbb: withBasePath("/videos/xmbb.mp4"),
 }
@@ -88,8 +88,8 @@ const videoMeta: Record<
     description: "A playful \"what if\" concept",
   },
   wheeel: {
-    title: "Scroll Wheel Navigation",
-    description: "Bringing classic iPod interaction to iOS",
+    title: "Onboarding Concept",
+    description: "Exploring 3D interactions for app launch screen using RealityKit and Metal",
   },
   wiki25: {
     title: "Wikipedia 25th",
@@ -106,10 +106,10 @@ const verticalOrder: VideoKey[] = [
   "fofocus",
   "film_segment",
   "general_magic",
-  "gestures",
-  "skeuo",
-  "cummera",
   "wheeel",
+  "skeuo",
+  "gestures",
+  "cummera",
   "wiki25",
 ]
 
