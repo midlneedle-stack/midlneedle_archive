@@ -1,4 +1,4 @@
-I really love movies. So much so that I even spent some time interning at [A-One Films](https://a-onefilms.com/), one of the biggest independent film distributors in the country.
+I really love movies. So much so that I even spent some time working at [A-One Films](https://a-onefilms.com/), one of the biggest independent film distributors in the country.
 
 <LetterboxdCollectionPhoto alt="Me with films from my collection" />
 
