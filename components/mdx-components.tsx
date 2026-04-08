@@ -9,6 +9,7 @@ import caseArticleStyles from "./case-article.module.css"
 import { HapticLink } from "@/components/haptic-link"
 
 const BLOCK_TYPES = new Set(["img", "div", "figure", "table", "video", "audio"])
+const YANDEX_TOVARY_INTERVIEW_AUDIO_ENABLED = false
 
 function hasBlockContent(children: ReactNode): boolean {
   return Children.toArray(children).some(
@@ -139,7 +140,7 @@ export const mdxComponents: MDXComponents = {
     <div className={styles.interviewName}>
       <h3 className="type-title text-foreground" style={{ flexShrink: 0 }}>{title}</h3>
       <span aria-hidden="true" className={styles.interviewRule} />
-      {src && <AudioPlayer src={src} />}
+      {YANDEX_TOVARY_INTERVIEW_AUDIO_ENABLED && src ? <AudioPlayer src={src} /> : null}
     </div>
   ),
   VideoPlayer: ({ src }: { src: string }) => (
