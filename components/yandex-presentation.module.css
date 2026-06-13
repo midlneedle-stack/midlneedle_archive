@@ -1,0 +1,470 @@
+.page {
+  --presentation-type-meta: clamp(0.78rem, 0.72rem + 0.18vw, 0.84rem);
+  --presentation-type-body: clamp(1rem, 0.95rem + 0.34vw, 1.08rem);
+  --presentation-type-title: clamp(1.9rem, 2.7vw, 3.2rem);
+  max-width: 1480px;
+  margin: 0 auto;
+  color: var(--foreground);
+}
+
+.header {
+  margin-bottom: 18px;
+}
+
+.headerCopy {
+  max-width: 760px;
+}
+
+.eyebrow,
+.downloadMeta,
+.coverEyebrow,
+.slideMeta,
+.stageCount,
+.tabsHint {
+  font-size: var(--presentation-type-meta);
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint-foreground);
+}
+
+.title {
+  margin-top: 8px;
+  font-size: var(--presentation-type-title);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 482;
+}
+
+.tabsRoot {
+  gap: 14px;
+}
+
+.tabsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tabsList {
+  height: auto;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgb(53 59 66 / 0.02);
+}
+
+.tabsTrigger {
+  min-width: 112px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--faint-foreground);
+  font-size: var(--presentation-type-body);
+  font-weight: 482;
+}
+
+.tabsTrigger[data-state="active"] {
+  color: var(--foreground);
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--stroke);
+}
+
+.tabsContent {
+  margin-top: 0;
+}
+
+.deckShell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.navigator,
+.stage,
+.downloadCard {
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-card);
+  background: #fff;
+}
+
+.navigator {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+}
+
+.navigatorItem {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  transition:
+    background-color 0.16s ease-out,
+    border-color 0.16s ease-out,
+    transform 0.16s ease-out;
+}
+
+.navigatorItem:hover {
+  background: rgb(53 59 66 / 0.03);
+  border-color: var(--stroke);
+}
+
+.navigatorItem:active {
+  transform: scale(0.98);
+}
+
+.navigatorItemActive {
+  background: rgb(53 59 66 / 0.05);
+  border-color: var(--stroke);
+}
+
+.navigatorIndex {
+  font-size: var(--presentation-type-meta);
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint-foreground);
+}
+
+.navigatorTitle {
+  font-size: var(--presentation-type-body);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.stage {
+  padding: 14px;
+}
+
+.stageFrame {
+  width: 100%;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  padding: clamp(22px, 2.4vw, 30px);
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.slideMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.slideBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 0;
+  margin-top: 22px;
+}
+
+.coverLayout,
+.closingLayout {
+  justify-content: space-between;
+}
+
+.quoteLayout {
+  justify-content: space-between;
+}
+
+.slideTitle {
+  max-width: 14ch;
+  font-size: var(--presentation-type-title);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  font-weight: 482;
+  text-wrap: balance;
+}
+
+.slideLead,
+.cardBody,
+.galleryCaption,
+.downloadLead,
+.footerText,
+.quoteSource {
+  font-size: var(--presentation-type-body);
+  line-height: 1.5;
+  color: var(--faint-foreground);
+}
+
+.slideLead {
+  margin-top: 12px;
+  max-width: 42ch;
+}
+
+.coverEyebrow {
+  margin-bottom: 16px;
+}
+
+.footerText {
+  padding-top: 18px;
+  border-top: 1px solid var(--stroke);
+  max-width: 56ch;
+}
+
+.bulletList {
+  display: grid;
+  gap: 18px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bulletItem {
+  position: relative;
+  padding-left: 18px;
+  font-size: var(--presentation-type-body);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+}
+
+.bulletItem::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--foreground);
+}
+
+.cardsGrid {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.cardsGridThree {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cardsGridTwo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  padding: 16px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: rgb(53 59 66 / 0.02);
+}
+
+.cardTitle {
+  font-size: var(--presentation-type-body);
+  line-height: 1.24;
+  letter-spacing: -0.03em;
+  font-weight: 482;
+}
+
+.quoteText {
+  max-width: 20ch;
+  font-size: var(--presentation-type-title);
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+  font-weight: 482;
+}
+
+.quoteFooter {
+  display: grid;
+  gap: 8px;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.galleryCard {
+  overflow: hidden;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: rgb(53 59 66 / 0.02);
+}
+
+.galleryMedia {
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+
+.galleryImage {
+  object-fit: cover;
+}
+
+.galleryCaption {
+  padding: 12px;
+}
+
+.closingLead {
+  max-width: 22ch;
+  margin-top: 18px;
+  font-size: var(--presentation-type-title);
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+  font-weight: 482;
+}
+
+.stageFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.controlButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--stroke);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--foreground);
+  transition:
+    background-color 0.16s ease-out,
+    transform 0.16s ease-out,
+    border-color 0.16s ease-out;
+}
+
+.controlButton:hover:not(:disabled) {
+  background: rgb(53 59 66 / 0.03);
+}
+
+.controlButton:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.controlButton:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.downloadCard {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+  padding: 24px;
+}
+
+.downloadTitle {
+  font-size: var(--presentation-type-title);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 482;
+}
+
+.downloadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--foreground);
+  border-radius: 999px;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.downloadButton:hover {
+  background: rgb(53 59 66 / 0.03);
+}
+
+.downloadList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.downloadItem {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--stroke);
+  border-radius: 999px;
+  background: rgb(53 59 66 / 0.02);
+  font-size: var(--presentation-type-meta);
+  line-height: 1.3;
+  color: var(--faint-foreground);
+}
+
+@media (max-width: 1120px) {
+  .deckShell {
+    grid-template-columns: 1fr;
+  }
+
+  .navigator {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .navigatorItem {
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 900px) {
+  .tabsHint {
+    display: none;
+  }
+
+  .slide {
+    aspect-ratio: auto;
+    min-height: 560px;
+  }
+
+  .cardsGridThree,
+  .cardsGridTwo,
+  .galleryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quoteText,
+  .slideTitle,
+  .closingLead {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .tabsBar,
+  .stageFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .downloadCard {
+    padding: 18px;
+  }
+}

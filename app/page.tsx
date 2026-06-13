@@ -229,7 +229,6 @@ export default function Home() {
               cases={[
                 { title: "Letterboxd –– Case Study", date: "28/2", href: "/cases/letterboxd" },
                 { title: "How I Built a Pebble Watchface That Caught the Founder's Attention", date: "18/12", href: "/cases/watchface" },
-                { title: "Yandex Tovary –– Onboarding", date: "15/11", href: "/cases/yandex-tovary" },
               ]}
             />
           </section>

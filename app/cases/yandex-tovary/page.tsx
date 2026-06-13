@@ -6,6 +6,7 @@ import { CaseArticle } from "@/components/case-article"
 import { mdxComponents } from "@/components/mdx-components"
 import { MediaProvider } from "@/components/media-context"
 import type { Metadata } from "next"
+import { notFound } from "next/navigation"
 
 const ARTICLE_PATH_RU = path.join(
   process.cwd(),
@@ -33,6 +34,8 @@ export const metadata: Metadata = {
 }
 
 export default async function YandexTovaryCasePage() {
+  notFound()
+
   const [rawRu, rawEn] = await Promise.all([
     readFile(ARTICLE_PATH_RU, "utf8"),
     readFile(ARTICLE_PATH_EN, "utf8"),

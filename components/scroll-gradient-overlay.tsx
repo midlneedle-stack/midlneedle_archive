@@ -6,7 +6,9 @@ export function ScrollGradientOverlay() {
   const pathname = usePathname()
 
   // Показываем только на страницах статей (например, /cases/watchface)
-  const showOverlay = pathname.startsWith('/cases/')
+  const showOverlay =
+    pathname.startsWith('/cases/') &&
+    pathname !== '/cases/yandex-tovary/presentation'
 
   if (!showOverlay) return null
 

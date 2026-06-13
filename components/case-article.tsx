@@ -20,7 +20,7 @@ interface CaseArticleProps {
 
 export function CaseArticle({ content }: CaseArticleProps) {
   const hasEnglish = Boolean(content.eng)
-  const [language, setLanguage] = useState<'eng' | 'ru'>('ru')
+  const [language, setLanguage] = useState<'eng' | 'ru'>(() => hasEnglish ? 'eng' : 'ru')
   const currentContent = language === 'eng' && content.eng ? content.eng : content.ru
   const { title, body, publishedAt } = currentContent
   const articleRef = useRef<HTMLElement | null>(null)
